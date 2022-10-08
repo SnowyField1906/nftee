@@ -9,7 +9,7 @@ dependencies {
 }
 
 optimizedJar {
-    mainClassName = 'com.iconloop.score.example.NFTee'
+    mainClassName = 'com.score.NFTee'
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }

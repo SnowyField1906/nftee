@@ -1,4 +1,4 @@
-package com.iconloop.score.example;
+package com.score;
 
 import score.Address;
 import score.Context;
