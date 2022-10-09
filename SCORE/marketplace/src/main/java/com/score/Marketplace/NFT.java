@@ -23,34 +23,34 @@ import score.ObjectWriter;
 import java.math.BigInteger;
 
 public class NFT {
-    Address seller;
+    Address owner;
     String ipfs;
     BigInteger price;
     boolean onSale;
 
     public NFT(Address address, String ipfs, BigInteger price) {
-        this.seller = address;
+        this.owner = address;
         this.ipfs = ipfs;
         this.price = price;
         this.onSale = true;
     }
 
-    public static void writeObject(ObjectWriter w, NFT l) {
+    public static void writeObject(ObjectWriter w, NFT nft) {
         w.beginList(4);
-        w.write(l.seller);
-        w.write(l.ipfs);
-        w.write(l.price);
-        w.write(l.onSale);
+        w.write(nft.owner);
+        w.write(nft.ipfs);
+        w.write(nft.price);
+        w.write(nft.onSale);
         w.end();
     }
 
     public static NFT readObject(ObjectReader r) {
         r.beginList();
-        Address seller = r.readAddress();
+        Address owner = r.readAddress();
         String ipfs = r.readString();
         BigInteger price = r.readBigInteger();
         boolean onSale = r.readBoolean();
         r.end();
-        return new NFT(seller, ipfs, price);
+        return new NFT(owner, ipfs, price);
     }
 }

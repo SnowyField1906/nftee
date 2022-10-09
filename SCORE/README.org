@@ -15,41 +15,39 @@ sudo ./gradlew optimizedJar
 ** 3. Deploy the optimized jar
 *** Input
 #+BEGIN_SRC bash
-goloop rpc sendtx deploy ./simple-governance/build/libs/simple-governance-0.1.0-optimized.jar \
+goloop rpc sendtx deploy ./marketplace/build/libs/marketplace-0.1.0-optimized.jar \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json --key_password gochain \
     --nid 0x3 --step_limit 10000000000 \
-    --content_type application/java \
-    --param title="Simple Governance" \
-    --param description="Java SCORE smart contract"
+    --content_type application/java
 #+END_SRC
 
 *** Result
 #+BEGIN_SRC bash
-"0x3d5eb40a1f5f22195447a1542d3b8bdcfa4dedc63548403f6054d02765d22cd9"
+"0x00a1f2f799f69eb24412cc0f19200afca96bd87db946e404686137fe8beb1feb"
 #+END_SRC
 
 ** 4. Get transaction detail
 *** Input
 #+BEGIN_SRC bash
 goloop rpc \
-    --uri http://localhost:9082/api/v3 txresult 0x3d5eb40a1f5f22195447a1542d3b8bdcfa4dedc63548403f6054d02765d22cd9
+    --uri http://localhost:9082/api/v3 txresult 0x00a1f2f799f69eb24412cc0f19200afca96bd87db946e404686137fe8beb1feb
 #+END_SRC
 
 *** Result
 {
   "to": "cx0000000000000000000000000000000000000000",
-  "cumulativeStepUsed": "0x3f0b6f93",
-  "stepUsed": "0x3f0b6f93",
+  "cumulativeStepUsed": "0x41854e53",
+  "stepUsed": "0x41854e53",
   "stepPrice": "0x2e90edd00",
   "eventLogs": [],
   "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
   "status": "0x1",
-  "scoreAddress": "cxd5b6f2cd705c72a71fb3f4b5c0f0122a613207b3",
-  "blockHash": "0x48529e96a0c4c3075ff930172473f54cc59d7d51bb75dc453b58dca5d352037b",
-  "blockHeight": "0x62ef",
+  "scoreAddress": "cx0b960e6b829e17bcc6fe78cb339fa31d04779149",
+  "blockHash": "0x948f6139c671d758cefbe57885fa4445cbb5684c9df39b136826e1814ca1ae52",
+  "blockHeight": "0x15f3",
   "txIndex": "0x0",
-  "txHash": "0x3d5eb40a1f5f22195447a1542d3b8bdcfa4dedc63548403f6054d02765d22cd9"
+  "txHash": "0x00a1f2f799f69eb24412cc0f19200afca96bd87db946e404686137fe8beb1feb"
 }
 #+END_SRC
 
@@ -58,7 +56,7 @@ goloop rpc \
 #+BEGIN_SRC bash
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cxd5b6f2cd705c72a71fb3f4b5c0f0122a613207b3  \
+    --to cx0b960e6b829e17bcc6fe78cb339fa31d04779149  \
     --method getVoteCount \
     --param proposal=For
 #+END_SRC
@@ -72,28 +70,42 @@ goloop rpc \
 *** Input
 #+BEGIN_SRC bash
 goloop rpc sendtx call \
-    --to cxd5b6f2cd705c72a71fb3f4b5c0f0122a613207b3 \
+    --to cx0b960e6b829e17bcc6fe78cb339fa31d04779149 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
     --nid 0x3 --step_limit 10000000 \
-    --method Vote \
-    --param proposal=For
+    --method handleAdding \
+    --param type=Collectionn \
+    --param ipfs=aswdqe
 #+END_SRC
 
 *** Result
 #+BEGIN_SRC bash
-"0x6873787bcac7b065f06299d7ac8a3b0209bc73a46d9da68dfb4479f20c7e3272"
+"0x5771fca557b29a532d65a1cec9665155a62f0765a9de8719f65335bec5478176"
 #+END_SRC
+
+
+** 4. Get transaction detail
+*** Input
+#+BEGIN_SRC bash
+goloop rpc \
+    --uri http://localhost:9082/api/v3 txresult 0x2c7c233954d551ab508dfd96afbe6acae47757fe32ed8aa8f0035a04910a74fc
+#+END_SRC
+
 
 ** 7. Call to contract (method ~addresses~)
 *** Input
 #+BEGIN_SRC bash
-goloop rpc \
-    --uri http://localhost:9082/api/v3 call \
-    --to cxd5b6f2cd705c72a71fb3f4b5c0f0122a613207b3  \
-    --method addresses \
-    --param proposal=For
+goloop rpc sendtx call \
+    --to cx0b960e6b829e17bcc6fe78cb339fa31d04779149 \
+    --uri http://127.0.0.1:9082/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json \
+    --key_password gochain \
+    --nid 0x3 --step_limit 10000000 \
+    --method handleSelling \
+    --param ipfs=aswdqe \
+    --param price=1200000
 #+END_SRC
 
 *** Result

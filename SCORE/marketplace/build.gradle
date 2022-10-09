@@ -9,7 +9,7 @@ dependencies {
 }
 
 optimizedJar {
-    mainClassName = 'com.score.Marketplace'
+    mainClassName = 'com.score.Marketplace.MyGallery'
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
@@ -29,9 +29,6 @@ deployJar {
     }
     keystore = rootProject.hasProperty('keystoreName') ? "$keystoreName" : ''
     password = rootProject.hasProperty('keystorePass') ? "$keystorePass" : ''
-    parameters {
-        arg('_nft', 'hxb6b5791be0b5ef67063b3c10b840fb81514db2fd')
-    }
 }
 
 // version = '0.9.2'
