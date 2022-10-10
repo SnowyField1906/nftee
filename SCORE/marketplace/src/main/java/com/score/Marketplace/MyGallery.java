@@ -27,7 +27,8 @@ import java.lang.Object;
 
 
 
-import score.*;
+import score.Context;
+import score.Address;
 import score.annotation.EventLog;
 import score.annotation.External;
 import score.annotation.Payable;
@@ -144,7 +145,7 @@ public class MyGallery {
         NFT nft = new NFT(Context.getCaller(), ipfs, price);
         this.addNFT(Type.Selling, nft);
 
-        // Emit event
+        // Emit selling event
         this.HandleSelling(Context.getCaller(), ipfs, price);
     }
 
@@ -161,7 +162,7 @@ public class MyGallery {
     //     // Transfer money to seller
     //     Context.call(nft, "transferFrom", nft.owner, Context.getCaller(), nft.ipfs, BigInteger.ONE, null);
 
-    //     BigInteger addingFee = nft.price.divide(BigInteger.valueOf(100)).multiply(purchaseFee);
+    //     BigInteger addingFee = nft.price.divide(BigInteger.valueOf(100)).multiply(this.purchaseFee);
     //     BigInteger sellerReceiveAmount = nft.price.subtract(addingFee);
 
     //     // emit event
@@ -186,7 +187,7 @@ public class MyGallery {
         // Add the NFT into the given gallery
         this.addNFT(Type.valueOf(type), nft);
 
-        // Emit event
+        // Emit adding event
         this.HandleAdding(Context.getCaller(), nft.ipfs, nft.price);
     }
     
@@ -205,7 +206,7 @@ public class MyGallery {
         // Remove the NFT from the given gallery
         this.removeNFT(Type.valueOf(type), nft);
 
-        // Emit event
+        // Emit removing event
         this.HandleRemoving(Context.getCaller(), ipfs, nft.price);
     }
 
@@ -213,7 +214,7 @@ public class MyGallery {
     //========/ CONTRACT'S EVENTS /========//
 
     @EventLog(indexed = 1)
-    protected void HandlePurchasing(Address caller, String ipfs, BigInteger price) { }
+    protected void HandlePurchasing(Address caller, String ipfs, BigInteger price) {}
 
     // @EventLog(indexed = 1)
     // protected void TokenOwnerRequired(Address address) {}

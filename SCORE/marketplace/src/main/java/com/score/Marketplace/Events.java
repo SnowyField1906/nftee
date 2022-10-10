@@ -16,7 +16,8 @@
 
 package com.score.Marketplace;
 
-import score.*;
+import score.Context;
+import score.Address;
 import score.annotation.EventLog;
 import score.annotation.External;
 import score.annotation.Payable;
@@ -24,6 +25,7 @@ import score.annotation.Payable;
 import scorex.util.ArrayList;
 
 import java.math.BigInteger;
+
 
 public class Events extends MyGallery {
     
