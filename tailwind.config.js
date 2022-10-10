@@ -1,8 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+	darkMode: "class",
+	content: [
+		"node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
+		"./src/**/*.{js,jsx,ts,tsx}",
+	],
+	theme: {
+		extend: {
+			backgroundImage: {
+				"wlc-dark": "url('./images/wlc-dark.jpg')",
+			},
+		},
+	},
+  plugins: [
+    require("flowbite/plugin")
+  ],
+};
