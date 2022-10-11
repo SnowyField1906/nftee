@@ -8,11 +8,15 @@ module.exports = {
 	theme: {
 		extend: {
 			backgroundImage: {
-				"wlc-dark": "url('./images/wlc-dark.jpg')",
+				"welcome-picture-1": "url('./assets/images/welcome-picture.png')",
+				"home-picture-1": "url('./assets/images/home-picture-1.jpg')",
 			},
 		},
 	},
-  plugins: [
-    require("flowbite/plugin")
-  ],
+	plugins: [
+		require(
+			"flowbite/plugin",
+			"tailwind-scrollbar"
+		)
+	],
 };
