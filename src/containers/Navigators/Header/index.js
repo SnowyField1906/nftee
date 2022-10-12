@@ -10,8 +10,6 @@ import * as Modals from './components/Modals'
 function Nagivator() {
 	const location = useLocation();
 
-	console.log(pagesList);
-
 	const pageTag = (i) => {
 		const Tag = Pages[pagesList.Sub[i]];
 		return <Tag active={`/${pagesList.Sub[i].toLowerCase()}` === location.pathname} />;
@@ -40,7 +38,7 @@ function Nagivator() {
 
 	return (
 		<nav className="flex fixed w-full h-20 inset-x-0 z-10 items-center place-items-center justify-items-center 
-		rounded-b-xl backdrop-blur-md bg-white/50 dark:bg-slate-900/50">
+		rounded-b-xl backdrop-blur-md bg-white/50 dark:bg-black/50">
 			<div className="flex w-2/12 justify-center">
 				<Link
 					to="/"
@@ -58,8 +56,8 @@ function Nagivator() {
 							to={`/${pagesList.Main[i].toLowerCase()}`}
 							className={({ isActive }) =>
 								isActive
-									? "text-xl text-indigo-600 dark:text-indigo-300 font-semibold bg-bottom bg-gradient-to-r from-indigo-600 dark:from-indigo-300 to-indigo-600 dark:to-indigo-300 bg-no-repeat bg-[length:100%_3px]"
-									: "text-xl font-semibold text-slate-600 dark:text-slate-300 bg-bottom bg-gradient-to-r from-slate-600 dark:from-slate-300 to-slate-600 dark:to-slate-300 bg-[length:0%_3px] bg-no-repeat hover:bg-[length:100%_3px] transition-all duration-300 ease-out"
+									? "text-xl text-indigo-800 dark:text-indigo-200 font-semibold bg-bottom bg-gradient-to-r from-indigo-800 dark:from-indigo-200 to-indigo-800 dark:to-indigo-200 bg-no-repeat bg-[length:100%_3px]"
+									: "text-xl font-semibold text-slate-800 dark:text-slate-200 bg-bottom bg-gradient-to-r from-slate-800 dark:from-slate-200 to-slate-800 dark:to-slate-200 bg-[length:0%_3px] bg-no-repeat hover:bg-[length:100%_3px] transition-all duration-200 ease-out"
 							}
 						>
 							{pagesList.Main[i]}

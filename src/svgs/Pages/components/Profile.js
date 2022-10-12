@@ -15,9 +15,9 @@ function Profile({ active }) {
     return (
         <div className="w-12 hover:w-full h-12 grid relative self-center
             overflow-hidden transform duration-300 border-4
-            rounded-2xl border-slate-700 dark:border-slate-300 hover:border-violet-700 dark:hover:border-violet-300
-            text-slate-700 dark:text-state-300 hover:text-violet-700 dark:hover:text-violet-300
-            fill-slate-700 dark:fill-slate-300 hover:fill-violet-700 dark:hover:fill-violet-300">
+            rounded-2xl border-slate-800 dark:border-slate-200 hover:border-violet-800 dark:hover:border-violet-200
+            text-slate-800 dark:text-state-200 hover:text-violet-800 dark:hover:text-violet-200
+            fill-slate-800 dark:fill-slate-200 hover:fill-violet-800 dark:hover:fill-violet-200">
             <svg className="w-8 h-8 ml-1 absolute self-center"
                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
                 <g id="_01_align_center" data-name="01 align center">
