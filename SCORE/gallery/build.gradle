@@ -9,7 +9,7 @@ dependencies {
 }
 
 optimizedJar {
-    mainClassName = 'com.score.Marketplace.Gallery'
+    mainClassName = 'com.score.Gallery.Gallery'
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }

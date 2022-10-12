@@ -28,7 +28,7 @@ public class Collection {
   Boolean visibility;
   ArrayList<NFT> nftList;
 
-  Collection(String _name, String _description, boolean _visibility) {
+  public Collection(String _name, String _description, boolean _visibility) {
     this.name = _name;
     this.description = _description;
     this.visibility = _visibility;

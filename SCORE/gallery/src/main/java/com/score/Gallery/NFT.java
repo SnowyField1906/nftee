@@ -56,7 +56,6 @@ public class NFT {
     Address owner = r.readAddress();
     String ipfs = r.readString();
     BigInteger price = r.readBigInteger();
-    boolean onSale = r.readBoolean();
     boolean visibility = r.readBoolean();
     r.end();
     return new NFT(owner, ipfs, price, visibility);
