@@ -27,30 +27,24 @@ import scorex.util.ArrayList;
 import scorex.util.HashMap;
 
 public class Gallery {
-  // public HashMap<Address, Information> informations = HashMap<Address, Information>();
-  private HashMap<Address, HashMap<BigInteger, Collection>> galleries = Context.newBranchDB(
-    "galleries",
-    Collection.class
-  );
+  public HashMap<Address, HashMap<BigInteger, Collection>> galleries = new HashMap<Address, HashMap<BigInteger, Collection>>();
 
-  public HashMap<Address, ArrayList<NFT>> requestingQueue = Context.newBranchDB(
-    "requestingQueue",
-    NFT.class
-  );
-  public HashMap<Address, ArrayList<NFT>> requestedQueue = Context.newBranchDB(
-    "requestingQueue",
-    NFT.class
-  );
-
-  private final HashMap<BigInteger, Collection> userGallery() {
+  @External(readonly = true)
+  public HashMap<BigInteger, Collection> userGallery() {
     return this.galleries.get(Context.getCaller());
   }
 
-  // private static final <Collection> userGallery().get(_timestamp) {
-  //   return this.userGallery().get(_timestamp);
-  // }
+  @External(readonly = true)
+  public BigInteger balance() {
+    return Context.getBalance(Context.getCaller());
+  }
 
-  //========/ CONTRACT'S GALLERY'S METHODS /========//
+  @External(readonly = true)
+  public Address address() {
+    return Context.getCaller();
+  }
+
+  //========/ GALLERY'S METHODS /========//
 
   private BigInteger getIdByName(String _name) {
     for (BigInteger i : this.userGallery().keySet()) {
@@ -61,7 +55,8 @@ public class Gallery {
     return null;
   }
 
-  protected void newCollection(
+  @External
+  public void createCollection(
     BigInteger _timestamp,
     String _name,
     String _description,
@@ -79,6 +74,18 @@ public class Gallery {
 
     // Add the collection to the user's collections
     this.userGallery().put(_timestamp, collection);
+  }
+
+  @External
+  public void removeCollection(BigInteger _timestamp) {
+    // Check if the collection exists
+    Context.require(
+      this.userGallery().get(_timestamp) != null,
+      "The collection doesn't exist"
+    );
+
+    // Delete the collection
+    this.userGallery().remove(_timestamp);
   }
 
   @External
@@ -121,121 +128,151 @@ public class Gallery {
   }
 
   @External
-  public void addNFT(BigInteger _timestamp, NFT _nft) {
-    this.userGallery().get(_timestamp).nftList.add(_nft);
-  }
+  public void toggleNFTVisibility(
+    String _ipfs,
+    boolean _onSale,
+    boolean _visibility
+  ) {
+    NFT nft = this.getNFT(BigInteger.ZERO, _ipfs);
 
-  @External
-  public void removeNFT(BigInteger _timestamp, NFT _nft) {
-    this.userGallery().get(_timestamp).nftList.remove(_nft);
-  }
+    nft.onSale ^= _onSale;
+    nft.visibility ^= _visibility;
+    nft.requested.clear();
 
-  @External
-  public void toggleNFTVisibility(BigInteger _timestamp, String _ipfs) {
-    // Revert if the caller is not the owner
-    NFT nft = this.getNFT(_timestamp, _ipfs);
-    Context.require(Context.getCaller().equals(nft.owner));
-
-    if (this.userGallery().get(_timestamp).name.equals("Selling")) {
-      nft.onSale ^= true;
-      this.userGallery()
-        .get(_timestamp)
-        .nftList.set(nftIndex(_timestamp, nft), nft);
-    } else {
-      nft.visibility ^= true;
-      this.userGallery()
-        .get(_timestamp)
-        .nftList.set(nftIndex(_timestamp, nft), nft);
-    }
-  }
-
-  @External
-  public void markAsOnSale(String _ipfs, BigInteger _price) {
-    // Revert if the caller is not the owner
-    NFT nft = this.getNFT(BigInteger.ONE, _ipfs);
-    Context.require(Context.getCaller().equals(nft.owner));
-
-    handleSelling(_ipfs, _price);
-  }
-
-  //========/ CONTRACT'S HANDLING METHODS /========//
-
-  // Handle selling action
-  @External
-  public void handleSelling(String _ipfs, BigInteger _price) {
-    if (userGallery().containsKey(BigInteger.ZERO)) {
-      this.newCollection(BigInteger.ZERO, "Selling", "Selling list", true);
+    if (nft.requested.size() > 0) {
+      for (Address address : nft.requested) {
+        this.galleries.get(address).get(BigInteger.TEN).nftList.remove(nft);
+      }
     }
 
-    // Require the NFT's price to be positive
+    this.userGallery()
+      .get(BigInteger.ZERO)
+      .nftList.set(nftIndex(BigInteger.ZERO, nft), nft);
+  }
+
+  //========/ METHODS: HANDLING ACTIONS /========//
+
+  @External
+  public void createNFT(
+    String _ipfs,
+    BigInteger _price,
+    boolean _onSale,
+    boolean _visibility
+  ) {
+    if (this.userGallery().containsKey(BigInteger.ZERO)) {
+      this.createCollection(
+          BigInteger.ZERO,
+          "Onwed",
+          "The NFT list you're owning.",
+          true
+        );
+    }
+
     Context.require(
       _price.compareTo(BigInteger.ZERO) > 0,
       "The price must be positive"
     );
 
-    // Create the NFT and add into Selling gallery
-    NFT nft = new NFT(Context.getCaller(), _ipfs, _price, true);
-    this.addNFT(BigInteger.ONE, nft);
-
-    // Emit selling event
-    this.HandleSelling(Context.getCaller(), _ipfs, _price);
+    NFT nft = new NFT(Context.getCaller(), _ipfs, _price, _onSale, _visibility);
+    this.userGallery().get(BigInteger.ONE).nftList.add(nft);
   }
 
   @External
-  public void handleAdding(BigInteger _timestamp, String _ipfs) {
-    if (!this.userGallery().containsKey(BigInteger.ONE)) {
-      this.newCollection(BigInteger.ONE, "Owned", "Owned List", false);
-    }
-    if (!this.userGallery().containsKey(BigInteger.valueOf(2))) {
-      this.newCollection(
-          add(BigInteger.valueOf(2)),
+  public void addNFT(BigInteger _timestamp, String _ipfs) {
+    if (
+      _timestamp.equals(BigInteger.ONE) &&
+      !this.userGallery().containsKey(BigInteger.ONE)
+    ) {
+      this.createCollection(
+          BigInteger.ONE,
           "Cart",
-          "Cart List",
+          "The list of NFTs you're longing.",
           false
         );
     }
-    // Get the NFT from the given IPFS
+    if (
+      _timestamp.equals(2) && !this.userGallery().containsKey(BigInteger.TEN)
+    ) {
+      this.createCollection(
+          BigInteger.TEN,
+          "Requesting",
+          "The list of NFTs you're questing.",
+          false
+        );
+    }
+
     NFT nft = this.getNFT(_timestamp, _ipfs);
 
-    // Revert if the NFT is already in the given gallery
     Context.require(
       !this.userGallery().get(_timestamp).nftList.contains(nft),
       "This NFT is already in your " + this.userGallery().get(_timestamp).name
     );
 
-    // Add the NFT into the given gallery
-    this.addNFT(_timestamp, nft);
-
-    // Emit adding event
-    this.HandleAdding(Context.getCaller(), nft.ipfs, nft.price);
+    this.userGallery().get(_timestamp).nftList.add(nft);
   }
 
   // Handle removing action
   @External
-  public void handleRemoving(BigInteger _timestamp, String _ipfs) {
-    // Get the NFT from the given IPFS
+  public void removeNFT(BigInteger _timestamp, String _ipfs) {
     NFT nft = this.getNFT(_timestamp, _ipfs);
 
-    // Revert if the NFT is not in the given gallery
     Context.require(
       this.userGallery().get(_timestamp).nftList.contains(nft),
       "This NFT is not in your " + this.userGallery().get(_timestamp).name
     );
 
-    // Remove the NFT from the given gallery
-    this.removeNFT(_timestamp, nft);
+    this.userGallery().get(_timestamp).nftList.remove(nft);
 
-    // Emit removing event
     this.HandleRemoving(Context.getCaller(), _ipfs, nft.price);
   }
 
-  //========/ REQUEST'S CONTRACTS /========//
+  //========/ METHODS: INTERACTIVE CONTRACTS /========//
 
-  @External
-  public void avaiableMoney() {
-    // Get the caller's balance
-    BigInteger balance = Context.getBalance(Context.getCaller());
+  @External(readonly = true)
+  public BigInteger payableBalance() {
+    BigInteger balance = Context.getBalance(Context.getAddress());
+    for (NFT nft : this.userGallery().get(BigInteger.TEN).nftList) {
+      balance = balance.subtract(nft.price);
+    }
+    return balance;
   }
+
+  public void sendPurchaseRequest(String _ipfs) {
+    NFT nft = this.getNFT(BigInteger.ONE, _ipfs);
+
+    Context.require(nft.onSale, "This NFT is not on sale");
+  }
+
+  // @External(readonly = true)
+  // public BigInteger openAuction(
+  //   String _ipfs,
+  //   BigInteger _duration
+  // ) {
+  //   NFT nft = this.getNFT(BigInteger.ZERO, _ipfs);
+
+  //   Context.require(nft.requested.size() > 0, "No one is requesting this NFT");
+
+  //   return _duration;
+  // }
+
+  // @External
+  // public void sendBid(String _ipfs, BigInteger _price) {
+  //   NFT nft = this.getNFT(BigInteger.TEN, _ipfs);
+
+  //   Context.require(nft.requested.size() > 0, "No one is requesting this NFT");
+
+  //   Context.require(
+  //     _price.compareTo(BigInteger.ZERO) > 0,
+  //     "The extra price must be positive"
+  //   );
+
+  //   Context.require(
+  //     _price.compareTo(this.payableBalance()) < 0, "You are not rich enough"
+  //   )
+
+  //   nft.price = nft.price.add(_price);
+  //   nft.owner = Context.getCaller();
+  // }
 
   //========/ EXPLORE'S CONTRACTS /========//
 
@@ -243,41 +280,42 @@ public class Gallery {
   public ArrayList<NFT> marketplace() {
     ArrayList<NFT> nfts = new ArrayList<NFT>();
     for (Address users : galleries.keySet()) {
-      for (NFT nft : galleries.get(users).get(getIdByName("Selling")).nftList) {
-        nfts.add(nft);
+      for (NFT nft : galleries.get(users).get(BigInteger.ZERO).nftList) {
+        if (nft.onSale) {
+          nfts.add(nft);
+        }
       }
     }
     return nfts;
   }
 
   @External(readonly = true)
-  public HashMap<BigInteger, Collection> publicCollections() {
+  public ArrayList<NFT> artMuserum() {
+    ArrayList<NFT> nfts = new ArrayList<NFT>();
+    for (Address users : galleries.keySet()) {
+      for (NFT nft : galleries.get(users).get(BigInteger.ZERO).nftList) {
+        if (nft.visibility) {
+          nfts.add(nft);
+        }
+      }
+    }
+    return nfts;
+  }
+
+  @External(readonly = true)
+  public HashMap<BigInteger, Collection> publicCollection() {
     HashMap<BigInteger, Collection> collections = new HashMap<BigInteger, Collection>();
     for (Address users : galleries.keySet()) {
       for (BigInteger timestamp : galleries.get(users).keySet()) {
-        if (collections.get(users).get(timestamp).visibility) {
+        if (timestamp.compareTo(BigInteger.TEN) <= 0) {
+          break;
+        }
+        if (galleries.get(users).get(timestamp).visibility) {
           collections.put(timestamp, galleries.get(users).get(timestamp));
         }
       }
     }
     return collections;
-  }
-
-  @External(readonly = true)
-  public ArrayList<NFT> publicNFTs() {
-    ArrayList<NFT> nfts = new ArrayList<NFT>();
-    for (Address users : galleries.keySet()) {
-      for (BigInteger timestamp : galleries.get(users).keySet()) {
-        if (galleries.get(users).get(timestamp).visibility) {
-          for (NFT nft : galleries.get(users).get(timestamp).nftList) {
-            if (nft.visibility) {
-              nfts.add(nft);
-            }
-          }
-        }
-      }
-    }
-    return nfts;
   }
 
   //========/ CONTRACT'S EVENTS /========//

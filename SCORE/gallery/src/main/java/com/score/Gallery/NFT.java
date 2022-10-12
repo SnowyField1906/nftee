@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import score.Address;
 import score.ObjectReader;
 import score.ObjectWriter;
+import scorex.util.ArrayList;
 
 public class NFT {
   Address owner;
@@ -27,27 +28,30 @@ public class NFT {
   BigInteger price;
   boolean onSale;
   boolean visibility;
+  ArrayList<Address> requested;
 
   public NFT(
     Address _address,
     String _ipfs,
     BigInteger _price,
+    boolean _onSale,
     boolean _visibility
   ) {
     this.owner = _address;
     this.ipfs = _ipfs;
     this.price = _price;
-    this.onSale = true;
+    this.onSale = _onSale;
     this.visibility = _visibility;
+    this.requested = new ArrayList<Address>();
   }
 
-  public static void writeObject(ObjectWriter w, NFT n) {
+  public static void writeObject(ObjectWriter w, NFT _nft) {
     w.beginList(5);
-    w.write(n.owner);
-    w.write(n.ipfs);
-    w.write(n.price);
-    w.write(n.onSale);
-    w.write(n.visibility);
+    w.write(_nft.owner);
+    w.write(_nft.ipfs);
+    w.write(_nft.price);
+    w.write(_nft.onSale);
+    w.write(_nft.visibility);
     w.end();
   }
 
@@ -56,8 +60,9 @@ public class NFT {
     Address owner = r.readAddress();
     String ipfs = r.readString();
     BigInteger price = r.readBigInteger();
+    boolean onSale = r.readBoolean();
     boolean visibility = r.readBoolean();
     r.end();
-    return new NFT(owner, ipfs, price, visibility);
+    return new NFT(owner, ipfs, price, onSale, visibility);
   }
 }

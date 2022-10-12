@@ -1,0 +1,31 @@
+sudo ./gradlew build
+sudo ./gradlew optimizedJar
+
+
+goloop rpc sendtx deploy ./gallery/build/libs/gallery-0.1.0-optimized.jar \
+    --uri http://127.0.0.1:9082/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json --key_password gochain \
+    --nid 0x3 --step_limit 10000000000 \
+    --content_type application/java
+
+
+goloop rpc --uri http://localhost:9082/api/v3 txresult 0x35cc4ff716af032b2b4f9e65ea41b7e8b9d53984e1011bd6dc43205c09dc2f9a
+
+
+goloop rpc \
+    --uri http://localhost:9082/api/v3 call \
+    --to cx0ae190cb5d2a2f6673611efc2a146f85bb3c25fa  \
+    --method balance
+
+
+goloop rpc sendtx call \
+    --to cx49f77bcbc89176f00d8fa36f18179fe681faab53 \
+    --uri http://127.0.0.1:9082/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json \
+    --key_password gochain \
+    --nid 0x3 --step_limit 10000000 \
+    --method createNFT \
+    --param _ipfs=aswdqe \
+    --param _price=12000 \
+    --param _onSale=1 \
+    --param _visibility=1

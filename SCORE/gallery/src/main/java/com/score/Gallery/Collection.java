@@ -35,14 +35,14 @@ public class Collection {
     this.nftList = new ArrayList<NFT>();
   }
 
-  public static void writeObject(ObjectWriter w, Collection c) {
+  public static void writeObject(ObjectWriter w, Collection collection) {
     w.beginList(4);
-    w.write(c.name);
-    w.write(c.description);
-    w.write(c.visibility);
-    w.beginList(c.nftList.size());
-    for (int i = 0; i < c.nftList.size(); i++) {
-      w.write(c.nftList.get(i));
+    w.write(collection.name);
+    w.write(collection.description);
+    w.write(collection.visibility);
+    w.beginList(collection.nftList.size());
+    for (int i = 0; i < collection.nftList.size(); i++) {
+      w.write(collection.nftList.get(i));
     }
     w.end();
     w.end();
