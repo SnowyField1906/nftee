@@ -1,39 +1,64 @@
 import { useState } from "react";
+import axios from "axios";
 
-import { Web3Storage } from "web3.storage";
-
-const apiToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEM1NzkyYjZFZjhFYzBmQWNmMmRFYjhiNTQ4NzNCMjE1NjUwYUYxMEYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjU2NDYyMjgyODAsIm5hbWUiOiJORlRlZSJ9.Pmj_QjgrGmrE3e-N9uehim-f4la6k0w5llbepqtr-J8"
-const client = new Web3Storage({ token: apiToken });
+const REACT_APP_PINATA_API_KEY = "a1ed4cb699e3544aad6a";
+const REACT_APP_PINATA_API_SECRET = "c09ff55d059fd8f6bb98c69733f753449d1e5987cd6dbb3933896324bf834656";
 
 function Create() {
-  const [file, setFile] = useState("");
-  const handleUpload = async () => {
-    var fileInput = document.getElementById("input");
+  const [fileImg, setFileImg] = useState(null);
+  const [imageHash, setImageHash] = useState(null);
+  const publicGateway = [
+    "https://ipfs.eth.aragon.network/ipfs/",
+    "https://ipfs.io/ipfs/",
+    "https://cloudflare-ipfs.com/ipfs/",
+    "https://ipfs.fleek.co/ipfs/",
+    "https://ipfs.infura.io/ipfs/",
+  ]
 
-    const rootCid = await client.put(fileInput.files);
+  const sendFileToIPFS = async (e) => {
+    e.preventDefault();
+    if (fileImg) {
+      try {
 
-    console.log(rootCid);
+        const formData = new FormData();
+        formData.append("file", fileImg);
 
-    const res = await client.get(rootCid);
-    const files = await res.files();
-    console.log(files);
-    const url = URL.createObjectURL(files[0]);
-    console.log(url);
-    setFile(url);
-  };
+        const resFile = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          data: formData,
+          headers: {
+            'pinata_api_key': `${REACT_APP_PINATA_API_KEY}`,
+            'pinata_secret_api_key': `${REACT_APP_PINATA_API_SECRET}`,
+            "Content-Type": "multipart/form-data"
+          },
+        });
+
+        setImageHash(resFile.data.IpfsHash);
+        console.log(imageHash);
+      } catch (error) {
+        console.log("Error sending File to IPFS: ")
+        console.log(error)
+      }
+    }
+
+  }
+
   return (
-    <div className="App">
-      <h2>Decentralized file storage system</h2>
-      <h1>Hello CodeSandbox</h1>
-      <img alt="hi" src={file} />
+    <div className="w-screen h-1/2 pt-[200px]">
+      <form onSubmit={sendFileToIPFS}>
+        <input type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
+        <button type='submit' >Mint NFT</button>
+      </form>
 
-      <div>
-        <label for="file">Choose file to upload</label>
-        <input type="file" id="input" name="file" multiple />
+      <div
+        className="relative w-80 h-80 bg- bg-cover bg-center max-w-xs overflow-hidden rounded-lg"
+        style={{
+          backgroundImage: `url(https://cloudflare-ipfs.com/ipfs/${imageHash})`,
+        }}>
+
       </div>
-      <div>
-        <button onClick={handleUpload}>Submit</button>
-      </div>
+
     </div>
   );
 }

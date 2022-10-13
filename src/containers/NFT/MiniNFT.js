@@ -11,7 +11,7 @@ function MiniNFT() {
 
     const NFT = {
         address: "hxb6b5791be0b5ef67063b3c10b840fb81514db2fd",
-        ipfs: "QmaJyAR9TqBv6i7UTXm5W7uDm3suc8Pp78pWrBjGazRiFP",
+        ipfs: "QmNTqVrJeYNcjeexMYPbdcTdxnq2trQUSF2wMnrEZaQ3Wv",
         price: 2000000,
         onSale: true,
         visibility: true,
@@ -20,12 +20,13 @@ function MiniNFT() {
 
     console.log(add)
 
+
     return (
         <div className='inline-block mx-4 rounded-lg hover:scale-105 transform duration-300 ease-in-out pt-10 select-none'>
             <div
                 className="relative w-80 h-80 bg- bg-cover bg-center max-w-xs overflow-hidden rounded-lg"
                 style={{
-                    backgroundImage: `url(https://ipfs.io/ipfs/${NFT.ipfs})`,
+                    backgroundImage: `url(https://gateway.pinata.cloud/ipfs/${NFT.ipfs})`,
                 }}>
                 <div className='flex justify-between absolute bottom-0 w-full h-1/4 backdrop-blur-md bg-gray-100/50 dark:bg-gray-800/50 rounded-b-lg'>
                     {add ?

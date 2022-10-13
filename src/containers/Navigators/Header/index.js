@@ -12,7 +12,7 @@ function Nagivator() {
 
 	const pageTag = (i) => {
 		const Tag = Pages[pagesList.Sub[i]];
-		return <Tag active={`/${pagesList.Sub[i].toLowerCase()}` === location.pathname} />;
+		return <Tag active={`/NFTee/${pagesList.Sub[i].toLowerCase()}` === location.pathname} />;
 	};
 
 	const [open, setOpen] = useState('');
