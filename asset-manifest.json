@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/nftee/static/css/main.573ed4b3.css",
+    "main.js": "/nftee/static/js/main.d4144525.js",
+    "static/media/videoBackground.mp4": "/nftee/static/media/videoBackground.f8aab43c7f35266390d7.mp4",
+    "static/media/home-picture-1.jpg": "/nftee/static/media/home-picture-1.7886f698e8d8290f0d35.jpg",
+    "static/media/welcome-picture.png": "/nftee/static/media/welcome-picture.5e8077c28acb0b06a1e6.png",
+    "index.html": "/nftee/index.html",
+    "main.573ed4b3.css.map": "/nftee/static/css/main.573ed4b3.css.map",
+    "main.d4144525.js.map": "/nftee/static/js/main.d4144525.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.573ed4b3.css",
+    "static/js/main.d4144525.js"
+  ]
+}
