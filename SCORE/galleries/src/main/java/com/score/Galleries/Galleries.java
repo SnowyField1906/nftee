@@ -16,7 +16,11 @@
 
 package com.score.Galleries;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Set;
 import score.Address;
 import score.BranchDB;
 import score.Context;
@@ -27,57 +31,110 @@ import scorex.util.ArrayList;
 import scorex.util.HashMap;
 
 public class Galleries {
-  public HashMap<Address, ArrayList<BigInteger>> addressMapGallery = new HashMap<Address, ArrayList<BigInteger>>();
-  public HashMap<BigInteger, ArrayList<BigInteger>> galleryMapCollection = new HashMap<BigInteger, ArrayList<BigInteger>>();
-  public HashMap<BigInteger, ArrayList<String>> collectionMapNFT = new HashMap<BigInteger, ArrayList<Address>>();
-  public HashMap<String, ArrayList<Address>> nftMapRequests = new HashMap<BigInteger, ArrayList<Addrress>>();
+  public Map<Address, ArrayList<String>> userMapCollections = new HashMap<>();
+  public Map<String, ArrayList<String>> collectionMapNFTs = new HashMap<>();
+  public Map<String, ArrayList<Address>> nftMapRequests = new HashMap<>();
 
-  public HashMap<BigInteger, Collection> collectionInfo = new HashMap<BigInteger, Collection>();
+  public Map<String, Collection> collectionInfo = new HashMap<>();
+  public Map<String, NFT> nftInfo = new HashMap<>();
 
-  @External(readonly = true)
-  public ArrayList<BigInteger> gallery(Address _address) {
-    return this.galleries.get(_address);
+  private String generateCollectionId() {
+    return Context.getTransactionHash().toString();
   }
 
   @External(readonly = true)
-  public ArrayList<BigInteger> collection(BigInteger _timestamp) {
-    return this.collections.get(_timestamp);
+  public ArrayList<String> getUserCollections(Address _user) {
+    return this.userMapCollections.get(_user);
   }
 
   @External(readonly = true)
-  public ArrayList<String> nft(BigInteger _timestamp) {
-    return this.nfts.get(_timestamp);
+  public ArrayList<String> getCollectionNFTs(String _collection) {
+    return this.collectionMapNFTs.get(_collection);
   }
 
   @External(readonly = true)
-  public ArrayList<Address> request(String _ipfs) {
-    return this.requests.get(_ipfs);
+  public ArrayList<Address> getNFTRequests(String _nft) {
+    return this.nftMapRequests.get(_nft);
+  }
+
+  @External(readonly = true)
+  public String getCollectionInfo(String _collection) {
+    Context.require(this.collectionInfo.containsKey(_collection));
+    return (
+      this.collectionInfo.get(_collection).name +
+      "/" +
+      this.collectionInfo.get(_collection).description +
+      "/" +
+      this.collectionInfo.get(_collection).visibility
+    );
+  }
+
+  @External(readonly = true)
+  public String getNFTInfo(String _nft) {
+    Context.require(this.nftInfo.containsKey(_nft));
+    return (
+      this.nftInfo.get(_nft).owner +
+      "/" +
+      this.nftInfo.get(_nft).price +
+      "/" +
+      this.nftInfo.get(_nft).onSale +
+      "/" +
+      this.nftInfo.get(_nft).visibility
+    );
   }
 
   @External
   public void createCollection(
-    Address _caller,
-    BigInteger _timestamp,
+    Address _user,
     String _name,
     String _description,
     boolean _visibility
   ) {
-    if (this.addressMapGallery.get(_caller) == null) {
-      this.addressMapGallery.put(
-          Context.getCaller(),
-          new ArrayList<BigInteger>()
-        );
+    Collection collection = new Collection(_name, _description, _visibility);
+    ArrayList<String> userCollections = this.userMapCollections.get(_user);
+    if (userCollections == null) {
+      userCollections = new ArrayList<String>();
     }
-    this.addressMapGallery.get(Context.getCaller()).add(_timestamp);
-    this.galleryMapCollection.put(_timestamp, new ArrayList<BigInteger>());
-    this.collectionInfo.put(
-        _timestamp,
-        new Collection(_name, _description, _visibility)
-      );
+    String collectionId = this.generateCollectionId();
+    userCollections.add(collectionId);
+    this.userMapCollections.put(_user, userCollections);
+    this.collectionInfo.put(collectionId, collection);
   }
 
-  @External(readonly = true)
-  public CP collectionInfo(BigInteger _timestamp) {
-    return this.collectionInfo.get(_timestamp);
+  @External
+  public void removeCollection(
+    Address _user,
+    String _name,
+    String _description,
+    boolean _visibility
+  ) {
+    Collection collection = new Collection(_name, _description, _visibility);
+    ArrayList<String> userCollections = this.userMapCollections.get(_user);
+    if (userCollections == null) {
+      userCollections = new ArrayList<String>();
+    }
+    String collectionId = this.generateCollectionId();
+    userCollections.add(collectionId);
+    this.userMapCollections.put(_user, userCollections);
+    this.collectionInfo.put(collectionId, collection);
+  }
+
+  @External
+  public void createNFT(
+    Address _user,
+    BigInteger _price,
+    boolean _onSale,
+    boolean _visibility,
+    String _ipfs,
+    String _collection
+  ) {
+    NFT nft = new NFT(_user, _price, _onSale, _visibility);
+    ArrayList<String> collectionNFTs = this.collectionMapNFTs.get(_user);
+    if (collectionNFTs == null) {
+      collectionNFTs = new ArrayList<String>();
+    }
+    collectionNFTs.add(_ipfs);
+    this.collectionMapNFTs.put(_collection, collectionNFTs);
+    this.nftInfo.put(_ipfs, nft);
   }
 }

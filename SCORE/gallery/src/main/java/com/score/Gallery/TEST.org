@@ -9,17 +9,29 @@ goloop rpc sendtx deploy ./gallery/build/libs/gallery-0.1.0-optimized.jar \
     --content_type application/java
 
 
-goloop rpc --uri http://localhost:9082/api/v3 txresult 0xc5efa6a4986c547bd35794418320d76375009f208eed2c474f67d36135cfecb2
+goloop rpc --uri http://localhost:9082/api/v3 txresult 0xca596612eeefbff68d727518a05b9af97937ac054ddc13e81a15c4827768ba42
 
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cxe1a3c7e5c9c2565ae29aa1e926c576f96b47a0f8  \
+    --to cxe98ebb129bf3db508619d35132cd65aa858bab15  \
     --method userGallery \
     --param _address=hxb6b5791be0b5ef67063b3c10b840fb81514db2fd
 
+goloop rpc \
+    --uri http://localhost:9082/api/v3 call \
+    --to cxe98ebb129bf3db508619d35132cd65aa858bab15  \
+    --method marketplace \
+    --param _address=hxb6b5791be0b5ef67063b3c10b840fb81514db2fd
+
+goloop rpc \
+    --uri http://localhost:9082/api/v3 call \
+    --to cxe98ebb129bf3db508619d35132cd65aa858bab15  \
+    --method marketplace 
+
+
 goloop rpc sendtx call \
-    --to cxe1a3c7e5c9c2565ae29aa1e926c576f96b47a0f8 \
+    --to cxe98ebb129bf3db508619d35132cd65aa858bab15 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
@@ -29,7 +41,7 @@ goloop rpc sendtx call \
 
 
 goloop rpc sendtx call \
-    --to cxe1a3c7e5c9c2565ae29aa1e926c576f96b47a0f8 \
+    --to cxe98ebb129bf3db508619d35132cd65aa858bab15 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
@@ -43,7 +55,7 @@ goloop rpc sendtx call \
 
 
 goloop rpc sendtx call \
-    --to cxe1a3c7e5c9c2565ae29aa1e926c576f96b47a0f8 \
+    --to cxe98ebb129bf3db508619d35132cd65aa858bab15 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \

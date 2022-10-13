@@ -46,14 +46,6 @@ public class Gallery {
   }
 
   @External
-  public void test(Address _address) {
-    Collection collection = new Collection("_name", "_description", true);
-
-    // Add the collection to the user's collections
-    this.userGallery(_address).put(BigInteger.ZERO, collection);
-  }
-
-  @External
   public void createCollection(
     Address _address,
     BigInteger _timestamp,
@@ -179,7 +171,7 @@ public class Gallery {
       "The price must be positive"
     );
 
-    NFT nft = new NFT(Context.getCaller(), _ipfs, _price, _onSale, _visibility);
+    NFT nft = new NFT(_address, _ipfs, _price, _onSale, _visibility);
     this.userGallery(_address).get(BigInteger.ONE).nftList.add(nft);
   }
 
@@ -234,7 +226,7 @@ public class Gallery {
 
     this.userGallery(_address).get(_timestamp).nftList.remove(nft);
 
-    this.HandleRemoving(Context.getCaller(), _ipfs, nft.price);
+    this.HandleRemoving(_address, _ipfs, nft.price);
   }
 
   //========/ METHODS: INTERACTIVE CONTRACTS /========//
@@ -282,7 +274,7 @@ public class Gallery {
   //   )
 
   //   nft.price = nft.price.add(_price);
-  //   nft.owner = Context.getCaller();
+  //   nft.owner = _address;
   // }
 
   //========/ EXPLORE'S CONTRACTS /========//

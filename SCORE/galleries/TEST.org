@@ -1,0 +1,60 @@
+sudo ./gradlew build
+sudo ./gradlew optimizedJar
+
+
+goloop rpc sendtx deploy ./galleries/build/libs/galleries-0.1.0-optimized.jar \
+    --uri http://127.0.0.1:9082/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json --key_password gochain \
+    --nid 0x3 --step_limit 10000000000 \
+    --content_type application/java
+
+
+goloop rpc --uri http://localhost:9082/api/v3 txresult 0x7399f6e029d5bee0361908f88a144073b86cf624a01c9162169c23a6b2649638
+
+
+goloop rpc \
+    --uri http://localhost:9082/api/v3 call \
+    --to cx320ddd8698b2f94761e402f140848efdc6feb62c  \
+    --method getUserCollections \
+    --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81
+
+
+goloop rpc sendtx call \
+    --to cx320ddd8698b2f94761e402f140848efdc6feb62c \
+    --uri http://127.0.0.1:9082/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json \
+    --key_password gochain \
+    --nid 0x3 --step_limit 10000000 \
+    --method createCollection \
+    --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81 \
+    --param _name=C2 \
+    --param _description=Collection2 \
+    --param _visibility=1
+
+
+goloop rpc \
+    --uri http://localhost:9082/api/v3 call \
+    --to cx320ddd8698b2f94761e402f140848efdc6feb62c  \
+    --method getCollectionNFTs \
+    --param _collection=[B@17
+
+
+goloop rpc sendtx call \
+    --to cx320ddd8698b2f94761e402f140848efdc6feb62c \
+    --uri http://127.0.0.1:9082/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json \
+    --key_password gochain \
+    --nid 0x3 --step_limit 10000000 \
+    --method createNFT \
+    --param _owner=cx211afbf6538c40a346b92b097e48f93e30c3aa81 \
+    --param _price=1200000 \
+    --param _visibility=1 \
+    --param _onSale=1 \
+    --param _ipfs=123 \
+    --param _collection=[B@17
+
+goloop rpc \
+    --uri http://localhost:9082/api/v3 call \
+    --to cx320ddd8698b2f94761e402f140848efdc6feb62c  \
+    --method getNFTInfo \
+    --param _nft=123
