@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/NFTee/static/css/main.e4a03e70.css",
-    "main.js": "/NFTee/static/js/main.5bf607f4.js",
+    "main.css": "/NFTee/static/css/main.06a02e32.css",
+    "main.js": "/NFTee/static/js/main.0b6cb70d.js",
     "static/media/videoBackground.mp4": "/NFTee/static/media/videoBackground.f8aab43c7f35266390d7.mp4",
     "static/media/home-picture-1.jpg": "/NFTee/static/media/home-picture-1.7886f698e8d8290f0d35.jpg",
     "static/media/welcome-picture.png": "/NFTee/static/media/welcome-picture.5e8077c28acb0b06a1e6.png",
     "index.html": "/NFTee/index.html",
-    "main.e4a03e70.css.map": "/NFTee/static/css/main.e4a03e70.css.map",
-    "main.5bf607f4.js.map": "/NFTee/static/js/main.5bf607f4.js.map"
+    "main.06a02e32.css.map": "/NFTee/static/css/main.06a02e32.css.map",
+    "main.0b6cb70d.js.map": "/NFTee/static/js/main.0b6cb70d.js.map"
   },
   "entrypoints": [
-    "static/css/main.e4a03e70.css",
-    "static/js/main.5bf607f4.js"
+    "static/css/main.06a02e32.css",
+    "static/js/main.0b6cb70d.js"
   ]
 }
