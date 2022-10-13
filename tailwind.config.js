@@ -10,6 +10,7 @@ module.exports = {
 			backgroundImage: {
 				"welcome-picture-1": "url('./assets/images/welcome-picture.png')",
 				"home-picture-1": "url('./assets/images/home-picture-1.jpg')",
+				"nft-sample-1": "url('./assets/images/nft-sample-1.jpg')",
 			},
 		},
 	},

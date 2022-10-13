@@ -41,7 +41,7 @@ function Nagivator() {
 		rounded-b-xl backdrop-blur-md bg-white/50 dark:bg-black/50">
 			<div className="flex w-2/12 justify-center">
 				<Link
-					to="/"
+					to="NFTee/"
 					className="text-center font-sans font-bold text-5xl hover:scale-110 transform transition duration-300 bg-clip-text text-transparent bg-gradient-to-br from-blue-700 dark:from-blue-400 to-violet-700 dark:to-violet-400"
 				>
 					NFTee
@@ -53,7 +53,7 @@ function Nagivator() {
 				{pagesList.Main.map((_, i) => {
 					return (
 						<NavLink
-							to={`/${pagesList.Main[i].toLowerCase()}`}
+							to={`NFTee/${pagesList.Main[i].toLowerCase()}`}
 							className={({ isActive }) =>
 								isActive
 									? "text-xl text-indigo-800 dark:text-indigo-200 font-semibold bg-bottom bg-gradient-to-r from-indigo-800 dark:from-indigo-200 to-indigo-800 dark:to-indigo-200 bg-no-repeat bg-[length:100%_3px]"
@@ -70,7 +70,7 @@ function Nagivator() {
 				{pagesList.Sub.map((_, i) => {
 					return (
 						<NavLink
-							to={`/${pagesList.Sub[i].toLowerCase()}`}
+							to={`NFTee/${pagesList.Sub[i].toLowerCase()}`}
 							className="flex w-32 h-14 cursor-pointer justify-center"
 						>
 							{pageTag(i)}

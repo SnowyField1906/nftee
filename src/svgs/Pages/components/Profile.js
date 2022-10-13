@@ -3,7 +3,7 @@ function Profile({ active }) {
         return (
             <div className="w-full h-12 grid relative self-center
                 transform duration-300 rounded-2xl
-                bg-gradient-to-r from-blue-400 dark:from-blue-700 to-violet-400 dark:to-violet-700">
+                bg-gradient-to-r from-blue-300 dark:from-blue-700 to-violet-300 dark:to-violet-700">
                 <svg className="w-8 h-8 ml-2 absolute self-center fill-white" viewBox="0 0 24 24" xmlns="http:;//www.w3.org/2000/svg">
                     <path d="M16.043,14H7.957A4.963,4.963,0,0,0,3,18.957V24H21V18.957A4.963,4.963,0,0,0,16.043,14Z" />
                     <circle cx="12" cy="6" r="6" />

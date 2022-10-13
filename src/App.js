@@ -52,7 +52,7 @@ function App() {
 				<Routes>
 					{allPagesList.map((_, i) => {
 						return (
-							<Route path={i ? allPagesList[i].toLowerCase() : '/'} element={pageTag(i)} />
+							<Route path={"NFTee/" + (i ? allPagesList[i].toLowerCase() : '')} element={pageTag(i)} />
 						);
 					})}
 				</Routes>
