@@ -16,17 +16,8 @@
 
 package com.score.Galleries;
 
-import java.math.BigInteger;
-import score.Address;
-import score.BranchDB;
-import score.Context;
 import score.ObjectReader;
 import score.ObjectWriter;
-import score.annotation.EventLog;
-import score.annotation.External;
-import score.annotation.Payable;
-import scorex.util.ArrayList;
-import scorex.util.HashMap;
 
 public class Collection {
   String name;

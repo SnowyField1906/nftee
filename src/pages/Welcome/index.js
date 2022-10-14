@@ -1,24 +1,37 @@
-import { CustomEvent } from 'icon-sdk-js';
+import IconService from 'icon-sdk-js';
+
+import { iconService } from './../../provider/IconService'
 
 import videoBackground from './../../assets/videos/videoBackground.mp4';
 import Arrow from './components/Arrow';
 
 function Welcome() {
 
-  // const customEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
-  //   detail: {
-  //     type: 'REQUEST_HAS_ACCOUNT'
-  //   }
-  // });
-  // window.dispatchEvent(customEvent);
+  const createWallet = async function () {
+    const wallet = IconService.IconWallet.create(); //Wallet Creation
+    const address = wallet.getAddress(); // Get Address
+    const privateKey = wallet.getPrivateKey(); // Get Private Key
 
-  // const eventHandler = event => {
-  //   const { type, payload } = event.detail;
-  //   if (type === 'RESPONSE_HAS_ACCOUNT') {
-  //     console.log(payload.hasAccount); // true or false
-  //   }
-  // }
-  // window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+    console.log(address, privateKey);
+  }
+
+
+  const getBalance = async function () {
+    const balance = await iconService.getBalance('hxf9bfff62e92b621dfd823439c822d73c7df8e698').execute();
+    console.log(balance);
+  }
+
+  getBalance();
+
+
+
+  const eventHandler = (e) => {
+    const { type, payload } = e.detail;
+    if (type === 'RESPONSE_HAS_ACCOUNT') {
+      console.log(payload.hasAccount); // true or false
+    }
+  }
+  window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 
 
 
@@ -40,7 +53,8 @@ function Welcome() {
               <div className="w-full h-full relative text-white ">Connect wallet</div>
             </div>
           </button>
-          <button className='w-52 h-14 item place-self-center relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-full transition duration-300 ease-in-out hover:bg-green-400 transform hover:-translate-y-1'>
+          <button className='w-52 h-14 item place-self-center relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-full transition duration-300 ease-in-out hover:bg-green-400 transform hover:-translate-y-1'
+            onClick={createWallet}>
             <div className="w-full h-full bg-gradient-to-br from-[#c23eff] via-[#8411ff] to-[#ff2298] group-hover:from-[#ff00b7] group-hover:via-[#8000ff] group-hover:to-[#dc42ff] absolute"></div>
             <div className="w-full h-full relative px-6 py-3 transition-all ease-out bg-gray-900 rounded-full group-hover:bg-opacity-0 duration-400">
               <div className="w-full h-full relative text-white">Create wallet</div>

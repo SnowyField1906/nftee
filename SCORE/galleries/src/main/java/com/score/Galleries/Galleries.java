@@ -16,18 +16,16 @@
 
 package com.score.Galleries;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.Set;
 import score.Address;
-import score.BranchDB;
 import score.Context;
 import score.annotation.EventLog;
 import score.annotation.External;
 import score.annotation.Payable;
 import scorex.util.ArrayList;
+import scorex.util.Base64;
 import scorex.util.HashMap;
 
 public class Galleries {
@@ -38,8 +36,13 @@ public class Galleries {
   public Map<String, Collection> collectionInfo = new HashMap<>();
   public Map<String, NFT> nftInfo = new HashMap<>();
 
-  private String generateCollectionId() {
-    return Context.getTransactionHash().toString();
+  private String generateCollectionId(Address _user, String _name) {
+    return _user.toString() + "/" + _name;
+  }
+
+  private String decodeTransactionHash(String _hash) {
+    byte[] decode = Base64.getDecoder().decode(Context.getTransactionHash());
+    return new String(decode, StandardCharsets.UTF_8);
   }
 
   @External(readonly = true)
@@ -95,28 +98,28 @@ public class Galleries {
     if (userCollections == null) {
       userCollections = new ArrayList<String>();
     }
-    String collectionId = this.generateCollectionId();
+    String collectionId = this.generateCollectionId(_user, _name);
     userCollections.add(collectionId);
     this.userMapCollections.put(_user, userCollections);
     this.collectionInfo.put(collectionId, collection);
   }
 
   @External
-  public void removeCollection(
-    Address _user,
-    String _name,
-    String _description,
-    boolean _visibility
-  ) {
-    Collection collection = new Collection(_name, _description, _visibility);
+  public void removeCollection(Address _user, String _collection) {
     ArrayList<String> userCollections = this.userMapCollections.get(_user);
     if (userCollections == null) {
-      userCollections = new ArrayList<String>();
+      return;
     }
-    String collectionId = this.generateCollectionId();
-    userCollections.add(collectionId);
+    userCollections.remove(_collection);
     this.userMapCollections.put(_user, userCollections);
-    this.collectionInfo.put(collectionId, collection);
+    this.collectionInfo.remove(_collection);
+  }
+
+  @External
+  public void toggleCollectionVisibility(String _collection) {
+    Collection collection = this.collectionInfo.get(_collection);
+    collection.visibility ^= true;
+    this.collectionInfo.put(_collection, collection);
   }
 
   @External
@@ -129,12 +132,24 @@ public class Galleries {
     String _collection
   ) {
     NFT nft = new NFT(_user, _price, _onSale, _visibility);
-    ArrayList<String> collectionNFTs = this.collectionMapNFTs.get(_user);
+    ArrayList<String> collectionNFTs = this.collectionMapNFTs.get(_collection);
     if (collectionNFTs == null) {
       collectionNFTs = new ArrayList<String>();
     }
     collectionNFTs.add(_ipfs);
     this.collectionMapNFTs.put(_collection, collectionNFTs);
     this.nftInfo.put(_ipfs, nft);
+  }
+
+  @External
+  public void toggleNFTVisibility(
+    String _nft,
+    boolean _visibility,
+    boolean _onSale
+  ) {
+    NFT nft = this.nftInfo.get(_nft);
+    nft.visibility ^= _visibility;
+    nft.onSale ^= _onSale;
+    this.nftInfo.put(_nft, nft);
   }
 }

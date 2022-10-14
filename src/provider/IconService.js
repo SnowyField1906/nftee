@@ -1,11 +1,39 @@
 import IconService from 'icon-sdk-js';
 
-import { HttpProvider } from 'icon-sdk-js';
+const httpProvider = new IconService.HttpProvider('https://sejong.net.solidwallet.io/api/v3');
 
-new IconService(HttpProvider)
+export const iconService = new IconService(httpProvider);
 
-const httpProvider = new HttpProvider('https://ctz.solidwallet.io/api/v3');
-const iconService = new IconService(httpProvider);
+export const addressHandler = async function () {
+    const requestAccount = new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_HAS_ACCOUNT'
+        }
+    });
 
-const balance = await iconService.getBalance('hx9d8a8376e7db9f00478feb9a46f44f0d051aab57').execute();
-console.log(balance);
+    window.dispatchEvent(requestAccount);
+
+    const responseAccount = (e) => {
+        const { type, payload } = e.detail
+        if (type === 'RESPONSE_HAS_ADDRESS') {
+            console.log(payload); // true or false
+        }
+    }
+
+    window.addEventListener('ICONEX_RELAY_RESPONSE', responseAccount);
+
+}
+
+
+
+export const hasAddress = new CustomEvent('ICONEX_RELAY_REQUEST', {
+    detail: {
+        type: 'REQUEST_HAS_ADDRESS'
+    }
+});
+
+export const has = new CustomEvent('ICONEX_RELAY_REQUEST', {
+    detail: {
+        type: 'REQUEST_HAS_ADDRESS'
+    }
+});

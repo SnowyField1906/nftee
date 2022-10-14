@@ -9,18 +9,31 @@ goloop rpc sendtx deploy ./galleries/build/libs/galleries-0.1.0-optimized.jar \
     --content_type application/java
 
 
-goloop rpc --uri http://localhost:9082/api/v3 txresult 0x7399f6e029d5bee0361908f88a144073b86cf624a01c9162169c23a6b2649638
+goloop rpc --uri http://localhost:9082/api/v3 txresult 0xee495cd858895c31b7568ff2c3178e8fc93ed52c6ece8ea858b6f2c8387eecf3
 
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cx320ddd8698b2f94761e402f140848efdc6feb62c  \
+    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
     --method getUserCollections \
     --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81
 
 
 goloop rpc sendtx call \
-    --to cx320ddd8698b2f94761e402f140848efdc6feb62c \
+    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1 \
+    --uri http://127.0.0.1:9082/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json \
+    --key_password gochain \
+    --nid 0x3 --step_limit 10000000 \
+    --method createCollection \
+    --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81 \
+    --param _name=C1 \
+    --param _description=Collection1 \
+    --param _visibility=1
+
+
+goloop rpc sendtx call \
+    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
@@ -34,13 +47,13 @@ goloop rpc sendtx call \
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cx320ddd8698b2f94761e402f140848efdc6feb62c  \
+    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
     --method getCollectionNFTs \
     --param _collection=[B@17
 
 
 goloop rpc sendtx call \
-    --to cx320ddd8698b2f94761e402f140848efdc6feb62c \
+    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
@@ -50,11 +63,19 @@ goloop rpc sendtx call \
     --param _price=1200000 \
     --param _visibility=1 \
     --param _onSale=1 \
-    --param _ipfs=123 \
+    --param _ipfs=1234 \
     --param _collection=[B@17
+
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cx320ddd8698b2f94761e402f140848efdc6feb62c  \
+    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
+    --method getCollectionNFTs \
+    --param _nft=123
+
+
+goloop rpc \
+    --uri http://localhost:9082/api/v3 call \
+    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
     --method getNFTInfo \
     --param _nft=123
