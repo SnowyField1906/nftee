@@ -3,12 +3,12 @@ import NotificationCard from './NotificationCard'
 
 function Notification({ active }) {
     return (
-        <div className={`${active ? "h-[50rem]" : "h-0"} w-[20%] fixed right-5 mt-14 
+        <div className={`${active ? "h-[40rem]" : "h-0"} w-[20%] fixed right-5 mt-14 
             transform duration-300 ease-in-out select-none
-            rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-md`} >
+            rounded-2xl bg-white/50 dark:bg-black/50 backdrop-blur-md`} >
             <div className={active ? "h-full" : "hidden"}>
                 <div className='w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto'>
-                    <p className='ml-5 font-bold text-3xl text-slate-900 dark:text-slate-100'>Your notification</p>
+                    <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your notification</p>
                 </div>
                 <div className='flex-initial gap-2 w-full h-full'>
                     {

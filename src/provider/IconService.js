@@ -4,7 +4,7 @@ const httpProvider = new IconService.HttpProvider('https://sejong.net.solidwalle
 
 export const iconService = new IconService(httpProvider);
 
-export const addressHandler = async function () {
+export const accountHandler = function () {
     const requestAccount = new CustomEvent('ICONEX_RELAY_REQUEST', {
         detail: {
             type: 'REQUEST_HAS_ACCOUNT'
@@ -15,25 +15,27 @@ export const addressHandler = async function () {
 
     const responseAccount = (e) => {
         const { type, payload } = e.detail
-        if (type === 'RESPONSE_HAS_ADDRESS') {
+        if (type === 'RESPONSE_HAS_ACCOUNT') {
             console.log(payload); // true or false
         }
     }
 
     window.addEventListener('ICONEX_RELAY_RESPONSE', responseAccount);
-
 }
 
+export const addressHandler = () => {
+    const requestAddress = new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_ADDRESS'
+        }
+    });
+    window.dispatchEvent(requestAddress);
 
-
-export const hasAddress = new CustomEvent('ICONEX_RELAY_REQUEST', {
-    detail: {
-        type: 'REQUEST_HAS_ADDRESS'
+    const responseAccount = (e) => {
+        const { type, payload } = e.detail;
+        if (type === 'RESPONSE_ADDRESS') {
+            console.log(payload); // e.g., hx19870922...
+        }
     }
-});
-
-export const has = new CustomEvent('ICONEX_RELAY_REQUEST', {
-    detail: {
-        type: 'REQUEST_HAS_ADDRESS'
-    }
-});
+    window.addEventListener('ICONEX_RELAY_RESPONSE', responseAccount);
+}

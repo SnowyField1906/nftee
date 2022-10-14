@@ -36,6 +36,8 @@ function App() {
 					})}
 				</Routes>
 			</Router>
+			<div class="fixed h-14 w-14 flex left-8 bottom-8 ml-[-0.5rem] z-20 rounded-full backdrop-blur-sm bg-white/50 dark:bg-black/50">
+			</div>
 		</div>
 	);
 }

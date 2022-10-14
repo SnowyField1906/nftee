@@ -3,65 +3,122 @@
 @tailwind utilities;
 
 @layer components {
-    .light-bg {
-        background: linear-gradient(225deg, #20cc89, #8223d0, #209ac8, #c83820);
-        background-size: 800% 800%;
-    
-        -webkit-animation: light-bg-animation 6s ease infinite;
-        -moz-animation: light-bg-animation 6s ease infinite;
-        -o-animation: light-bg-animation 6s ease infinite;
-        animation: light-bg-animation 6s ease infinite;
-    }
-    
-    @-webkit-keyframes light-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
-    }
-    @-moz-keyframes light-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
-    }
-    @-o-keyframes light-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
-    }
-    @keyframes light-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
-    }
+  .light-bg {
+    background: linear-gradient(225deg, #20cc89, #8223d0, #209ac8, #c83820);
+    background-size: 800% 800%;
 
-    .dark-bg {
-        background: linear-gradient(225deg, #0b5438, #340d54, #0b3b4d, #50160d);
-        background-size: 800% 800%;
-    
-        -webkit-animation: dark-bg-animation 2s ease infinite;
-        -moz-animation: dark-bg-animation 2s ease infinite;
-        -o-animation: dark-bg-animation 2s ease infinite;
-        animation: dark-bg-animation 2s ease infinite;
+    -webkit-animation: light-bg-animation 6s ease infinite;
+    -moz-animation: light-bg-animation 6s ease infinite;
+    -o-animation: light-bg-animation 6s ease infinite;
+    animation: light-bg-animation 6s ease infinite;
+  }
+
+  @-webkit-keyframes light-bg-animation {
+    0% {
+      background-position: 0% 15%;
     }
-    
-    @-webkit-keyframes dark-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
+    50% {
+      background-position: 100% 86%;
     }
-    @-moz-keyframes dark-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
+    100% {
+      background-position: 0% 15%;
     }
-    @-o-keyframes dark-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
+  }
+  @-moz-keyframes light-bg-animation {
+    0% {
+      background-position: 0% 15%;
     }
-    @keyframes dark-bg-animation {
-        0%{background-position:0% 15%}
-        50%{background-position:100% 86%}
-        100%{background-position:0% 15%}
+    50% {
+      background-position: 100% 86%;
     }
+    100% {
+      background-position: 0% 15%;
+    }
+  }
+  @-o-keyframes light-bg-animation {
+    0% {
+      background-position: 0% 15%;
+    }
+    50% {
+      background-position: 100% 86%;
+    }
+    100% {
+      background-position: 0% 15%;
+    }
+  }
+  @keyframes light-bg-animation {
+    0% {
+      background-position: 0% 15%;
+    }
+    50% {
+      background-position: 100% 86%;
+    }
+    100% {
+      background-position: 0% 15%;
+    }
+  }
+
+  .dark-bg {
+    background: linear-gradient(225deg, #0b5438, #340d54, #0b3b4d, #50160d);
+    background-size: 800% 800%;
+
+    -webkit-animation: dark-bg-animation 2s ease infinite;
+    -moz-animation: dark-bg-animation 2s ease infinite;
+    -o-animation: dark-bg-animation 2s ease infinite;
+    animation: dark-bg-animation 2s ease infinite;
+  }
+
+  @-webkit-keyframes dark-bg-animation {
+    0% {
+      background-position: 0% 15%;
+    }
+    50% {
+      background-position: 100% 86%;
+    }
+    100% {
+      background-position: 0% 15%;
+    }
+  }
+  @-moz-keyframes dark-bg-animation {
+    0% {
+      background-position: 0% 15%;
+    }
+    50% {
+      background-position: 100% 86%;
+    }
+    100% {
+      background-position: 0% 15%;
+    }
+  }
+  @-o-keyframes dark-bg-animation {
+    0% {
+      background-position: 0% 15%;
+    }
+    50% {
+      background-position: 100% 86%;
+    }
+    100% {
+      background-position: 0% 15%;
+    }
+  }
+  @keyframes dark-bg-animation {
+    0% {
+      background-position: 0% 15%;
+    }
+    50% {
+      background-position: 100% 86%;
+    }
+    100% {
+      background-position: 0% 15%;
+    }
+  }
+
+  .video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 }
