@@ -23,13 +23,8 @@ export const accountHandler = function () {
     window.addEventListener('ICONEX_RELAY_RESPONSE', responseAccount);
 }
 
-export const addressHandler = () => {
-    const requestAddress = new CustomEvent('ICONEX_RELAY_REQUEST', {
-        detail: {
-            type: 'REQUEST_ADDRESS'
-        }
-    });
-    window.dispatchEvent(requestAddress);
+export const addressHandler = (e) => {
+
 
     const responseAccount = (e) => {
         const { type, payload } = e.detail;

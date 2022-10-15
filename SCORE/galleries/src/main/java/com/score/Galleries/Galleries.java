@@ -52,7 +52,13 @@ public class Galleries {
 
   @External(readonly = true)
   public ArrayList<String> getCollectionNFTs(String _collection) {
-    return this.collectionMapNFTs.get(_collection);
+    ArrayList<String> nfts = this.collectionMapNFTs.get(_collection);
+    for (String nft : nfts) {
+      if (this.nftInfo.containsKey(nft)) {
+        nfts.remove(nft);
+      }
+    }
+    return nfts;
   }
 
   @External(readonly = true)
@@ -93,25 +99,25 @@ public class Galleries {
     String _description,
     boolean _visibility
   ) {
-    Collection collection = new Collection(_name, _description, _visibility);
-    ArrayList<String> userCollections = this.userMapCollections.get(_user);
-    if (userCollections == null) {
-      userCollections = new ArrayList<String>();
+    Collection newCollection = new Collection(_name, _description, _visibility);
+    ArrayList<String> collections = this.userMapCollections.get(_user);
+    if (collections == null) {
+      collections = new ArrayList<String>();
     }
-    String collectionId = this.generateCollectionId(_user, _name);
-    userCollections.add(collectionId);
-    this.userMapCollections.put(_user, userCollections);
-    this.collectionInfo.put(collectionId, collection);
+    String collection = this.generateCollectionId(_user, _name);
+    collections.add(collection);
+    this.userMapCollections.put(_user, collections);
+    this.collectionInfo.put(collection, newCollection);
   }
 
   @External
-  public void removeCollection(Address _user, String _collection) {
-    ArrayList<String> userCollections = this.userMapCollections.get(_user);
-    if (userCollections == null) {
+  public void deleteCollection(Address _user, String _collection) {
+    ArrayList<String> collections = this.userMapCollections.get(_user);
+    if (collections == null) {
       return;
     }
-    userCollections.remove(_collection);
-    this.userMapCollections.put(_user, userCollections);
+    collections.remove(_collection);
+    this.userMapCollections.put(_user, collections);
     this.collectionInfo.remove(_collection);
   }
 
@@ -128,17 +134,43 @@ public class Galleries {
     BigInteger _price,
     boolean _onSale,
     boolean _visibility,
-    String _ipfs,
-    String _collection
+    String _ipfs
   ) {
     NFT nft = new NFT(_user, _price, _onSale, _visibility);
-    ArrayList<String> collectionNFTs = this.collectionMapNFTs.get(_collection);
-    if (collectionNFTs == null) {
-      collectionNFTs = new ArrayList<String>();
+    String collection = this.generateCollectionId(_user, "owning");
+    ArrayList<String> nfts = this.collectionMapNFTs.get(collection);
+    if (nfts == null) {
+      nfts = new ArrayList<String>();
     }
-    collectionNFTs.add(_ipfs);
-    this.collectionMapNFTs.put(_collection, collectionNFTs);
+    nfts.add(_ipfs);
+    this.collectionMapNFTs.put(collection, nfts);
     this.nftInfo.put(_ipfs, nft);
+  }
+
+  @External
+  public void addNFT(String _ipfs, String _collection) {
+    ArrayList<String> nfts = this.collectionMapNFTs.get(_collection);
+    if (nfts == null) {
+      nfts = new ArrayList<String>();
+    }
+    nfts.add(_ipfs);
+    this.collectionMapNFTs.put(_collection, nfts);
+  }
+
+  @External
+  public void removeNFT(String _ipfs, String _collection) {
+    ArrayList<String> nfts = this.collectionMapNFTs.get(_collection);
+    nfts.remove(_ipfs);
+    this.collectionMapNFTs.put(_collection, nfts);
+  }
+
+  @External
+  public void deleteNFT(Address _user, String _ipfs) {
+    String collection = this.generateCollectionId(_user, "owning");
+    ArrayList<String> nfts = this.collectionMapNFTs.get(collection);
+    nfts.remove(_ipfs);
+    this.collectionMapNFTs.put(collection, nfts);
+    this.nftInfo.remove(_ipfs);
   }
 
   @External

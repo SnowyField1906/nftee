@@ -6,8 +6,9 @@ import { pagesList } from "./../../../utils/constants";
 import * as Pages from './../../../svgs/Pages'
 import * as Buttons from './../../../svgs/Buttons'
 import * as Modals from './components/Modals'
+import { accountHandler } from "../../../provider/IconService";
 
-function Nagivator() {
+function Nagivator({ account, setAccount }) {
 	const location = useLocation();
 
 	const pageTag = (i) => {
@@ -67,38 +68,58 @@ function Nagivator() {
 					})}
 				</div>
 
-				<div className="flex w-[27%] justify-evenly">
-					{pagesList.Sub.map((_, i) => {
-						return (
-							<NavLink
-								to={`NFTee/${pagesList.Sub[i].toLowerCase()}`}
-								className="flex w-[7.5rem] h-[2.75rem] cursor-pointer justify-center"
-							>
-								{pageTag(i)}
-							</NavLink>
-						);
-					})}
 
-				</div>
+				{account.login &&
+					<>
 
-				<div className="flex justify-evenly w-[13%] border-x-[1px] border-black dark:border-white">
-					{pagesList.Button.map((_, i) => {
-						return (
-							<div className="flex justify-evenly w-14 h-14 cursor-pointer" onClick={() => handleModal(i)}>
-								{buttonTag(i)}
-							</div>
-						);
-					})}
-				</div>
+						<div className="flex w-[27%] justify-evenly">
+							{pagesList.Sub.map((_, i) => {
+								return (
+									<NavLink
+										to={`NFTee/${pagesList.Sub[i].toLowerCase()}`}
+										className="flex w-[7.5rem] h-[2.75rem] cursor-pointer justify-center"
+									>
+										{pageTag(i)}
+									</NavLink>
+								);
+							})}
+
+						</div>
+
+						<div className="flex justify-evenly w-[13%] border-x-[1px] border-black dark:border-white">
+							{pagesList.Button.map((_, i) => {
+								return (
+									<div className="flex justify-evenly w-14 h-14 cursor-pointer" onClick={() => handleModal(i)}>
+										{buttonTag(i)}
+									</div>
+								);
+							})}
+						</div>
 
 
-				<div>
-					{pagesList.Button.map((_, i) => {
-						return (
-							modalTag(i)
-						)
-					})}
-				</div>
+						<div>
+							{pagesList.Button.map((_, i) => {
+								return (
+									modalTag(i)
+								)
+							})}
+						</div>
+
+						<button onClick={() => setAccount({ ...account, login: false })} className="w-[6rem] h-[2.75rem]">
+							logout
+						</button>
+					</>
+				}
+				{!account.login &&
+					<p className="w-[45%] text-center text-xl text-slate-800 dark:text-slate-200">Please
+						<Link
+							to="NFTee/"
+							className="px-2 text-center font-semibold bg-clip-text text-slate-900 dark:text-slate-100 hover:text-transparent hover:bg-gradient-to-br hover:from-blue-700 hover:dark:from-blue-400 hover:to-violet-700 hover:dark:to-violet-400"
+						>
+							LOGIN
+						</Link>
+						to access all functions.</p>
+				}
 			</div>
 		</nav>
 

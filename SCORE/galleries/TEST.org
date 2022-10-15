@@ -9,18 +9,18 @@ goloop rpc sendtx deploy ./galleries/build/libs/galleries-0.1.0-optimized.jar \
     --content_type application/java
 
 
-goloop rpc --uri http://localhost:9082/api/v3 txresult 0xee495cd858895c31b7568ff2c3178e8fc93ed52c6ece8ea858b6f2c8387eecf3
+goloop rpc --uri http://localhost:9082/api/v3 txresult 0x6fbd7980e0714e6774de672e6cf52d8430ac760225433c9b6f13706d2370a08d
 
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
+    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
     --method getUserCollections \
     --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81
 
 
 goloop rpc sendtx call \
-    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1 \
+    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
@@ -33,7 +33,7 @@ goloop rpc sendtx call \
 
 
 goloop rpc sendtx call \
-    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1 \
+    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
@@ -47,13 +47,13 @@ goloop rpc sendtx call \
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
+    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
     --method getCollectionNFTs \
     --param _collection=[B@17
 
 
 goloop rpc sendtx call \
-    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1 \
+    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39 \
     --uri http://127.0.0.1:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
@@ -69,13 +69,13 @@ goloop rpc sendtx call \
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
+    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
     --method getCollectionNFTs \
     --param _nft=123
 
 
 goloop rpc \
     --uri http://localhost:9082/api/v3 call \
-    --to cx53424adb3f6fcac8347acd2449a2e725a68005c1  \
+    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
     --method getNFTInfo \
     --param _nft=123

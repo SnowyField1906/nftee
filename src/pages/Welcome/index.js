@@ -1,72 +1,48 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import IconService from 'icon-sdk-js';
-
-import { iconService, accountHandler, addressHandler } from './../../provider/IconService'
 
 import videoBackground from './../../assets/videos/videoBackground.mp4';
 import Arrow from './components/Arrow';
 import CreateWallet from './components/CreateWallet';
 import LoadWallet from './components/LoadWallet';
 
-function Welcome() {
-  const [account, setAccount] = useState({
-    address: '',
-    privateKey: '',
-  });
-
+function Welcome({ account, setAccount }) {
 
   const [tag, setTag] = useState(null);
 
   const createWallet = () => {
     const wallet = IconService.IconWallet.create();
-    setTag(<CreateWallet wallet={wallet} setTag={setTag} />);
+    setTag(<CreateWallet wallet={wallet} setTag={setTag} account={account} setAccount={setAccount} />);
   }
 
-  console.log(tag)
-
-  const modalTag = (modal) => {
-    const Tag = modal;
-    console.log(Tag)
-    return <Tag setModal={setTag} />
-  };
-
-
-
-
-  const storeWallet = () => {
-    if (!account.privateKey) {
-      return;
-    }
-    const wallet = IconService.IconWallet.loadPrivateKey(account.privateKey);
-    console.log(wallet.store('qwer1234!'));
-    localStorage.setItem('privateKey', wallet.store('qwer1234!'));
-  }
-
-
-  const loadWalletByPrivateKey = (privateKey) => {
-    const walletLoadedByPrivateKey = IconService.IconWallet.loadPrivateKey(privateKey);
-    return {
-      address: walletLoadedByPrivateKey.getAddress(),
-      privateKey: walletLoadedByPrivateKey.getPrivateKey()
-    }
-  }
-
-  const loadWalletByFile = (keystoreFile) => {
-    const walletLoadedByKeyStore = IconService.IconWallet.loadKeystore(keystoreFile, 'qwer1234!');
-    return {
-      address: walletLoadedByKeyStore.getAddress(),
-      privateKey: walletLoadedByKeyStore.getPrivateKey()
-    }
+  const loadWallet = () => {
+    setTag(<LoadWallet setTag={setTag} account={account} setAccount={setAccount} />);
   }
 
   const connectWallet = () => {
-    const privateKey = localStorage.getItem('privateKey');
-    if (!privateKey) {
-      return;
+    const requestAddress = new CustomEvent('ICONEX_RELAY_REQUEST', {
+      detail: {
+        type: 'REQUEST_ADDRESS'
+      }
+    });
+    window.dispatchEvent(requestAddress);
+
+    const responseAccount = (e) => {
+      const { type, payload } = e.detail;
+      if (type === 'RESPONSE_ADDRESS') {
+        setAccount({
+          ...account,
+          address: payload,
+          login: true,
+        })
+      }
     }
-    const wallet = IconService.IconWallet.loadPrivateKey(privateKey);
-    accountHandler.setAccount(wallet);
-    addressHandler.setAddress(wallet.getAddress());
+    window.addEventListener('ICONEX_RELAY_RESPONSE', responseAccount);
+  }
+
+  if (account.login) {
+    return <Navigate to="/NFTee/Home" />
   }
 
   return (
@@ -91,6 +67,8 @@ function Welcome() {
                 </div>
               </button>
 
+              <p className='text-center mt-4 mb-2 text-md text-black dark:text-white'>Have ICX wallets already?</p>
+
               <div className='flex w-[22rem] place-self-center justify-between'>
                 <button className='w-[10.5rem] h-14 item place-self-center relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-full transition duration-300 ease-in-out hover:bg-green-400 transform hover:-translate-y-1'
                   onClick={connectWallet}>
@@ -100,7 +78,7 @@ function Welcome() {
                   </div>
                 </button>
                 <button className='w-[10.5rem] h-14 item place-self-center relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-full transition duration-300 ease-in-out hover:bg-green-400 transform hover:-translate-y-1'
-                  onClick={() => setTag()}>
+                  onClick={loadWallet}>
                   <div className="w-full h-full bg-gradient-to-br from-[#c23eff] via-[#8411ff] to-[#ff2298] group-hover:from-[#ff00b7] group-hover:via-[#8000ff] group-hover:to-[#dc42ff] absolute"></div>
                   <div className="w-full h-full relative px-6 py-3 transition-all ease-out bg-gray-900 rounded-full group-hover:bg-opacity-0 duration-400">
                     <div className="w-full h-full relative text-white ">Load wallet</div>

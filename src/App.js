@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { pagesList } from "./utils/constants";
@@ -10,24 +12,22 @@ import * as Pages from "./pages";
 function App() {
 	const allPagesList = [pagesList.Special, ...pagesList.Main, ...pagesList.Sub];
 
+	const [account, setAccount] = useState({
+		address: '',
+		privateKey: '',
+		login: false,
+	});
+
 	const pageTag = (i) => {
 		const Tag = Pages[allPagesList[i]];
-		return <Tag />;
+		return <Tag account={account} setAccount={setAccount} />;
 	};
-
-
-
-
-
-
-
-
 
 
 	return (
 		<div className="h-screen">
 			<Router>
-				<Header />
+				<Header account={account} setAccount={setAccount} />
 				<Routes>
 					{allPagesList.map((_, i) => {
 						return (
