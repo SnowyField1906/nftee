@@ -48,7 +48,7 @@ const publicGateway = [
 ]
 
 export const findPublicGateWay = (ipfs) => {
-    var url;
+    let url;
 
     const getGateway = async () => {
         const random = Math.floor(Math.random() * publicGateway.length);
@@ -56,18 +56,7 @@ export const findPublicGateWay = (ipfs) => {
         console.log(url)
 
         try {
-            await axios({
-                method: 'get',
-                url: url,
-                timeout: 2000,
-            });
-
-            // this block runs if the request exeeded timeout
-            getGateway();
-
-            // this block runs if the request succeeded
-            console.log("Gateway found: " + url)
-            return url;
+            await axios.get(url);
 
         } catch (error) {
             console.log(error);
@@ -76,6 +65,6 @@ export const findPublicGateWay = (ipfs) => {
     }
     getGateway();
 
-    console.log("FOund gateway: " + url)
+    console.log("Gateway found: " + url)
     return url;
 }
