@@ -3,25 +3,25 @@ sudo ./gradlew optimizedJar
 
 
 goloop rpc sendtx deploy ./galleries/build/libs/galleries-0.1.0-optimized.jar \
-    --uri http://127.0.0.1:9082/api/v3 \
+    --uri https://sejong.net.solidwallet.io/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json --key_password gochain \
-    --nid 0x3 --step_limit 10000000000 \
+    --nid 0x53 --step_limit 10000000000 \
     --content_type application/java
 
 
-goloop rpc --uri http://localhost:9082/api/v3 txresult 0x6fbd7980e0714e6774de672e6cf52d8430ac760225433c9b6f13706d2370a08d
+goloop rpc --uri https://sejong.net.solidwallet.io/api/v3 txresult 0xbc4378470b88dabd1940d1d22bd892bf19308a13af6304f91e65d84482a82aa2
 
 
 goloop rpc \
-    --uri http://localhost:9082/api/v3 call \
-    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
+    --uri https://sejong.net.solidwallet.io/api/v3 call \
+    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac  \
     --method getUserCollections \
     --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81
 
 
 goloop rpc sendtx call \
-    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39 \
-    --uri http://127.0.0.1:9082/api/v3 \
+    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac \
+    --uri https://sejong.net.solidwallet.io/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
     --nid 0x3 --step_limit 10000000 \
@@ -33,8 +33,8 @@ goloop rpc sendtx call \
 
 
 goloop rpc sendtx call \
-    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39 \
-    --uri http://127.0.0.1:9082/api/v3 \
+    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac \
+    --uri https://sejong.net.solidwallet.io/api/v3:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
     --nid 0x3 --step_limit 10000000 \
@@ -46,15 +46,15 @@ goloop rpc sendtx call \
 
 
 goloop rpc \
-    --uri http://localhost:9082/api/v3 call \
-    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
+    --uri https://sejong.net.solidwallet.io/api/v3 call \
+    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac  \
     --method getCollectionNFTs \
     --param _collection=[B@17
 
 
 goloop rpc sendtx call \
-    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39 \
-    --uri http://127.0.0.1:9082/api/v3 \
+    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac \
+    --uri https://sejong.net.solidwallet.io/api/v3:9082/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
     --nid 0x3 --step_limit 10000000 \
@@ -68,14 +68,14 @@ goloop rpc sendtx call \
 
 
 goloop rpc \
-    --uri http://localhost:9082/api/v3 call \
-    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
+    --uri https://sejong.net.solidwallet.io/api/v3 call \
+    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac  \
     --method getCollectionNFTs \
     --param _nft=123
 
 
 goloop rpc \
-    --uri http://localhost:9082/api/v3 call \
-    --to cx1a1afceb01b85a6ba425c68035fd4d86aea01e39  \
+    --uri https://sejong.net.solidwallet.io/api/v3 call \
+    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac  \
     --method getNFTInfo \
     --param _nft=123

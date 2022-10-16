@@ -25,7 +25,7 @@ function App() {
 
 
 	return (
-		<div className="h-screen">
+		<div className="h-screen overflow-x-hidden">
 			<Router>
 				<Header account={account} setAccount={setAccount} />
 				<Routes>

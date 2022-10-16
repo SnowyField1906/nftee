@@ -1,7 +1,7 @@
 import React from 'react'
 import MiniNFT from '../../containers/NFT/MiniNFT'
-function Home() {
 
+function Home({ account }) {
   return (
     <div className='grid h-max w-screen justify-items-center overflow-x-hidden'>
       <div className='w-screen h-full fixed -z-20 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>

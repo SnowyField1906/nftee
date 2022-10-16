@@ -46,7 +46,7 @@ function Welcome({ account, setAccount }) {
   }
 
   return (
-    <div className='grid h-screen w-screen overflow-hidden'>
+    <div className='grid h-screen w-screen overflow-hidden select-none'>
       <div className='fixed grid justify-between self-center justify-self-center w-[60%] h-5/6 backdrop-blur-xl bg-white/50 dark:bg-black/50 border-1 rounded-2xl translate-y-10'>
         <div className={`${tag ? 'w-0 h-0' : 'w-full h-full'} fixed flex justify-between self-center justify-self-center transform duration-300 ease-in-out`}>
 

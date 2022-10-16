@@ -18,9 +18,6 @@ function MiniNFT() {
         requested: [],
     }
 
-    console.log(add)
-
-
     return (
         <div className='inline-block mx-4 rounded-lg hover:scale-105 transform duration-300 ease-in-out pt-10 select-none'>
             <div

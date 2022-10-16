@@ -1,9 +1,26 @@
-import React from 'react'
+import { useState } from 'react';
+import IconService from 'icon-sdk-js';
 
-function Profile() {
+const httpProvider = new IconService.HttpProvider('https://sejong.net.solidwallet.io/api/v3')
+
+export const iconService = new IconService(httpProvider);
+function Profile({ account }) {
+  const [balance, setBalance] = useState('')
+
+  const getBalance = async () => {
+    const balance = await iconService.getBalance(account.address).execute();
+    const balanceValue = (IconService.IconAmount.of(balance, IconService.IconAmount.Unit.ICX) / 10e17).toString();
+    setBalance(balanceValue)
+  }
+
+  getBalance()
+
   return (
     <div className='h-full bg-slate-300 dark:bg-slate-600'>
-
+      <div className="grid justify-between px-10 pt-32 w-2/5">
+        <p className="text-black dark:text-white font-semibold text-xl">{account.address}</p>
+        <p className="text-black dark:text-white font-semibold text-xl">{balance}</p>
+      </div>
     </div>
   )
 }
