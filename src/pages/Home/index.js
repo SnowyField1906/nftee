@@ -1,5 +1,5 @@
 import React from 'react'
-import MiniNFT from '../../containers/NFT/MiniNFT'
+import SmallNFT from '../../containers/NFT/SmallNFT'
 
 function Home({ account }) {
   return (
@@ -22,7 +22,7 @@ function Home({ account }) {
           {
             [...Array(5)].map((_, i) => {
               return (
-                <MiniNFT />
+                <SmallNFT />
               )
             })
           }
@@ -35,7 +35,7 @@ function Home({ account }) {
           {
             [...Array(5)].map((_, i) => {
               return (
-                <MiniNFT />
+                <SmallNFT />
               )
             })
           }

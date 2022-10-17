@@ -1,6 +1,6 @@
-import MiniNFT from "../../containers/NFT/MiniNFT"
+import SmallNFT from "../../containers/NFT/SmallNFT"
 
-function Explore({ account, setAccount }) {
+function Explore() {
   return (
     <div className='grid h-max w-screen overflow-x-hidden bg-slate-300 dark:bg-slate-600'>
       <div className="flex px-10 pt-32 w-2/5 justify-between">
@@ -17,7 +17,7 @@ function Explore({ account, setAccount }) {
         {
           [...Array(36)].map((_, i) => {
             return (
-              <MiniNFT />
+              <SmallNFT />
             )
           })
         }

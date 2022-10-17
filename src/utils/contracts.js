@@ -1,80 +1,64 @@
 import IconService from 'icon-sdk-js'
 
-export async function readOnly(method, params) {
-    const txObj = {
-        jsonrpc: "2.0",
-        method: "icx_call",
-        id: 1234,
-        params: {
-            to: process.env.REACT_APP_CONTRACT_ADDRESS,
-            dataType: "call",
-            data: {
-                "method": method,
-                "params": params
+export const sign = (tx, address) => {
+    let signature;
+    const signEvent = new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_SIGNING',
+            payload: {
+                from: address,
+                hash: tx,
             }
         }
+    });
+    window.dispatchEvent(signEvent);
+
+    const eventHandler = (e) => {
+        const { type, payload } = e.detail
+        if (type === 'RESPONSE_SIGNING') {
+            signature = payload
+        }
+        else if (type === 'CANCEL_SIGNING') {
+            console.error('User cancelled signing request')
+        }
     }
-    try {
-        const responsePromise = await fetch(process.env.REACT_APP_SEJONG_RPC_URI,
-            {
-                method: 'POST',
-                body: JSON.stringify(txObj),
-                headers: {
-                    "Content-Type": "application/json"
-                }
+    window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
+
+    return signature
+}
+
+
+export const createNFTEvent = (address, params) => {
+    const createNFT = new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_JSON-RPC',
+            payload: {
+                jsonrpc: "2.0",
+                method: "icx_sendTransaction",
+                params: {
+                    version: "0x3",
+                    from: address,
+                    to: process.env.REACT_APP_CONTRACT_ADDRESS,
+                    value: "0x0",
+                    dataType: "deploy",
+                    data: {
+                        method: "createNFT",
+                        params: params,
+                    },
+                },
             }
-        );
-        const responseJSON = await responsePromise.json();
-        return responseJSON.result;
+        }
+    });
+    window.dispatchEvent(createNFT);
 
-
-    } catch (err) {
-        console.error("FETCH:", err);
-        throw err;
+    const eventHandler = (e) => {
+        const { type, payload } = e.detail;
+        if (type === 'RESPONSE_JSON-RPC') {
+            console.log(payload);
+        }
+        else if (type === 'CANCEL_JSON-RPC') {
+            console.error('User cancelled JSON-RPC request')
+        }
     }
-}
-
-
-function timeout(instance) {
-    const seconds = instance === 1 ? 5000 : 1000;
-    return new Promise(resolve => setTimeout(resolve, seconds));
-}
-
-export async function sendTx(address, method, params) {
-
-    const { IconBuilder, SignedTransaction, HttpProvider, IconConverter } = IconService
-    const iconService = new IconService(new HttpProvider(process.env.REACT_APP_SEJONG_RPC_URI));
-    const callTxnBuilder = new IconBuilder.CallTransactionBuilder()
-
-    const txObj = callTxnBuilder
-        .nid(process.env.REACT_APP_NID)
-        .from(address)
-        .to(process.env.REACT_APP_CONTRACT_ADDRESS)
-        .stepLimit(IconConverter.toBigNumber('2000000'))
-        .version(IconConverter.toBigNumber(3))
-        .timestamp(Date.now() * 1000)
-        .value(0x0)
-        .nonce(IconConverter.toBigNumber(1))
-        .method(method)
-        .params(params)
-        .build();
-
-    /* Create SignedTransaction instance */
-    const signedTransaction = new SignedTransaction(txObj, address)
-
-    const txHash = await iconService.sendTransaction(signedTransaction).execute()
-    let instance = 1
-    /* Send transaction. It returns transaction hash. */
-
-    try {
-        await timeout(instance)
-        console.log(txHash)
-        const txnResult = await iconService.getTransactionResult(txHash).execute()
-        console.log(txnResult)
-        return txnResult
-
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
+    window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler);
 }

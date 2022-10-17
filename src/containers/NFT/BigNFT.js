@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MaxNFT() {
+function BigNFT() {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function MaxNFT() {
     )
 }
 
-export default MaxNFT
+export default BigNFT

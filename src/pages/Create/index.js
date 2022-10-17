@@ -1,10 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 
-import { CallTransactionBuilder, CallBuilder, IcxTransactionBuilder, IconService } from "icon-sdk-js";
-
 import { iconService } from "../../provider/IconService";
 import { findPublicGateWay } from "../../utils/constants";
+
+import IconService, { IconBuilder } from "icon-sdk-js";
+
+import { signEvent, createNFTEvent } from "../../utils/contracts";
+
+// const { IcxTransactionBuilder, CallTransactionBuilder } = IconBuilder;
+
+
 // import { sendTx } from "../../utils/contracts";
 
 
@@ -63,31 +69,14 @@ function Create({ account }) {
     }
   }
 
-  const createNFT = async () => {
-    const txObj = new IconService.CallTransactionBuilder()
-      .nid(process.env.REACT_APP_NID)
-      .from(account.address)
-      .to(process.env.REACT_APP_CONTRACT_ADDRESS)
-      .stepLimit(IconService.IconConverter.toBigNumber('2000000'))
-      .version(IconService.IconConverter.toBigNumber(3))
-      .timestamp(Date.now() * 1000)
-      .value(0x0)
-      .nonce(IconService.IconConverter.toBigNumber(1))
-      .method("createNFT")
-      .params(createNFTParams)
-      .build();
 
-    const signedTransaction = new IconService.SignedTransaction(txObj, account.address);
-    const txHash = await iconService.sendTransaction(signedTransaction).execute();
-    console.log(txHash);
-  }
 
 
   console.log(createNFTParams);
 
 
   return (
-    <div className="grid grid-cols-2 grid-rows-1 w-screen h-full pt-20 select-none">
+    <div className="grid grid-cols-2 grid-rows-1 w-screen h-full pt-20 select-none" >
       <div className="grid self-center justify-self-center place-items-center w-[30vw] h-[30vw] transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-500 hover:scale-105 focus:outline-none">
         <label className="grid w-full h-full justify-self-center">
           {!status ?
@@ -158,13 +147,13 @@ function Create({ account }) {
 
           <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
             onChange={(e) => setCreateNFTParams({ ...createNFTParams, _onSale: e.target.value === 'true' })} >
-            <input type="radio" id="onsale-true" name="onsale" class="hidden peer" value={true} required checked={createNFTParams._onSale}
+            <input type="radio" id="onsale-true" name="onsale" className="hidden peer" value={true} required checked={createNFTParams._onSale}
               disabled={!createNFTParams._visibility}
             />
-            <label for="onsale-true" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-              <div class="block">
-                <div class="w-full text-lg font-semibold">Yes</div>
-                <div class="w-full">Sell this NFT</div>
+            <label for="onsale-true" className="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <div className="block">
+                <div className="w-full text-lg font-semibold">Yes</div>
+                <div className="w-full">Sell this NFT</div>
               </div>
             </label>
           </div>
@@ -180,14 +169,14 @@ function Create({ account }) {
             </label>
           </div>
           <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 text-white bg-blue-500 rounded-md hover:bg-blue-600 text-xl font-semibold"
-            disabled={createNFTParams._price === 0 || status === !'Success'}
-            onClick={createNFT}>Create</button>
+            disabled={createNFTParams._price === 0 || status.slice(0, 5) !== 'https'}
+            onClick={() => createNFTEvent(account.address, createNFTParams)}>Create</button>
 
         </div>
 
 
       </div>
-    </div>
+    </div >
   );
 }
 
