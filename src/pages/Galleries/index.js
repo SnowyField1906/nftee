@@ -1,9 +1,18 @@
-import React from 'react'
+import SmallCollection from "../../containers/Collection/SmallCollection"
 
 function Galleries() {
   return (
-    <div className='h-full bg-slate-300 dark:bg-slate-600'>
+    <div className='page-bg'>
 
+      <div className="content-list-view">
+        {
+          [...Array(10)].map((_, i) => {
+            return (
+              <SmallCollection />
+            )
+          })
+        }
+      </div>
     </div>
   )
 }

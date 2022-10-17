@@ -16,7 +16,7 @@ function Profile({ account }) {
   getBalance()
 
   return (
-    <div className='h-full bg-slate-300 dark:bg-slate-600'>
+    <div className='page-bg h-screen'>
       <div className="grid justify-between px-10 pt-32 w-2/5">
         <p className="text-black dark:text-white font-semibold text-xl">{account.address}</p>
         <p className="text-black dark:text-white font-semibold text-xl">{balance}</p>

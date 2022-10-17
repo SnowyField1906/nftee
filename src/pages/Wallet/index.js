@@ -2,7 +2,7 @@ import React from 'react'
 
 function Wallet() {
   return (
-    <div className='h-full bg-slate-300 dark:bg-slate-600'>
+    <div className='page-bg h-screen'>
     </div>
   )
 }

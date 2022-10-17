@@ -6,16 +6,18 @@ import AddToCart from "./components/AddToCart"
 import AddToCollection from "./components/AddToCollection"
 import SendRequest from "./components/SendRequest"
 
+import { findPublicGateWay } from "../../utils/constants"
+
 function MiniNFT() {
     const [add, setAdd] = useState(false)
 
     const NFT = {
-        address: "hxb6b5791be0b5ef67063b3c10b840fb81514db2fd",
-        ipfs: "QmNTqVrJeYNcjeexMYPbdcTdxnq2trQUSF2wMnrEZaQ3Wv",
-        price: 2000000,
-        onSale: true,
-        visibility: true,
-        requested: [],
+        _address: "hxb6b5791be0b5ef67063b3c10b840fb81514db2fd",
+        _ipfs: "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ",
+        _price: 2000000,
+        _onSale: true,
+        _visibility: true,
+        _requested: [],
     }
 
     return (
@@ -23,7 +25,7 @@ function MiniNFT() {
             <div
                 className="relative w-80 h-80 bg- bg-cover bg-center max-w-xs overflow-hidden rounded-lg"
                 style={{
-                    backgroundImage: `url(https://gateway.pinata.cloud/ipfs/${NFT.ipfs})`,
+                    backgroundImage: `url(${findPublicGateWay(NFT._ipfs)})`,
                 }}>
                 <div className='flex justify-between absolute bottom-0 w-full h-1/4 backdrop-blur-md bg-gray-100/50 dark:bg-gray-800/50 rounded-b-lg'>
                     {add ?
@@ -47,13 +49,13 @@ function MiniNFT() {
                             <div className='h-10 w-[13.5rem]'>
                                 <div className='pl-2 h-full w-full flex items-center'>
                                     <User />
-                                    <p className="pl-4 font-bold text-lg text-black dark:text-white">{NFT.address.slice(0, 8)}...{NFT.address.slice(-5)}</p>
+                                    <p className="pl-4 font-bold text-lg text-black dark:text-white">{NFT._address.slice(0, 8)}...{NFT._address.slice(-5)}</p>
                                 </div>
                             </div>
                             <div className='h-10 w-[13.5rem]'>
                                 <div className='pl-2 h-full w-full flex items-center'>
                                     <Price />
-                                    <p className="pl-4 text-black dark:text-white">{NFT.price / 1e9}
+                                    <p className="pl-4 text-black dark:text-white">{NFT._price / 1e9}
                                         <span className="font-semibold text-teal-800 dark:text-teal-200">&nbsp;&nbsp;ICX</span>
                                     </p>
                                 </div>

@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @layer components {
+  .page-bg {
+    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-slate-300 dark:bg-slate-600;
+  }
+
+  .content-list-view {
+    @apply flex flex-wrap w-11/12 h-max justify-evenly justify-self-center place-items-center;
+  }
+}
+
+@layer components {
   .light-bg {
     background: linear-gradient(225deg, #20cc89, #8223d0, #209ac8, #c83820);
     background-size: 800% 800%;
