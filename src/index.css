@@ -4,7 +4,7 @@
 
 @layer components {
   .page-bg {
-    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-slate-300 dark:bg-slate-600;
+    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-slate-300 dark:bg-slate-600 select-none;
   }
 
   .content-list-view {

@@ -1,13 +1,10 @@
 import { useState } from "react"
 import SmallCollection from "../../containers/Collection/SmallCollection"
-import SortDropdown from "./components/SortDropdown"
-import FilterDropdown from "./components/FilterDropdown"
+import SortDropdown from "./../../containers/Dropdowns/SortDropdown"
+import FilterDropdown from "./../../containers/Dropdowns/FilterDropdown"
+
 
 function Galleries() {
-  const [sort, setSort] = useState('Newest')
-
-  const [filter, setFilter] = useState([])
-
   const collectionMapNFTs = [
     "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ",
     "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
@@ -17,11 +14,13 @@ function Galleries() {
     "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
   ]
 
+  const [sort, setSort] = useState('Newest')
+
+  const [filter, setFilter] = useState([])
+
   const sortByTime = ['Newest', 'Oldest']
-  const sortByPrice = ['Lowest price', 'Highest price'];
   const sortByVolume = ['Most NFTs', 'Least NFTs'];
 
-  const filterByPrice = ["Lower than 1", "1 - 10", "10 - 25", "Higher than 25"]
   const filterByVolume = ["Less than 4", "4 - 10", "10 - 20", "More than 20"]
   const filterByTime = ["Today", "This week", "This month", "This year"]
 
@@ -34,9 +33,6 @@ function Galleries() {
             <SortDropdown name="Time" array={sortByTime} sort={sort} setSort={setSort} />
           </div>
           <div className='w-40 h-full mx-3'>
-            <SortDropdown name="Price" array={sortByPrice} sort={sort} setSort={setSort} />
-          </div>
-          <div className='w-40 h-full mx-3'>
             <SortDropdown name="Volume" array={sortByVolume} sort={sort} setSort={setSort} />
           </div>
         </div>
@@ -46,12 +42,8 @@ function Galleries() {
             <FilterDropdown name="Time" array={filterByTime} filter={filter} setFilter={setFilter} />
           </div>
           <div className='w-40 h-full mx-3'>
-            <FilterDropdown name="Price" array={filterByPrice} filter={filter} setFilter={setFilter} />
-          </div>
-          <div className='w-40 h-full mx-3'>
             <FilterDropdown name="Volume" array={filterByVolume} filter={filter} setFilter={setFilter} />
           </div>
-
         </div>
       </div>
 
