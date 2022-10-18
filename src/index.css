@@ -11,6 +11,14 @@
     @apply flex flex-wrap w-11/12 h-max justify-evenly justify-self-center place-items-center;
   }
 
+  .text-high {
+    @apply font-semibold text-black dark:text-white text-lg w-full;
+  }
+
+  .backdrop-lg {
+    @apply backdrop-blur-lg bg-white/50 dark:bg-black/50;
+  }
+
   .border-medium {
     @apply border-2 border-slate-400 dark:border-slate-500;
   }

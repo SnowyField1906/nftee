@@ -1,20 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 
-import { iconService } from "../../provider/IconService";
 import { findPublicGateWay } from "../../utils/constants";
-
-import IconService from "icon-sdk-js";
-
-import { signEvent, createNFTEvent } from "../../utils/contracts";
+import { createNFT } from "../../utils/contracts";
 
 function Create({ account }) {
   const [createNFTParams, setCreateNFTParams] = useState({
-    _address: account.address,
+    _user: account.address,
     _price: 0,
     _onSale: false,
     _visibility: false,
-    _ipfs: "",
+    _ipfs: "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
   });
 
   console.log(createNFTParams);
@@ -104,12 +100,12 @@ function Create({ account }) {
         <div className="grid self-center w-[40vw] h-[30vw] ">
           <div className="grid overflow-hidden grid-cols-5 grid-rows-4 gap-2">
 
-            <p className="text-xl text-left w-full place-self-center">Price:</p>
+            <p className="text-high text-left place-self-center">Price:</p>
             <input className="col-start-2 col-end-6 place-self-center w-4/5 h-14 px-4 transition bg-white border-2 border-gray-300 rounded-md appearance-none cursor-pointer hover:border-gray-500 focus:outline-none"
               type="number" placeholder="Price"
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _price: +e.target.value })} />
 
-            <p className="text-xl text-left w-full place-self-center">Visibility:</p>
+            <p className="text-high text-left place-self-center">Visibility:</p>
 
             <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _visibility: e.target.value === 'true' })} >
@@ -134,7 +130,7 @@ function Create({ account }) {
             </div>
 
 
-            <p className="text-xl text-left w-full place-self-center">On sale:</p>
+            <p className="text-high text-left place-self-center">On sale:</p>
 
             <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _onSale: e.target.value === 'true' })} >
@@ -160,8 +156,7 @@ function Create({ account }) {
               </label>
             </div>
             <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 text-white bg-blue-500 rounded-md hover:bg-blue-600 text-xl font-semibold"
-              disabled={createNFTParams._price === 0 || status.slice(0, 5) !== 'https'}
-              onClick={() => createNFTEvent(account.address, createNFTParams)}>Create</button>
+              onClick={() => createNFT(createNFTParams)}>Create</button>
 
           </div>
 

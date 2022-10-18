@@ -25,7 +25,7 @@ function Nagivator({ account, setAccount }) {
 
 	const modalTag = (i) => {
 		const Tag = Modals[pagesList.Button[i]];
-		return <Tag active={(open === pagesList.Button[i])} />;
+		return <Tag active={(open === pagesList.Button[i])} account={account} />;
 	};
 
 	const handleModal = (i) => {

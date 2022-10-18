@@ -9,15 +9,13 @@ goloop rpc sendtx deploy ./galleries/build/libs/galleries-0.1.0-optimized.jar \
     --content_type application/java
 
 
-goloop rpc --uri https://sejong.net.solidwallet.io/api/v3 txresult 0xbc4378470b88dabd1940d1d22bd892bf19308a13af6304f91e65d84482a82aa2
+goloop rpc --uri https://sejong.net.solidwallet.io/api/v3 txresult 0x998d1ae9b81b3e040323140ce4ad19fbc28470059800aac10fff6ce00a4e0ed8
 
 
 goloop rpc \
     --uri https://sejong.net.solidwallet.io/api/v3 call \
-    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac  \
-    --method getUserCollections \
-    --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81
-
+    --to cx274c2f8fe5c0787bdf46493f778b8ed5267598d6  \
+    --method users
 
 goloop rpc sendtx call \
     --to cx6c3d4c948aca95522cffaa11e23bf97342020bac \
@@ -34,11 +32,11 @@ goloop rpc sendtx call \
 
 goloop rpc sendtx call \
     --to cx6c3d4c948aca95522cffaa11e23bf97342020bac \
-    --uri https://sejong.net.solidwallet.io/api/v3:9082/api/v3 \
+    --uri https://sejong.net.solidwallet.io/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
     --nid 0x3 --step_limit 10000000 \
-    --method createCollection \
+    --method requestNFT \
     --param _user=cx211afbf6538c40a346b92b097e48f93e30c3aa81 \
     --param _name=C2 \
     --param _description=Collection2 \
@@ -53,18 +51,24 @@ goloop rpc \
 
 
 goloop rpc sendtx call \
-    --to cx6c3d4c948aca95522cffaa11e23bf97342020bac \
-    --uri https://sejong.net.solidwallet.io/api/v3:9082/api/v3 \
+    --to cx7ae8f28b41650b9229f9c238c4f97171b5559d34 \
+    --uri https://sejong.net.solidwallet.io/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
-    --nid 0x3 --step_limit 10000000 \
-    --method createNFT \
-    --param _owner=cx211afbf6538c40a346b92b097e48f93e30c3aa81 \
-    --param _price=1200000 \
-    --param _visibility=1 \
-    --param _onSale=1 \
-    --param _ipfs=1234 \
-    --param _collection=[B@17
+    --nid 0x53 --step_limit 10000000 \
+    --method deleteNFT \
+    --param _user=hxf9bfff62e92b621dfd823439c822d73c7df8e698 \
+    --param _ipfs=QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9
+
+goloop rpc sendtx call \
+    --to cx11be231d2e81a75d7091e0270b1779071a481d37 \
+    --uri https://sejong.net.solidwallet.io/api/v3 \
+    --key_store /$HOME/gochain-local/data/godWallet.json \
+    --key_password gochain \
+    --nid 0x53 --step_limit 10000000 \
+    --method requestNFT \
+    --param _user=hxf9bfff62e92b621dfd823439c822d73c7df8e698 \
+    --param _nft=QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9
 
 
 goloop rpc \
