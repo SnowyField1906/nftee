@@ -6,10 +6,6 @@ export const pagesList = {
     Button: ['Collection', 'Notification', 'Cart'],
 }
 
-
-
-
-
 // export const findPublicGateWay = (ipfs) => {
 //     var url;
 //     const CancelToken = axios.CancelToken;
@@ -43,14 +39,14 @@ const publicGateway = [
     // "https://via0.com/ipfs/",
 
     "https://cloudflare-ipfs.com/ipfs/",
-    "https://ipfs.fleek.co/ipfs/",
-    "https://cf-ipfs.com/ipfs/",
-    "https://gateway.ipfs.io/ipfs/",
-    "https://dweb.link/ipfs/",
-    "https://ipfs.io/ipfs/",
-    "https://infura-ipfs.io/ipfs/",
-    "https://gateway.pinata.cloud/ipfs/",
-    "https://ipfs.2read.net/ipfs/",
+    // "https://ipfs.fleek.co/ipfs/",
+    // "https://cf-ipfs.com/ipfs/",
+    // "https://gateway.ipfs.io/ipfs/",
+    // "https://dweb.link/ipfs/",
+    // "https://ipfs.io/ipfs/",
+    // "https://infura-ipfs.io/ipfs/",
+    // "https://gateway.pinata.cloud/ipfs/",
+    // "https://ipfs.2read.net/ipfs/",
 
     // "https://ipfs.eth.aragon.network/ipfs/",
     // "https://ipfs-infura.io/ipfs/",

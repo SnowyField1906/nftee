@@ -38,7 +38,7 @@ function CreateWallet({ wallet, setTag, account, setAccount }) {
 
     return (
         <div className='h-full transform duration-300 ease-in-out w-[60%] select-none overflow-x-hidden'>
-            <div className=" h-[5%] w-[95%] flex justify-between mt-3 pb-3 border-b-[1px] ml-[2.5%]">
+            <div className="h-[5%] w-[95%] flex justify-between mt-3 pb-3 border-b-[1px] border-black dark:border-white border-opacity-50 ml-[2.5%]">
                 <div className="flex ml-5 hover:-translate-x-2 transform duration-300 ">
                     <svg className="h-full fill-black dark:fill-white"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

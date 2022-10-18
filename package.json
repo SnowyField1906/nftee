@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://snowyfield1906.github.io/NFTee/",
   "dependencies": {
+    "@headlessui/react": "^1.7.3",
+    "@material-tailwind/react": "^1.2.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

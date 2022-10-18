@@ -10,6 +10,15 @@
   .content-list-view {
     @apply flex flex-wrap w-11/12 h-max justify-evenly justify-self-center place-items-center;
   }
+
+  .border-medium {
+    @apply border-2 border-slate-400 dark:border-slate-500;
+  }
+
+  .filter-sort-button {
+    @apply flex w-full text-center px-4 py-2 cursor-pointer text-slate-900 dark:text-slate-100 hover:bg-indigo-300 dark:hover:bg-indigo-700
+    text-lg font-medium border-slate-800 dark:border-slate-200;
+  }
 }
 
 @layer components {

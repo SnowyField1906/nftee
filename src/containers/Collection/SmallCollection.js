@@ -9,41 +9,34 @@ import Price from "../NFT/components/Price";
 
 
 
-function SmallCollection() {
-    const collection = [
-        "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ",
-        "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
-        "QmNTqVrJeYNcjeexMYPbdcTdxnq2trQUSF2wMnrEZaQ3Wv",
-        "QmQSBv3PMvEa6j8KE8LvSAU1XHr232Q5WCwLrhEYbS51VY",
-        "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
-        "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
-    ]
+function SmallCollection({ collectionMapNFTs }) {
+
     const [add, setAdd] = useState(false)
 
     return (
         <div className="w-[21rem] h-[25.5rem] mx-4 hover:scale-105 transform duration-300 ease-in-out mt-10 select-none rounded-lg backdrop-blur-sm bg-gray-100/50 dark:bg-gray-800/50 bg- bg-cover bg-center"
             style={{
-                backgroundImage: `url(${findPublicGateWay(collection[0])})`,
+                backgroundImage: `url(${findPublicGateWay(collectionMapNFTs[0])})`,
             }}>
             <div className="absolute w-[21rem] h-[25.5rem] p-2 rounded-lg backdrop-blur-3xl bg-gray-100/30 dark:bg-gray-800/30 ">
                 <div className="w-80 h-80 grid grid-cols-2 grid-rows-2 gap-2">
-                    {collection.slice(0, 4).map((_, i) => {
+                    {collectionMapNFTs.slice(0, 4).map((_, i) => {
                         return (
                             <>
                                 <div
                                     className="relative w-full h-full bg- bg-cover bg-center overflow-hidden rounded-lg"
                                     style={{
-                                        backgroundImage: `url(${findPublicGateWay(collection[i])})`,
+                                        backgroundImage: `url(${findPublicGateWay(collectionMapNFTs[i])})`,
                                     }}>
-                                    {i === 3 && collection.length > 4 && (
+                                    {i === 3 && collectionMapNFTs.length > 4 && (
                                         <div className="absolute w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
                                             <div className="text-white text-2xl font-semibold">
-                                                +{collection.length - 4}
+                                                +{collectionMapNFTs.length - 4}
                                             </div>
                                         </div>
                                     )}
                                 </div>
-                                {findPublicGateWay(collection[i]) ? null :
+                                {findPublicGateWay(collectionMapNFTs[i]) ? null :
                                     <div className="animate-spin self-center justify-self-center rounded-full h-20 w-20 border-b-2 border-gray-900 dark:border-gray-100"></div>
                                 }
                             </>
