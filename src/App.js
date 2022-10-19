@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -17,6 +17,12 @@ function App() {
 		privateKey: '',
 		login: false,
 	});
+
+	useEffect(() => {
+		if (!account.address) {
+			setAccount({ address: '', privateKey: '', login: false })
+		}
+	}, [])
 
 	const pageTag = (i) => {
 		const Tag = Pages[allPagesList[i]];

@@ -22,7 +22,7 @@ function Home({ account }) {
           {
             [...Array(5)].map((_, i) => {
               return (
-                <SmallNFT />
+                <SmallNFT account={account} />
               )
             })
           }
@@ -35,7 +35,7 @@ function Home({ account }) {
           {
             [...Array(5)].map((_, i) => {
               return (
-                <SmallNFT />
+                <SmallNFT account={account} />
               )
             })
           }

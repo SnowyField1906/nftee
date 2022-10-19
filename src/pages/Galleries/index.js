@@ -5,13 +5,8 @@ import FilterDropdown from "./../../containers/Dropdowns/FilterDropdown"
 
 
 function Galleries() {
-  const collectionMapNFTs = [
-    "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ",
-    "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
-    "QmNTqVrJeYNcjeexMYPbdcTdxnq2trQUSF2wMnrEZaQ3Wv",
-    "QmQSBv3PMvEa6j8KE8LvSAU1XHr232Q5WCwLrhEYbS51VY",
-    "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
-    "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
+  const collections = [
+    "hxf9bfff62e92b621dfd823439c822d73c7df8e698/owning"
   ]
 
   const [sort, setSort] = useState('Newest')
@@ -49,9 +44,9 @@ function Galleries() {
 
       <div className="content-list-view mt-20 z-0">
         {
-          [...Array(10)].map((_, i) => {
+          collections.map((_, i) => {
             return (
-              <SmallCollection collectionMapNFTs={collectionMapNFTs} />
+              <SmallCollection collection={collections[i]} />
             )
           })
         }

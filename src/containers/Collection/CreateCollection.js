@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createCollection } from "./../../utils/contracts"
+import { createCollection } from "./../../utils/TransactionContracts"
 
 function CreateCollection({ setModal, account }) {
     const [createCollectionParams, setCreateCollectionParams] = useState({

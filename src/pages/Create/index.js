@@ -2,15 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 
 import { findPublicGateWay } from "../../utils/constants";
-import { createNFT } from "../../utils/contracts";
+import { createNFT } from "../../utils/TransactionContracts";
 
 function Create({ account }) {
   const [createNFTParams, setCreateNFTParams] = useState({
     _user: account.address,
     _price: 0,
-    _onSale: false,
     _visibility: false,
-    _ipfs: "QmUQU3oEhdXBJrNp8QCi7eyJMEg3LAUSBzjiDXbMUSius9",
+    _onSale: false,
+    _ipfs: "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ",
   });
 
   console.log(createNFTParams);

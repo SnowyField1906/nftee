@@ -18,6 +18,7 @@ package com.score.Galleries;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import score.Address;
@@ -55,7 +56,14 @@ public class Galleries {
   public ArrayList<String> getCollectionNFTs(String _collection) {
     ArrayList<String> nfts = this.collectionMapNFTs.get(_collection);
     for (String nft : nfts) {
-      if (!this.nftInfo.containsKey(nft)) {
+      if (
+        !this.nftInfo.containsKey(nft) ||
+        (
+          !this.nftInfo.get(nft).visibility &&
+          !this.nftInfo.get(nft)
+            .owner.equals(_collection.substring(0, _collection.indexOf("/")))
+        )
+      ) {
         nfts.remove(nft);
       }
     }
@@ -65,6 +73,31 @@ public class Galleries {
   @External(readonly = true)
   public ArrayList<Address> getNFTRequests(String _nft) {
     return this.nftMapRequests.get(_nft);
+  }
+
+  @External(readonly = true)
+  public ArrayList<String> getCollectionInfo(String _collection) {
+    Collection collection = this.collectionInfo.get(_collection);
+    return new ArrayList<>(
+      List.of(
+        collection.name,
+        collection.description,
+        String.valueOf(collection.visibility)
+      )
+    );
+  }
+
+  @External(readonly = true)
+  public ArrayList<String> getNFTInfo(String _nft) {
+    NFT nft = this.nftInfo.get(_nft);
+    return new ArrayList<>(
+      List.of(
+        nft.owner.toString(),
+        nft.price.toString(),
+        String.valueOf(nft.visibility),
+        String.valueOf(nft.onSale)
+      )
+    );
   }
 
   @External
@@ -82,6 +115,8 @@ public class Galleries {
     String collection = this.generateCollectionId(_user, _name);
     collections.add(collection);
     this.userMapCollections.put(_user, collections);
+    this.collectionMapNFTs.put(collection, new ArrayList<String>());
+
     this.collectionInfo.put(collection, newCollection);
   }
 
@@ -107,30 +142,37 @@ public class Galleries {
   public void createNFT(
     Address _user,
     BigInteger _price,
-    boolean _onSale,
     boolean _visibility,
+    boolean _onSale,
     String _ipfs
   ) {
-    NFT nft = new NFT(_user, _price, _onSale, _visibility);
+    NFT nft = new NFT(_user, _price, _visibility, _onSale);
     String collection = this.generateCollectionId(_user, "owning");
     if (!this.collectionInfo.containsKey(collection)) {
       this.createCollection(_user, "owning", "NFTs owned by this user", true);
     }
     ArrayList<String> nfts = this.collectionMapNFTs.get(collection);
-    if (nfts == null) {
-      nfts = new ArrayList<String>();
+    nfts.add(_ipfs);
+    this.nftInfo.put(_ipfs, nft);
+
+    this.collectionMapNFTs.put(collection, nfts);
+    this.nftMapRequests.put(_ipfs, new ArrayList<Address>());
+  }
+
+  @External
+  public void addToCart(Address _user, String _ipfs) {
+    String collection = this.generateCollectionId(_user, "cart");
+    if (!this.collectionInfo.containsKey(collection)) {
+      this.createCollection(_user, "cart", "Your cart", true);
     }
+    ArrayList<String> nfts = this.collectionMapNFTs.get(collection);
     nfts.add(_ipfs);
     this.collectionMapNFTs.put(collection, nfts);
-    this.nftInfo.put(_ipfs, nft);
   }
 
   @External
   public void addNFT(String _ipfs, String _collection) {
     ArrayList<String> nfts = this.collectionMapNFTs.get(_collection);
-    if (nfts == null) {
-      nfts = new ArrayList<String>();
-    }
     nfts.add(_ipfs);
     this.collectionMapNFTs.put(_collection, nfts);
   }
@@ -166,9 +208,6 @@ public class Galleries {
   @External
   public void requestNFT(String _nft, Address _user) {
     ArrayList<Address> requests = this.nftMapRequests.get(_nft);
-    if (requests == null) {
-      requests = new ArrayList<Address>();
-    }
     requests.add(_user);
     this.nftMapRequests.put(_nft, requests);
   }
@@ -182,4 +221,15 @@ public class Galleries {
     }
     return users;
   }
+  // @External(readonly = true)
+  // public ArrayList<String> collections() {
+  //   Map<String, ArrayList<String>> map = this.collectionMapNFTs;
+  //   ArrayList<String> collections = new ArrayList<String>();
+  //   map.forEach(
+  //     (k, v) -> {
+  //       collections.add(k);
+  //     }
+  //   );
+  //   return collections;
+  // }
 }

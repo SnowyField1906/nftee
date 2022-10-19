@@ -4,7 +4,7 @@ import SmallNFT from "../../containers/NFT/SmallNFT"
 import SortDropdown from "./../../containers/Dropdowns/SortDropdown"
 import FilterDropdown from "./../../containers/Dropdowns/FilterDropdown"
 
-function Explore() {
+function Explore({ account }) {
   const [sort, setSort] = useState('Newest')
 
   const [filter, setFilter] = useState([])
@@ -17,6 +17,7 @@ function Explore() {
   const filterByRequests = ["No one", "1 - 2", "2 - 5", "More than 5"]
   const filterByPrice = ["On sale", "Not on sale", "Lower than 1", "1 - 10", "10 - 25", "Higher than 25"]
 
+  const nft = "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ"
 
   return (
     <div className='page-bg'>
@@ -50,7 +51,7 @@ function Explore() {
         {
           [...Array(20)].map((_, i) => {
             return (
-              <SmallNFT />
+              <SmallNFT account={account} nft={nft} />
             )
           })
         }

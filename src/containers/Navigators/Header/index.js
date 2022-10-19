@@ -38,7 +38,7 @@ function Nagivator({ account, setAccount }) {
 
 
 	return (
-		<nav className="absolute top-0">
+		<nav className="absolute top-0 z-50">
 			<div className="flex fixed w-full h-20 inset-x-0 z-10 items-center place-items-center justify-items-center 
 		rounded-b-xl backdrop-blur-lg bg-white/50 dark:bg-black/50">
 				<div className="flex w-[15%] justify-center">

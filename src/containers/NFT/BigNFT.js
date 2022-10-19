@@ -1,6 +1,7 @@
 import { findPublicGateWay } from "../../utils/constants"
 
-function BigNFT({ setBigNFT, NFT }) {
+function BigNFT({ setBigNFT, nft, nftInfo }) {
+    console.log(nftInfo)
 
     return (
         <div className='fixed mt-20 w-[80vw] h-[80vh] top-[5vh] left-[10vw] rounded-2xl z-20 backdrop-lg'>
@@ -14,14 +15,15 @@ function BigNFT({ setBigNFT, NFT }) {
             <div className="absolute top-0 right-0 w-full h-full grid grid-cols-2 grid-rows-1 z-0">
                 <div className="h-full border-r bg- bg-contain bg-no-repeat bg-center overflow-hidden rounded-lg"
                     style={{
-                        backgroundImage: `url(${findPublicGateWay(NFT._ipfs)})`,
+                        backgroundImage: `url(${findPublicGateWay(nft)})`,
                     }}>
                 </div>
                 <div className="h-full grid">
                     <div className="grid h-1/2 place-items-center justify-items-center">
-                        <p className="text-high text-center font-medium">Owner: {NFT._address}</p>
-                        <p className="text-high text-center font-medium">Price: {NFT._price / 1e9} ICX</p>
-                        <p className="text-high text-center font-medium">Status: {NFT._onSale ? "On Sale" : "Not On Sale"}</p>
+                        <p className="text-high text-center font-medium">Owner: {nftInfo[0]}</p>
+                        <p className="text-high text-center font-medium">Price: {nftInfo[1] / 1e9} ICX</p>
+                        <p className="text-high text-center font-medium">Visibility: {nftInfo[2] === 'true' ? "Public" : "Private"}</p>
+                        <p className="text-high text-center font-medium">Status: {nftInfo[3] === 'true' ? "On Sale" : "Not On Sale"}</p>
                     </div>
                 </div>
             </div>
