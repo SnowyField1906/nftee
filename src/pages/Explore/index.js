@@ -47,9 +47,9 @@ function Explore({ account }) {
         </div>
       </div>
 
-      <div className="content-list-view mt-20">
+      <div className="content-board-view mt-20">
         {
-          [...Array(20)].map((_, i) => {
+          [...Array(10)].map((_, i) => {
             return (
               <SmallNFT account={account} nft={nft} />
             )

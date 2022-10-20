@@ -39,11 +39,34 @@ function Profile({ account }) {
     nftsAwait();
   }, [])
 
+  const splitArrayForSlider = (array, size) => {
+    const result = [];
+    console.log(result)
+    for (let i = 0; i < array.length - size; i++) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  }
+  const ntfsForSlider = splitArrayForSlider(nfts, 5);
 
+  const [slider, setSlider] = useState(0);
+  const nextSlider = () => {
+    if (slider < ntfsForSlider.length - 1) {
+      setSlider(slider + 1)
+    }
+  }
+  const prevSlider = () => {
+    if (slider > 0) {
+      setSlider(slider - 1)
+    }
+  }
+  const handleSlider = (e) => {
+    setSlider(e.target.value)
+  }
+
+  console.log(ntfsForSlider)
 
   const customCollections = collections.filter((collection) => (collection !== account.address + '/owning' && collection !== account.address + '/cart'))
-
-  console.log(nfts, collections, customCollections)
 
 
   if (account.login === false) {
@@ -54,39 +77,47 @@ function Profile({ account }) {
 
   return (
     <div className='page-bg h-screen place-items-center'>
-      <div className="grid justify-between px-10 pt-32 w-2/5">
-        <p className="text-black dark:text-white font-semibold text-xl">{account.address}</p>
-        <p className="text-black dark:text-white font-semibold text-xl">{balance}</p>
+      <div className="grid px-10 py-32 w-full">
+        <p className="text-huge">{account.address}</p>
+        <p className="text-huge">{balance}</p>
       </div>
-      <div className="grid justify-between px-10 pt-10 w-full place-items-center">
+      <div className="">
         {!nfts ?
-          <p className="text-black dark:text-white font-semibold text-xl">Create your first NFTs</p>
+          <p className="text-huge">Create your first NFTs</p>
           :
-          <div className="w-full justify-items-center place-items-center">
-            <p className="text-black dark:text-white font-semibold text-xl">Your owning NFTs</p>
-            <div className="flex flex-wrap w-full justify-evenly">
+          <div className="grid w-full justify-items-center place-items-center">
+            <p className="text-huge">Your owning NFTs</p>
+            <div className="relative carousel carousel-center w-11/12 p-5 space-x-10 bg-neutral rounded-box flex justify-evenly justify-self-center place-items-center">
               {
-                nfts.map((nft) => {
+                ntfsForSlider[slider] && ntfsForSlider[slider].map((nft) => {
                   return (
-                    <SmallNFT nft={nft} />
+                    <div className="carousel-item">
+                      <SmallNFT nft={nft} />
+                    </div>
                   )
                 })
               }
+              <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                <button onClick={nextSlider} className="btn btn-circle">❮</button>
+                <button onClick={prevSlider} className="btn btn-circle">❯</button>
+              </div>
             </div>
           </div>
         }
       </div>
-      <div className="grid justify-between px-10 pt-10 w-full place-items-center">
+      <div className="mt-20">
         {!customCollections || !customCollections.length ?
-          <p className="text-black dark:text-white font-semibold text-xl ">Create your first custom collection</p>
+          <p className="text-huge ">Create your first custom collection</p>
           :
-          <div className="w-full justify-items-center place-items-center">
-            <p className="text-black dark:text-white font-semibold text-xl">Your custom collections</p>
-            <div className="flex flex-wrap w-full justify-evenly">
+          <div className="grid w-full justify-items-center place-items-center">
+            <p className="text-huge">Your custom collections</p>
+            <div className="relative carousel carousel-center w-11/12 p-5 space-x-10 bg-neutral rounded-box">
               {
                 customCollections.map((collection) => {
                   return (
-                    <SmallCollection collection={collection} />
+                    <div className="carousel-item">
+                      <SmallCollection collection={collection} />
+                    </div>
                   )
                 })
               }

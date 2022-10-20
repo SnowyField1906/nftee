@@ -33,15 +33,13 @@ function SmallNFT({ nft, address }) {
         nftInfo()
     }, [nft])
 
-    console.log(nftInfo)
-
 
     return (
         <>
             { }
             {bigNFT && <BigNFT setBigNFT={setBigNFT} nft={nft} nftInfo={nftInfo} />}
 
-            <div className='inline-block mx-4 rounded-lg hover:scale-105 transform duration-300 ease-in-out mt-10 select-none'>
+            <div className='inline-block rounded-lg hover:scale-105 transform duration-300 ease-in-out select-none'>
                 <div className='absolute top-0 w-full h-3/4 z-10'
                     onClick={() => setBigNFT(true)}>
                 </div>

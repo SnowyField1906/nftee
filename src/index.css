@@ -7,8 +7,16 @@
     @apply grid pt-32 h-max w-screen overflow-x-hidden bg-slate-300 dark:bg-slate-600 select-none;
   }
 
+  .content-board-view {
+    @apply flex flex-wrap w-11/12 h-max justify-evenly justify-self-center place-items-center;
+  }
+
   .content-list-view {
     @apply flex flex-wrap w-11/12 h-max justify-evenly justify-self-center place-items-center;
+  }
+
+  .text-huge {
+    @apply text-center w-full text-3xl font-bold text-black dark:text-white drop-shadow-xl;
   }
 
   .text-high {

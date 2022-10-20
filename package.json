@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.1.2",
+    "daisyui": "^2.31.0",
     "dotenv": "^16.0.3",
     "flowbite": "^1.5.3",
     "flowbite-react": "^0.1.12",

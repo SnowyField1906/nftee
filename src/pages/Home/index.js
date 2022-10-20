@@ -17,9 +17,9 @@ function Home({ account }) {
       </div>
 
       <div className='grid w-screen h-1/5 mt-36'>
-        <p className='text-center text-3xl font-bold text-black dark:text-white drop-shadow-xl'>Just released NFTs</p>
+        <p className='text-huge'>Just released NFTs</p>
         <div className='mt-5 mb-20 place-self-center w-11/12 self-center flex pb-5 '>
-          <div className='flex flex-nowrap'></div>
+          <div className='content-list-view'></div>
           {
             [...Array(5)].map((_, i) => {
               return (
@@ -30,9 +30,9 @@ function Home({ account }) {
         </div>
       </div>
       <div className='grid w-screen h-1/5'>
-        <p className='text-center text-3xl font-bold text-black dark:text-white drop-shadow-xl'>Best selling NFTs</p>
+        <p className='text-huge'>Best selling NFTs</p>
         <div className='mt-5 mb-20 place-self-center w-11/12 self-center flex pb-5'>
-          <div className='flex flex-nowrap'></div>
+          <div className='content-list-view'></div>
           {
             [...Array(5)].map((_, i) => {
               return (
