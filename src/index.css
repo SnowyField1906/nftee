@@ -23,6 +23,18 @@
     @apply font-semibold text-black dark:text-white text-lg w-full;
   }
 
+  .text-medium {
+    @apply font-medium text-black dark:text-white;
+  }
+
+  .button-global {
+    @apply border-2 bg-black/10 dark:bg-white/10 hover:bg-black/20 hover:dark:bg-white/20 border-black/50 dark:border-white/50 cursor-pointer;
+  }
+
+  .button-medium {
+    @apply rounded-xl border px-4 py-2 bg-white/20 dark:bg-black/20 hover:bg-white/60 hover:dark:bg-black/60 border-black/50 dark:border-white/50 cursor-pointer;
+  }
+
   .backdrop-lg {
     @apply backdrop-blur-lg bg-white/50 dark:bg-black/50;
   }
@@ -32,12 +44,44 @@
   }
 
   .filter-sort-button {
-    @apply flex w-full text-center px-4 py-2 cursor-pointer text-slate-900 dark:text-slate-100 hover:bg-indigo-300 dark:hover:bg-indigo-700
+    @apply flex w-full text-center px-4 py-2 cursor-pointer text-slate-920 dark:text-slate-100 hover:bg-indigo-300 dark:hover:bg-indigo-700
     text-lg font-medium border-slate-800 dark:border-slate-200;
   }
 }
 
 @layer components {
+  .swiper {
+    width: 92%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .append-buttons button {
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #007aff;
+    color: #007aff;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin: 0 10px;
+    font-size: 13px;
+  }
+
   .light-bg {
     background: linear-gradient(225deg, #20cc89, #8223d0, #209ac8, #c83820);
     background-size: 800% 800%;

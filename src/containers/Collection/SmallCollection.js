@@ -33,7 +33,7 @@ function SmallCollection({ collection }) {
 
     if (nfts.length === 0) {
         return (
-            <div className="w-[21rem] h-[25.5rem] hover:scale-105 transform duration-300 ease-in-out select-none rounded-lg backdrop-blur-sm bg-gray-100/50 dark:bg-gray-800/50 bg- bg-cover bg-center">
+            <div className="inline-block py-10 w-[21rem] h-[25.5rem] hover:scale-105 transform duration-300 ease-in-out select-none rounded-lg backdrop-blur-sm bg-gray-100/50 dark:bg-gray-800/50 bg- bg-cover bg-center">
                 <div className="absolute w-[21rem] h-[25.5rem] p-2 rounded-lg backdrop-blur-3xl bg-gray-100/30 dark:bg-gray-800/30 ">
                     <div className="grid place-content-center w-80 h-80">
                         <p className="text-high text-center justify-self-center h-full">No NFTs</p>

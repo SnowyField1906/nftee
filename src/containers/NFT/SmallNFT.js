@@ -21,7 +21,7 @@ function SmallNFT({ nft, address }) {
     const [nftInfo, setNftInfo] = useState([]);
     const [addNFTParams, setAddNFTParams] = useState({
         _nft: nft,
-        _collection: "hxf9bfff62e92b621dfd823439c822d73c7df8e698/Genshin-Impact",
+        _collection: "hxf9bfff62e92b621dfd823439c822d73c7df8e698/My-waifu",
     })
 
     useEffect(() => {
@@ -36,10 +36,13 @@ function SmallNFT({ nft, address }) {
 
     return (
         <>
-            { }
-            {bigNFT && <BigNFT setBigNFT={setBigNFT} nft={nft} nftInfo={nftInfo} />}
 
-            <div className='inline-block rounded-lg hover:scale-105 transform duration-300 ease-in-out select-none'>
+            {bigNFT &&
+                <div className="fixed w-screen h-screen z-50">
+                    <BigNFT setBigNFT={setBigNFT} nft={nft} nftInfo={nftInfo} />
+                </div>}
+
+            <div className='inline-block my-10 rounded-lg hover:scale-105 transform duration-300 ease-in-out select-none'>
                 <div className='absolute top-0 w-full h-3/4 z-10'
                     onClick={() => setBigNFT(true)}>
                 </div>

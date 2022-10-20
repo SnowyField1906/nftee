@@ -1,5 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 import IconService from 'icon-sdk-js';
 import { getUserCollections, getCollectionNFTs } from '../../utils/ReadonlyContracts';
@@ -8,6 +14,9 @@ import SmallNFT from '../../containers/NFT/SmallNFT';
 
 const httpProvider = new IconService.HttpProvider('https://sejong.net.solidwallet.io/api/v3')
 const iconService = new IconService(httpProvider);
+
+
+SwiperCore.use([Navigation, Pagination]);
 
 
 function Profile({ account }) {
@@ -39,32 +48,7 @@ function Profile({ account }) {
     nftsAwait();
   }, [])
 
-  const splitArrayForSlider = (array, size) => {
-    const result = [];
-    console.log(result)
-    for (let i = 0; i < array.length - size; i++) {
-      result.push(array.slice(i, i + size));
-    }
-    return result;
-  }
-  const ntfsForSlider = splitArrayForSlider(nfts, 5);
 
-  const [slider, setSlider] = useState(0);
-  const nextSlider = () => {
-    if (slider < ntfsForSlider.length - 1) {
-      setSlider(slider + 1)
-    }
-  }
-  const prevSlider = () => {
-    if (slider > 0) {
-      setSlider(slider - 1)
-    }
-  }
-  const handleSlider = (e) => {
-    setSlider(e.target.value)
-  }
-
-  console.log(ntfsForSlider)
 
   const customCollections = collections.filter((collection) => (collection !== account.address + '/owning' && collection !== account.address + '/cart'))
 
@@ -86,22 +70,34 @@ function Profile({ account }) {
           <p className="text-huge">Create your first NFTs</p>
           :
           <div className="grid w-full justify-items-center place-items-center">
-            <p className="text-huge">Your owning NFTs</p>
-            <div className="relative carousel carousel-center w-11/12 p-5 space-x-10 bg-neutral rounded-box flex justify-evenly justify-self-center place-items-center">
+            <p className="text-huge mb-5">Your owning NFTs</p>
+            <Swiper
+              slidesPerView={5}
+              slidesPerGroup={1}
+              centeredSlides={true}
+              centeredSlidesBounds={true}
+              loop={true}
+              loopFillGroupWithBlank={true}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl p-5 "
+            >
               {
-                ntfsForSlider[slider] && ntfsForSlider[slider].map((nft) => {
+                nfts && nfts.map((nft) => {
                   return (
-                    <div className="carousel-item">
-                      <SmallNFT nft={nft} />
-                    </div>
+                    <SwiperSlide>
+                      <div className="relative grid place-items-center">
+                        <SmallNFT nft={nft} />
+                      </div>
+                    </SwiperSlide>
                   )
                 })
               }
-              <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                <button onClick={nextSlider} className="btn btn-circle">❮</button>
-                <button onClick={prevSlider} className="btn btn-circle">❯</button>
-              </div>
-            </div>
+            </Swiper>
+
           </div>
         }
       </div>
@@ -110,18 +106,32 @@ function Profile({ account }) {
           <p className="text-huge ">Create your first custom collection</p>
           :
           <div className="grid w-full justify-items-center place-items-center">
-            <p className="text-huge">Your custom collections</p>
-            <div className="relative carousel carousel-center w-11/12 p-5 space-x-10 bg-neutral rounded-box">
+            <p className="text-huge mb-5">Your custom collections</p>
+            <Swiper
+              slidesPerView={4}
+              slidesPerGroup={1}
+              loop={true}
+              loopFillGroupWithBlank={true}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl"
+            >
               {
                 customCollections.map((collection) => {
                   return (
-                    <div className="carousel-item">
-                      <SmallCollection collection={collection} />
-                    </div>
+                    <SwiperSlide>
+                      <div className="grid place-items-center py-10">
+                        <SmallCollection collection={collection} />
+                      </div>
+                    </SwiperSlide>
                   )
                 })
               }
-            </div>
+            </Swiper>
+
           </div>
         }
       </div>
