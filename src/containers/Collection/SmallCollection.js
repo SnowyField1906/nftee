@@ -62,14 +62,15 @@ function SmallCollection({ collection }) {
                                 <div className="grid justify-between items-center w-[13.5rem] h-full px-6">
                                     <div className='h-10 w-[13.5rem]'>
                                         <div className='pl-2 h-full w-full flex items-center'>
-                                            <User />
-                                            <p className="pl-4 font-bold text-lg text-black dark:text-white">{collection.split('/')[0]}</p>
-                                        </div>
-                                    </div>
-                                    <div className='h-10 w-[13.5rem]'>
-                                        <div className='pl-2 h-full w-full flex items-center'>
                                             <Price />
-                                            <p className="pl-4 text-black dark:text-white">{collectionInfo[0]}</p>
+                                            <p className="pl-4 font-bold text-lg text-black dark:text-white">{collectionInfo[0]}</p>
+                                        </div>
+                                        <div className='h-10 w-[13.5rem]'>
+                                            <div className='pl-2 h-full w-full flex items-center'>
+                                                <User />
+                                                {collection && <p className="pl-4 text-black dark:text-white">{collection.split('/')[0].slice(0, 8)}...{collection.split('/')[0].slice(-5)}</p>}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -122,8 +123,7 @@ function SmallCollection({ collection }) {
                         <div className='flex justify-between absolute bottom-0 w-full h-1/4 rounded-b-lg'>
                             {add ?
                                 <div className="grid justify-between items-center w-[13.5rem] h-full px-6">
-                                    <div className='h-10 w-[13.5rem] border-b-2 border-gray-800 dark:border-gray-200 border-opacity-20 dark:border-opacity-20
-                        '>
+                                    <div className='h-10 w-[13.5rem] border-b-2 border-gray-800 dark:border-gray-200 border-opacity-20 dark:border-opacity-20'>
                                         <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'>
                                             <AddToCart />
                                             <p className="pl-4 font-medium text-lg text-black dark:text-white">Add to cart</p>
@@ -140,14 +140,15 @@ function SmallCollection({ collection }) {
                                 <div className="grid justify-between items-center w-[13.5rem] h-full px-6">
                                     <div className='h-10 w-[13.5rem]'>
                                         <div className='pl-2 h-full w-full flex items-center'>
-                                            <User />
-                                            <p className="pl-4 font-bold text-lg text-black dark:text-white">{collection.split('/')[0].slice(0, 8)}...{collection.split('/')[0].slice(-5)}</p>
-                                        </div>
-                                    </div>
-                                    <div className='h-10 w-[13.5rem]'>
-                                        <div className='pl-2 h-full w-full flex items-center'>
                                             <Price />
-                                            <p className="pl-4 text-black dark:text-white">{collectionInfo[0]}</p>
+                                            <p className="pl-4 font-bold text-lg text-black dark:text-white">{collectionInfo[0]}</p>
+                                        </div>
+                                        <div className='h-10 w-[13.5rem]'>
+                                            <div className='pl-2 h-full w-full flex items-center'>
+                                                <User />
+                                                {collection && <p className="pl-4 text-black dark:text-white">{collection.split('/')[0].slice(0, 8)}...{collection.split('/')[0].slice(-5)}</p>}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

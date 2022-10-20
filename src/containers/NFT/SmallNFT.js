@@ -14,14 +14,14 @@ import AddToCollection from "./components/AddToCollection"
 import SendRequest from "./components/SendRequest"
 
 
-function SmallNFT({ nft, account }) {
+function SmallNFT({ nft, address }) {
     const [add, setAdd] = useState(false)
     const [bigNFT, setBigNFT] = useState(false)
 
     const [nftInfo, setNftInfo] = useState([]);
     const [addNFTParams, setAddNFTParams] = useState({
-        _ipfs: "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ",
-        _collection: "hxf9bfff62e92b621dfd823439c822d73c7df8e698/owning",
+        _nft: nft,
+        _collection: "hxf9bfff62e92b621dfd823439c822d73c7df8e698/Genshin-Impact",
     })
 
     useEffect(() => {
@@ -55,14 +55,14 @@ function SmallNFT({ nft, account }) {
                             <div className="grid justify-between items-center w-[13.5rem] h-full px-6">
                                 <div className='h-10 w-[13.5rem] border-b-2 border-gray-800 dark:border-gray-200 border-opacity-20 dark:border-opacity-20'>
                                     <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
-                                        onClick={() => addNFT(account.address, { ...addNFTParams, _collection: account.address + "/cart" })}>
+                                        onClick={() => addNFT(addNFTParams._nft, address + "/cart")}>
                                         <AddToCart />
                                         <p className="pl-4 font-medium text-lg text-black dark:text-white">Add to cart</p>
                                     </div>
                                 </div>
                                 <div className='h-10 w-[13.5rem]'>
                                     <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
-                                        onClick={() => addNFT(account.address, addNFTParams)}>
+                                        onClick={() => addNFT(addNFTParams._nft, addNFTParams._collection)}>
                                         <AddToCollection />
                                         <p className="pl-4 font-medium text-lg text-black dark:text-white">Add to collection</p>
                                     </div>

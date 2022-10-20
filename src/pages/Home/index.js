@@ -2,6 +2,7 @@ import React from 'react'
 import SmallNFT from '../../containers/NFT/SmallNFT'
 
 function Home({ account }) {
+  const nft = "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ"
   return (
     <div className='grid h-max w-screen justify-items-center overflow-x-hidden'>
       <div className='w-screen h-full fixed -z-20 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
@@ -22,7 +23,7 @@ function Home({ account }) {
           {
             [...Array(5)].map((_, i) => {
               return (
-                <SmallNFT account={account} />
+                <SmallNFT account={account} nft={nft} />
               )
             })
           }
@@ -35,7 +36,7 @@ function Home({ account }) {
           {
             [...Array(5)].map((_, i) => {
               return (
-                <SmallNFT account={account} />
+                <SmallNFT account={account} nft={nft} />
               )
             })
           }

@@ -4,71 +4,71 @@ const httpProvider = new IconService.HttpProvider('https://sejong.net.solidwalle
 
 const iconService = new IconService(httpProvider);
 
+const { IconBuilder } = IconService
+const { CallBuilder } = IconBuilder
 
-export const getUserCollections = async (user) => {
-    const { IconBuilder } = IconService
-    const { CallBuilder } = IconBuilder
 
+export const getUserCollections = async (_user) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getUserCollections')
         .params({
-            _user: user
+            _user: _user
         })
         .build()
 
     const collections = await iconService.call(call).execute()
-
     return collections;
 }
 
-export const getCollectionNFTs = async (collection) => {
-    const { IconBuilder } = IconService
-    const { CallBuilder } = IconBuilder
-
+export const getCollectionNFTs = async (_collection) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getCollectionNFTs')
         .params({
-            _collection: collection
+            _collection: _collection
         })
         .build()
 
     const nfts = await iconService.call(call).execute()
-
     return nfts;
 }
 
-export const getCollectionInfo = async (collection) => {
-    const { IconBuilder } = IconService
-    const { CallBuilder } = IconBuilder
+export const getNFTRequests = async (_nft) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getNFTRequests')
+        .params({
+            _nft: _nft
+        })
+        .build()
 
+    const requests = await iconService.call(call).execute()
+    return requests;
+}
+
+export const getCollectionInfo = async (_collection) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getCollectionInfo')
         .params({
-            _collection: collection
+            _collection: _collection
         })
         .build()
 
-    const nfts = await iconService.call(call).execute()
-
-    return nfts;
+    const collectionInfo = await iconService.call(call).execute()
+    return collectionInfo;
 }
 
-export const getNFTInfo = async (nft) => {
-    const { IconBuilder } = IconService
-    const { CallBuilder } = IconBuilder
-
+export const getNFTInfo = async (_nft) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getNFTInfo')
         .params({
-            _nft: nft
+            _nft: _nft
         })
         .build()
 
-    const nfts = await iconService.call(call).execute()
-
-    return nfts;
+    const nftInfo = await iconService.call(call).execute()
+    return nftInfo;
 }

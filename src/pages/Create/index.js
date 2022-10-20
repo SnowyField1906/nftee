@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 import { findPublicGateWay } from "../../utils/constants";
 import { createNFT } from "../../utils/TransactionContracts";
@@ -10,7 +11,7 @@ function Create({ account }) {
     _price: 0,
     _visibility: false,
     _onSale: false,
-    _ipfs: "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ",
+    _ipfs: "",
   });
 
   console.log(createNFTParams);
@@ -59,6 +60,12 @@ function Create({ account }) {
 
 
   console.log(createNFTParams);
+
+  if (!account.login) {
+    return (
+      <Navigate to="/NFTee" />
+    )
+  }
 
 
   return (
@@ -109,8 +116,8 @@ function Create({ account }) {
 
             <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _visibility: e.target.value === 'true' })} >
-              <input type="radio" id="visibility-true" name="visibility" class="hidden peer" value={true} required checked={createNFTParams._visibility} />
-              <label for="visibility-true" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <input type="radio" id="nft-visibility-true" name="nft-visibility" class="hidden peer" value={true} required checked={createNFTParams._visibility} />
+              <label for="nft-visibility-true" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div class="block">
                   <div class="w-full text-lg font-semibold">Yes</div>
                   <div class="w-full">Make this NFT public</div>
@@ -120,8 +127,8 @@ function Create({ account }) {
 
             <div className="col-start-4 col-end-6 flex place-self-center place-items-center w-2/3 h-20 mr-14"
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _visibility: e.target.value === 'true', _onSale: e.target.value === 'true' })} >
-              <input type="radio" id="visibility-false" name="visibility" class="hidden peer" value={false} required checked={!createNFTParams._visibility} />
-              <label for="visibility-false" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-red-500 peer-checked:border-red-600 peer-checked:text-red-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <input type="radio" id="nft-visibility-false" name="nft-visibility" class="hidden peer" value={false} required checked={!createNFTParams._visibility} />
+              <label for="nft-visibility-false" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-red-500 peer-checked:border-red-600 peer-checked:text-red-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div class="block">
                   <div class="w-full text-lg font-semibold">No</div>
                   <div class="w-full">Make this NFT private</div>
@@ -134,10 +141,10 @@ function Create({ account }) {
 
             <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _onSale: e.target.value === 'true' })} >
-              <input type="radio" id="onsale-true" name="onsale" className="hidden peer" value={true} required checked={createNFTParams._onSale}
+              <input type="radio" id="nft-onsale-true" name="nft-onsale" className="hidden peer" value={true} required checked={createNFTParams._onSale}
                 disabled={!createNFTParams._visibility}
               />
-              <label for="onsale-true" className="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <label for="nft-onsale-true" className="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div className="block">
                   <div className="w-full text-lg font-semibold">Yes</div>
                   <div className="w-full">Sell this NFT</div>
@@ -147,8 +154,8 @@ function Create({ account }) {
 
             <div className="col-start-4 col-end-6 flex place-self-center place-items-center w-2/3 h-20 mr-14"
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _onSale: e.target.value === 'true' })} >
-              <input type="radio" id="onsale-false" name="onsale" class="hidden peer" value={false} required checked={!createNFTParams._onSale} />
-              <label for="onsale-false" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-red-500 peer-checked:border-red-600 peer-checked:text-red-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+              <input type="radio" id="nft-onsale-false" name="nft-onsale" class="hidden peer" value={false} required checked={!createNFTParams._onSale} />
+              <label for="nft-onsale-false" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-red-500 peer-checked:border-red-600 peer-checked:text-red-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <div class="block">
                   <div class="w-full text-lg font-semibold">No</div>
                   <div class="w-full">Just exhibit this NFT</div>
@@ -156,8 +163,7 @@ function Create({ account }) {
               </label>
             </div>
             <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 text-white bg-blue-500 rounded-md hover:bg-blue-600 text-xl font-semibold"
-              onClick={() => createNFT(createNFTParams)}>Create</button>
-
+              onClick={() => createNFT(createNFTParams._user, createNFTParams._price, createNFTParams._visibility, createNFTParams._onSale, createNFTParams._ipfs)}>Create</button>
           </div>
 
 

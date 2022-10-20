@@ -38,8 +38,8 @@ function CreateCollection({ setModal, account }) {
 
                 <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
                     onChange={(e) => setCreateCollectionParams({ ...createCollectionParams, _visibility: e.target.value === 'true' })} >
-                    <input type="radio" id="visibility-true" name="visibility" class="hidden peer" value={true} required checked={createCollectionParams._visibility} />
-                    <label for="visibility-true" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                    <input type="radio" id="collection-visibility-true" name="collection-visibility" class="hidden peer" value={true} required checked={createCollectionParams._visibility} />
+                    <label for="collection-visibility-true" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-green-500 peer-checked:border-green-600 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                         <div class="block">
                             <div class="w-full text-lg font-semibold">Yes</div>
                             <div class="w-full">Make this collection public</div>
@@ -48,9 +48,9 @@ function CreateCollection({ setModal, account }) {
                 </div>
 
                 <div className="col-start-4 col-end-6 flex place-self-center place-items-center w-2/3 h-20 mr-14"
-                    onChange={(e) => setCreateCollectionParams({ ...createCollectionParams, _visibility: e.target.value === 'true', _onSale: e.target.value === 'true' })} >
-                    <input type="radio" id="visibility-false" name="visibility" class="hidden peer" value={false} required checked={!createCollectionParams._visibility} />
-                    <label for="visibility-false" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-red-500 peer-checked:border-red-600 peer-checked:text-red-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                    onChange={(e) => setCreateCollectionParams({ ...createCollectionParams, _visibility: e.target.value === 'true' })} >
+                    <input type="radio" id="collection-visibility-false" name="collection-visibility" class="hidden peer" value={false} required checked={!createCollectionParams._visibility} />
+                    <label for="collection-visibility-false" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-red-500 peer-checked:border-red-600 peer-checked:text-red-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
                         <div class="block">
                             <div class="w-full text-lg font-semibold">No</div>
                             <div class="w-full">Make this collection private</div>
@@ -59,10 +59,9 @@ function CreateCollection({ setModal, account }) {
                 </div>
 
                 <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 text-white bg-blue-500 rounded-md hover:bg-blue-600 text-xl font-semibold"
-                    onClick={() => createCollection(createCollectionParams)}>Create</button>
-
+                    onClick={() => createCollection(createCollectionParams._user, createCollectionParams._name, createCollectionParams._description, createCollectionParams._visibility)}>Create</button>
             </div>
-        </div >
+        </div>
     )
 }
 

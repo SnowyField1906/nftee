@@ -9,7 +9,7 @@ goloop rpc sendtx deploy ./galleries/build/libs/galleries-0.1.0-optimized.jar \
     --content_type application/java
 
 
-goloop rpc --uri https://sejong.net.solidwallet.io/api/v3 txresult 0x13217ee03120cb7ff7e12778e10a53cead6f14d850b22b4a164d364f3f2f1b39
+goloop rpc --uri https://sejong.net.solidwallet.io/api/v3 txresult 0x1bf925d76ae14e3cfbd19f048f6633731457ccf0bdf3d7a8af7575ec83bbabab
 
 
 goloop rpc \
