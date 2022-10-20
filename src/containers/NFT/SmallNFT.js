@@ -21,7 +21,7 @@ function SmallNFT({ nft, address }) {
     const [nftInfo, setNftInfo] = useState([]);
     const [addNFTParams, setAddNFTParams] = useState({
         _nft: nft,
-        _collection: "hxf9bfff62e92b621dfd823439c822d73c7df8e698/My-waifu",
+        _collection: "hxf9bfff62e92b621dfd823439c822d73c7df8e698/Genshin-Impact",
     })
 
     useEffect(() => {
