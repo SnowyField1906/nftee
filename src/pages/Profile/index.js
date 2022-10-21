@@ -72,7 +72,7 @@ function Profile({ account }) {
           <div className="grid w-full justify-items-center place-items-center">
             <p className="text-huge mb-5">Your owning NFTs</p>
             <Swiper
-              slidesPerView={4}
+              slidesPerView={5}
               slidesPerGroup={1}
               centeredSlides={true}
               centeredSlidesBounds={true}

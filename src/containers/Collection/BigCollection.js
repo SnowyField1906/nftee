@@ -48,8 +48,8 @@ function BigCollection({ setBigCollection, collection, collectionInfo, nfts }) {
                                 "--swiper-pagination-color": "#fff",
                             }}
                             loop={true}
-                            spaceBetween={10}
                             slidesPerGroup={1}
+                            spaceBetween={10}
                             navigation={true}
                             thumbs={{ swiper: thumbsSwiper }}
                             modules={[FreeMode, Navigation, Thumbs]}
@@ -72,14 +72,15 @@ function BigCollection({ setBigCollection, collection, collectionInfo, nfts }) {
                     </div>
                     <div className="w-full h-[20%] pb-5">
                         <Swiper
+                            onSwiper={setThumbsSwiper}
                             loop={true}
                             spaceBetween={10}
-                            slidesPerView={nfts.length >= 5 ? 5 : nfts.length}
+                            slidesPerView={4}
                             slidesPerGroup={4}
                             freeMode={true}
                             watchSlidesProgress={true}
                             modules={[FreeMode, Navigation, Thumbs]}
-                            className="mySwiper"
+                            className="mySwiper cursor-pointer"
                         >
                             {nfts.map((nft, i) => {
                                 return (
