@@ -36,7 +36,7 @@ function CollectionCard({ collection }) {
                         <p className="text-high text-center justify-self-center h-full">No NFTs</p>
                     </div>
                     <div className="relative ">
-                        <div className='grid absolute bottom-0 w-[25rem] h-[3rem] place-content-center'>
+                        <div className='grid absolute bottom-0 w-[25rem] h-[2.5rem] place-content-center'>
                             <div className='h-full w-full flex self-center justify-self-center'>
                                 <p className="font-bold text-lg text-black dark:text-white">{collectionInfo[0]}</p>
                             </div>
@@ -61,7 +61,7 @@ function CollectionCard({ collection }) {
                                             backgroundImage: `url(${findPublicGateWay(nfts[i])})`,
                                         }}>
                                         {i === 3 && nfts.length > 4 && (
-                                            <div className="mx-1 absolute w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                                            <div className="absolute w-full h-full bg-black/50 flex justify-center items-center">
                                                 <div className="text-white text-2xl font-semibold">
                                                     +{nfts.length - 4}
                                                 </div>
@@ -77,7 +77,7 @@ function CollectionCard({ collection }) {
                         })}
                     </div>
                     <div className="relative ">
-                        <div className='grid absolute bottom-0 w-[25rem] h-[3rem] place-content-center'>
+                        <div className='grid absolute bottom-0 w-[25rem] h-[2.5rem] place-content-center'>
                             <div className='h-full w-full flex self-center justify-self-center'>
                                 <p className="font-bold text-lg text-black dark:text-white">{collectionInfo[0]}</p>
                             </div>

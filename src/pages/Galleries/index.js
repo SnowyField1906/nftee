@@ -5,9 +5,7 @@ import FilterDropdown from "./../../containers/Dropdowns/FilterDropdown"
 
 
 function Galleries() {
-  const collections = [
-    "hxf9bfff62e92b621dfd823439c822d73c7df8e698/owning"
-  ]
+  const collections = ["hxf9bfff62e92b621dfd823439c822d73c7df8e698/owning", "hxf9bfff62e92b621dfd823439c822d73c7df8e698/Loved-NFTs", "hxf9bfff62e92b621dfd823439c822d73c7df8e698/Raiden-Shogun", "hxf9bfff62e92b621dfd823439c822d73c7df8e698/Yae-Miko", "hxf9bfff62e92b621dfd823439c822d73c7df8e698/Genshin-Impact", "hxf9bfff62e92b621dfd823439c822d73c7df8e698/cart", "hxf9bfff62e92b621dfd823439c822d73c7df8e698/My-waifu"]
 
   const [sort, setSort] = useState('Newest')
 
@@ -46,7 +44,9 @@ function Galleries() {
         {
           collections.map((_, i) => {
             return (
-              <SmallCollection collection={collections[i]} />
+              <div className="flex flex-nowrap my-5 mx-3">
+                <SmallCollection collection={collections[i]} />
+              </div>
             )
           })
         }

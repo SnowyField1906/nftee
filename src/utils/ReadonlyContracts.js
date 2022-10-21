@@ -72,3 +72,13 @@ export const getNFTInfo = async (_nft) => {
     const nftInfo = await iconService.call(call).execute()
     return nftInfo;
 }
+
+export const users = async () => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('users')
+        .build()
+
+    const users = await iconService.call(call).execute()
+    return users;
+}

@@ -72,7 +72,7 @@ function Profile({ account }) {
           <div className="grid w-full justify-items-center place-items-center">
             <p className="text-huge mb-5">Your owning NFTs</p>
             <Swiper
-              slidesPerView={5}
+              slidesPerView={4}
               slidesPerGroup={1}
               centeredSlides={true}
               centeredSlidesBounds={true}
@@ -83,13 +83,13 @@ function Profile({ account }) {
               }}
               navigation={true}
               modules={[Pagination, Navigation]}
-              className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl p-5 "
+              className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl p-5 -z-10"
             >
               {
                 nfts && nfts.map((nft) => {
                   return (
                     <SwiperSlide>
-                      <div className="relative grid place-items-center">
+                      <div className="grid justify-items-center place-items-center">
                         <SmallNFT nft={nft} />
                       </div>
                     </SwiperSlide>

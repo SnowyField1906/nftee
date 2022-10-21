@@ -39,7 +39,7 @@ function Home({ account }) {
           }}
           navigation={true}
           modules={[Pagination, Navigation]}
-          className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl p-5 "
+          className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl"
         >
           {
             [...Array(5)].map(() => {

@@ -4,7 +4,7 @@
 
 @layer components {
   .page-bg {
-    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-slate-300 dark:bg-slate-600 select-none;
+    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-white/80 dark:bg-black/80 select-none;
   }
 
   .content-board-view {
@@ -28,11 +28,15 @@
   }
 
   .button-global {
-    @apply border-2 bg-black/10 dark:bg-white/10 hover:bg-black/20 hover:dark:bg-white/20 border-black/50 dark:border-white/50 cursor-pointer;
+    @apply border-2 bg-black/10 dark:bg-white/10 hover:bg-black/20 hover:dark:bg-white/20 border-black/50 dark:border-white/50;
   }
 
   .button-medium {
-    @apply rounded-xl border px-4 py-2 bg-white/20 dark:bg-black/20 hover:bg-white/60 hover:dark:bg-black/60 border-black/50 dark:border-white/50 cursor-pointer;
+    @apply px-4 py-2 bg-white/20 dark:bg-black/20 hover:bg-white/60 hover:dark:bg-black/60 border-black/50 dark:border-white/50;
+  }
+
+  .button-light {
+    @apply px-4 py-2 hover bg-white/30 dark:bg-black/30 hover:bg-white/50 dark:hover:bg-black/50 border-black/70 dark:border-white/70;
   }
 
   .backdrop-lg {

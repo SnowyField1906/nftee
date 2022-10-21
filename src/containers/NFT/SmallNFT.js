@@ -11,7 +11,7 @@ import Price from "./components/Price"
 import Add from "./components/Add"
 import AddToCart from "./components/AddToCart"
 import AddToCollection from "./components/AddToCollection"
-import SendRequest from "./components/SendRequest"
+import SendRequestBig from "./components/SendRequestBig"
 
 
 function SmallNFT({ nft, address }) {
@@ -36,7 +36,6 @@ function SmallNFT({ nft, address }) {
 
     return (
         <>
-
             {bigNFT &&
                 <div className="fixed w-screen h-screen z-50">
                     <BigNFT setBigNFT={setBigNFT} nft={nft} nftInfo={nftInfo} />
@@ -94,7 +93,7 @@ function SmallNFT({ nft, address }) {
                                 <Add active={add} />
                             </div>
                             <div className="flex h-1/3">
-                                <SendRequest />
+                                <SendRequestBig />
                             </div>
                         </div>
                     </div>
