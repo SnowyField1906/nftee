@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
 import { findPublicGateWay } from "../../utils/constants";
-import AddToCart from "../NFT/components/AddToCart";
-import AddToCollection from "../NFT/components/AddToCollection";
-import Add from "../NFT/components/Add";
-import User from "../NFT/components/User";
-import Price from "../NFT/components/Price";
 
 import { getCollectionNFTs } from "../../utils/ReadonlyContracts";
 import { getCollectionInfo } from "../../utils/ReadonlyContracts";

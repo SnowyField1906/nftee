@@ -94,7 +94,7 @@ export const toggleCollectionVisibility = (_collection) => {
     }))
 }
 
-export const deleteColection = (_user, _collection) => {
+export const deleteCollection = (_user, _collection) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
@@ -104,7 +104,7 @@ export const deleteColection = (_user, _collection) => {
         .timestamp((new Date()).getTime() * 1000)
         .stepLimit(IconService.IconConverter.toBigNumber(10000000))
         .version(0x3)
-        .method('deleteColection')
+        .method('deleteCollection')
         .params({
             _user: _user,
             _collection: _collection,
@@ -330,3 +330,68 @@ export const deleteNFT = (_user, _nft) => {
     }))
 }
 
+export const sendRequest = (_user, _nft) => {
+    var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
+    var callTransactionData = callTransactionBuilder
+        .from(_user)
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .nid(process.env.REACT_APP_NID)
+        .value(0x0)
+        .timestamp((new Date()).getTime() * 1000)
+        .stepLimit(IconService.IconConverter.toBigNumber(10000000))
+        .version(0x3)
+        .method('sendRequest')
+        .params({
+            _user: _user,
+            _nft: _nft,
+        })
+        .build();
+
+    var score_sdk = JSON.stringify({
+        jsonrpc: "2.0",
+        method: "icx_sendTransaction",
+        params: IconService.IconConverter.toRawTransaction(callTransactionData),
+        id: 0,
+    })
+
+    var parsed = JSON.parse(score_sdk)
+    window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_JSON-RPC',
+            payload: parsed,
+        }
+    }))
+}
+
+export const approveRequest = (address, _user, _nft) => {
+    var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
+    var callTransactionData = callTransactionBuilder
+        .from(address)
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .nid(process.env.REACT_APP_NID)
+        .value(0x0)
+        .timestamp((new Date()).getTime() * 1000)
+        .stepLimit(IconService.IconConverter.toBigNumber(10000000))
+        .version(0x3)
+        .method('approveRequest')
+        .params({
+            _user: _user,
+            _nft: _nft,
+        })
+        .build();
+
+    var score_sdk = JSON.stringify({
+        jsonrpc: "2.0",
+        method: "icx_sendTransaction",
+        params: IconService.IconConverter.toRawTransaction(callTransactionData),
+        id: 0,
+    })
+
+    var parsed = JSON.parse(score_sdk)
+    window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_JSON-RPC',
+            payload: parsed,
+        }
+    }))
+}

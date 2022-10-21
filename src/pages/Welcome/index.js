@@ -47,7 +47,7 @@ function Welcome({ account, setAccount }) {
 
   return (
     <div className='grid h-screen w-screen overflow-hidden select-none'>
-      <div className='fixed grid justify-between self-center justify-self-center w-[60%] h-5/6 backdrop-blur-xl bg-white/50 dark:bg-black/50 border-1 rounded-2xl translate-y-10'>
+      <div className='fixed grid justify-between self-center justify-self-center w-[60%] h-5/6 backdrop-blur-xl bg-white/50 dark:bg-black/50 border-1 rounded-2xl translate-y-10 z-10'>
         <div className={`${tag ? 'w-0 h-0' : 'w-full h-full'} fixed flex justify-between self-center justify-self-center transform duration-300 ease-in-out`}>
 
           {tag ? null :
@@ -100,7 +100,7 @@ function Welcome({ account, setAccount }) {
 
 
 
-      <div className='fixed bg-center overflow-hidden w-auto h-fit bg-contain video-container -z-10 '>
+      <div className='fixed bg-center overflow-hidden w-auto h-fit bg-contain video-container -z-0 '>
         <video autoPlay loop muted className="video" src={videoBackground} />
       </div>
 

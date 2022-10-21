@@ -13,27 +13,27 @@ import CreateCollection from '../../../../../Collection/CreateCollection'
 import { getUserCollections } from '../../../../../../utils/ReadonlyContracts'
 
 
-function Collection({ active, account }) {
-    const [modal, setModal] = useState(false)
+function Collection({ address, active }) {
+    const [createCollection, setCreateCollection] = useState(false)
 
     const [collections, setCollections] = useState([])
 
     useEffect(() => {
         const collectionsAwait = async () => {
-            await getUserCollections(account.address).then((res) => {
+            await getUserCollections(address).then((res) => {
                 setCollections(res)
             })
         }
         collectionsAwait();
     }, [active])
 
-    const customCollections = collections.filter((collection) => (collection !== account.address + '/owning' && collection !== account.address + '/cart'))
 
+    const customCollections = collections.filter((collection) => (collection !== address + '/owning' && collection !== address + '/cart'))
 
 
     return (
         <>
-            {modal && <CreateCollection setModal={setModal} account={account} />}
+            {createCollection && <CreateCollection address={address} setCreateCollection={setCreateCollection} />}
 
             <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14
             transform duration-300 ease-in-out select-none
@@ -45,9 +45,9 @@ function Collection({ active, account }) {
                     </div>
                     <div className='flex-initial gap-2 w-full h-full'>
 
-                        <div className='grid place-content-center w-[25rem] h-[7rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global' onClick={() => setModal(true)}>
+                        <div className='grid place-content-center w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global' onClick={() => createCollection(true)}>
                             <p className="text-high h-full w-full">
-                                create new collection
+                                Create new collection
                             </p>
                         </div>
                         {

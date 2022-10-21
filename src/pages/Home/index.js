@@ -10,11 +10,12 @@ import SmallNFT from '../../containers/NFT/SmallNFT'
 SwiperCore.use([Navigation, Pagination]);
 
 
-function Home({ account }) {
+function Home({ address }) {
   const nft = "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ"
+
   return (
     <div className='grid h-max w-screen justify-items-center overflow-x-hidden'>
-      <div className='w-screen h-full fixed -z-20 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
+      <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
       </div>
       <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
       </div>
@@ -39,13 +40,15 @@ function Home({ account }) {
           }}
           navigation={true}
           modules={[Pagination, Navigation]}
-          className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl"
+          className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl w-3/4"
         >
           {
             [...Array(5)].map(() => {
               return (
                 <SwiperSlide>
-                  <SmallNFT account={account} nft={nft} />
+                  <div className='grid justify-items-center place-items-center'>
+                    <SmallNFT address={address} nft={nft} />
+                  </div>
                 </SwiperSlide>
               )
             })
@@ -66,13 +69,13 @@ function Home({ account }) {
           }}
           navigation={true}
           modules={[Pagination, Navigation]}
-          className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl p-5 "
+          className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 "
         >
           {
             [...Array(5)].map(() => {
               return (
                 <SwiperSlide>
-                  <SmallNFT account={account} nft={nft} />
+                  <SmallNFT address={address} nft={nft} />
                 </SwiperSlide>
               )
             })

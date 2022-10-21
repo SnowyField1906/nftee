@@ -74,6 +74,17 @@
     align-items: center;
   }
 
+  .mySwiper {
+    height: 100%;
+    width: 100%;
+  }
+
+  .mySwiper {
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px 0;
+  }
+
   .append-buttons button {
     display: inline-block;
     cursor: pointer;
@@ -84,18 +95,6 @@
     border-radius: 4px;
     margin: 0 10px;
     font-size: 13px;
-  }
-
-  .mySwiper {
-    box-sizing: border-box;
-  }
-
-  .mySwiper .swiper-slide {
-    opacity: 0.5;
-  }
-
-  .mySwiper .swiper-slide-active {
-    opacity: 1;
   }
 
   .light-bg {

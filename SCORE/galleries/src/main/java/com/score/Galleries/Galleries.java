@@ -37,14 +37,15 @@ public class Galleries {
 
   public HashMap<String, Collection> collectionInfo = new HashMap<>();
   public HashMap<String, NFT> nftInfo = new HashMap<>();
-
-  private String generateCollectionId(Address _user, String _name) {
-    return _user.toString() + "/" + _name.replace(" ", "-");
-  }
+  public HashMap<String, Auction> auctionInfo = new HashMap<>();
 
   private String decodeTransactionHash(String _hash) {
     byte[] decode = Base64.getDecoder().decode(Context.getTransactionHash());
     return new String(decode, StandardCharsets.UTF_8);
+  }
+
+  private String generateCollectionId(Address _user, String _name) {
+    return _user.toString() + "/" + _name.replace(" ", "-");
   }
 
   @External(readonly = true)
@@ -98,6 +99,24 @@ public class Galleries {
         String.valueOf(nft.onSale)
       )
     );
+  }
+
+  @External(readonly = true)
+  public ArrayList<String> getAuctionInfo(String _auction) {
+    Auction auction = this.auctionInfo.get(_auction);
+    return new ArrayList<>(
+      List.of(
+        auction.timestamp.toString(),
+        auction.duration.toString(),
+        auction.bid.toString(),
+        auction.bidder.toString(),
+      )
+    );
+  }
+
+  @External(readonly = true)
+  public boolean auctionExists(String _auction) {
+    return this.auctionInfo.containsKey(_auction);
   }
 
   @External
@@ -206,10 +225,33 @@ public class Galleries {
   }
 
   @External
-  public void requestNFT(Address _user, String _nft) {
+  public void sendRequest(Address _user, String _nft) {
     ArrayList<Address> requests = this.nftMapRequests.get(_nft);
     requests.add(_user);
     this.nftMapRequests.put(_nft, requests);
+    if (requests.size() == 0) {
+      Auction auction = new Auction(Context.getBlockTimestamp(), 0, _user);
+      this.auctionInfo.put(_nft, auction);
+    }
+  }
+
+  @External(readonly = true)
+  public boolean duringAuction(String _nft, BigInteger _timestamp) {
+    return this.auctionInfo(_nft).timestamp.add(86400) <= _timestamp && _timestamp <= this.auctionInfo(_nft).timestamp.add(86400).add(this.auctionInfo(_nft).duration);
+  }
+
+  @External
+  @Payable
+  public void bid(Address _user, String _nft, BigInteger _bid) {
+    Auction auction = this.auctionInfo.get(_nft);
+    auction.bid = _bid;
+    auction.bidder = _user;
+    this.auctionInfo.put(_nft, auction);
+
+    NFT nft = this.nftInfo.get(_nft);
+    nft.owner = _user;
+    nft.price = nft.price.add(_bid);
+    this.nftInfo.put(_nft, nft);
   }
 
   @External(readonly = true)

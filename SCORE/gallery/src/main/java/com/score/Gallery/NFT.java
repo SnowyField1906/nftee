@@ -35,7 +35,10 @@ public class NFT {
     String _ipfs,
     BigInteger _price,
     boolean _onSale,
-    boolean _visibility
+    boolean _visibility,
+    BigInteger _firstRequest,
+    BigInteger _bid,
+    Address _bidder
   ) {
     this.owner = _owner;
     this.ipfs = _ipfs;

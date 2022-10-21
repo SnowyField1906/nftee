@@ -1,23 +1,20 @@
 import { useState } from "react"
 import { createCollection } from "./../../utils/TransactionContracts"
 
-function CreateCollection({ setModal, account }) {
+function CreateCollection({ address, setCreateCollection }) {
     const [createCollectionParams, setCreateCollectionParams] = useState({
-        _user: account.address,
+        _user: address,
         _name: "",
         _description: "",
         _visibility: false,
     })
-    console.log(createCollectionParams)
 
     return (
-        <div className='grid fixed mt-20 w-[60vw] h-[80vh] top-[5vh] left-[20vw] rounded-2xl z-20 backdrop-lg bg-white/30'>
-            <div className='absolute top-0 right-0 m-4 z-30'>
-                <svg className="h-8 w-8 fill-black dark:fill-white cursor-pointer" onClick={() => setModal(false)}
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <g id="_01_align_center" data-name="01 align center"><polygon points="15.293 7.293 12 10.586 8.707 7.293 7.293 8.707 10.586 12 7.293 15.293 8.707 16.707 12 13.414 15.293 16.707 16.707 15.293 13.414 12 16.707 8.707 15.293 7.293" /><path d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z" /></g>
-                </svg>
-            </div>
+        <div className='grid fixed mt-20 w-[60vw] h-[80vh] top-[5vh] left-[20vw] rounded-2xl z-40 backdrop-lg bg-white/30'>
+            <svg className="absolute top-0 right-0 m-4 z-50 h-8 w-8 fill-black dark:fill-white cursor-pointer" onClick={() => setCreateCollection(false)}
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g id="_01_align_center" data-name="01 align center"><polygon points="15.293 7.293 12 10.586 8.707 7.293 7.293 8.707 10.586 12 7.293 15.293 8.707 16.707 12 13.414 15.293 16.707 16.707 15.293 13.414 12 16.707 8.707 15.293 7.293" /><path d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm0,22A10,10,0,1,1,22,12,10.011,10.011,0,0,1,12,22Z" /></g>
+            </svg>
 
             <div className='grid h-[10vh] justify-self-center place-items-center justify-items-end'>
                 <p className='text-4xl font-bold text-black dark:text-white w-full self-center'>Create Collection</p>

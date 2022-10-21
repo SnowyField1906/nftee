@@ -1,10 +1,12 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getCollectionNFTs } from "../../utils/ReadonlyContracts"
+
 
 import SmallNFT from "../../containers/NFT/SmallNFT"
 import SortDropdown from "./../../containers/Dropdowns/SortDropdown"
 import FilterDropdown from "./../../containers/Dropdowns/FilterDropdown"
 
-function Explore({ account }) {
+function Explore({ address }) {
   const [sort, setSort] = useState('Newest')
 
   const [filter, setFilter] = useState([])
@@ -17,7 +19,16 @@ function Explore({ account }) {
   const filterByRequests = ["No one", "1 - 2", "2 - 5", "More than 5"]
   const filterByPrice = ["On sale", "Not on sale", "Lower than 1", "1 - 10", "10 - 25", "Higher than 25"]
 
-  const nft = "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ"
+  const [nfts, setNfts] = useState([]);
+
+  useEffect(() => {
+    const nftsAwait = async () => {
+      await getCollectionNFTs("hxf9bfff62e92b621dfd823439c822d73c7df8e698/owning").then((res) => {
+        setNfts(res)
+      })
+    }
+    nftsAwait();
+  }, [])
 
   return (
     <div className='page-bg'>
@@ -49,9 +60,9 @@ function Explore({ account }) {
 
       <div className="content-board-view mt-20">
         {
-          [...Array(10)].map((_, i) => {
+          nfts.map((nft) => {
             return (
-              <SmallNFT account={account} nft={nft} />
+              <SmallNFT address={address} nft={nft} />
             )
           })
         }

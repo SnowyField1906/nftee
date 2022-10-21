@@ -6,38 +6,8 @@ export const pagesList = {
     Button: ['Collection', 'Notification', 'Cart'],
 }
 
-// export const findPublicGateWay = (ipfs) => {
-//     var url;
-//     const CancelToken = axios.CancelToken;
-//     const source = CancelToken.source();
-//     axios.defaults.timeout = 2000;
-//     const getGateway = async () => {
-//         const random = Math.floor(Math.random() * publicGateway.length);
-//         url = publicGateway[random] + ipfs;
-//         console.log(url)
-
-//         axios.get(url, { cancelToken: source.token })
-//             .then((res) => {
-//                 console.log(res, '');
-//             }, (error) => {
-//                 if (axios.isCancel(error)) {
-//                     console.log('Request canceled', error.message);
-//                     getGateway();
-//                 } else {
-//                     console.log("Gateway found: " + url)
-//                     return url;
-//                 }
-//             }).catch(() => {
-//                 getGateway();
-//             });
-//     };
-//     getGateway();
-
-// }
-
 const publicGateway = [
     // "https://via0.com/ipfs/",
-
     "https://cloudflare-ipfs.com/ipfs/",
     // "https://ipfs.fleek.co/ipfs/",
     // "https://cf-ipfs.com/ipfs/",
@@ -55,10 +25,11 @@ const publicGateway = [
 export const findPublicGateWay = (ipfs) => {
     let url;
 
+    if (!ipfs || ipfs.length !== 46) return;
+
     const getGateway = async () => {
         const random = Math.floor(Math.random() * publicGateway.length);
         url = publicGateway[random] + ipfs;
-        console.log(url)
 
         try {
             await axios.get(url);
@@ -70,6 +41,5 @@ export const findPublicGateWay = (ipfs) => {
     }
     getGateway();
 
-    console.log("Gateway found: " + url)
     return url;
 }

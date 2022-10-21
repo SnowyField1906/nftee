@@ -19,7 +19,7 @@ const iconService = new IconService(httpProvider);
 SwiperCore.use([Navigation, Pagination]);
 
 
-function Profile({ account }) {
+function Profile({ address }) {
   const [balance, setBalance] = useState('')
   const [collections, setCollections] = useState([])
   const [nfts, setNFTs] = useState([])
@@ -27,21 +27,21 @@ function Profile({ account }) {
 
   useEffect(() => {
     const getBalance = async () => {
-      const balance = await iconService.getBalance(account.address).execute();
+      const balance = await iconService.getBalance(address).execute();
       const balanceValue = (IconService.IconAmount.of(balance, IconService.IconAmount.Unit.ICX) / 10e17).toString();
       setBalance(balanceValue)
     }
     getBalance();
 
     const collectionsAwait = async () => {
-      await getUserCollections(account.address).then((res) => {
+      await getUserCollections(address).then((res) => {
         setCollections(res)
       })
     }
     collectionsAwait();
 
     const nftsAwait = async () => {
-      await getCollectionNFTs(account.address + "/owning").then((res) => {
+      await getCollectionNFTs(address + "/owning").then((res) => {
         setNFTs(res)
       })
     }
@@ -50,10 +50,10 @@ function Profile({ account }) {
 
 
 
-  const customCollections = collections.filter((collection) => (collection !== account.address + '/owning' && collection !== account.address + '/cart'))
+  const customCollections = collections.filter((collection) => (collection !== address + '/owning' && collection !== address + '/cart'))
 
 
-  if (account.login === false) {
+  if (address === false) {
     return (
       <Navigate to="/NFTee" />
     )
@@ -62,7 +62,7 @@ function Profile({ account }) {
   return (
     <div className='page-bg h-screen place-items-center'>
       <div className="grid px-10 py-32 w-full">
-        <p className="text-huge">{account.address}</p>
+        <p className="text-huge">{address}</p>
         <p className="text-huge">{balance}</p>
       </div>
       <div className="">
@@ -83,7 +83,7 @@ function Profile({ account }) {
               }}
               navigation={true}
               modules={[Pagination, Navigation]}
-              className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl p-5 -z-10"
+              className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5"
             >
               {
                 nfts && nfts.map((nft) => {
@@ -117,14 +117,14 @@ function Profile({ account }) {
               }}
               navigation={true}
               modules={[Pagination, Navigation]}
-              className="mySwiper bg-white/30 dark:bg-black/30 rounded-2xl"
+              className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl"
             >
               {
                 customCollections.map((collection) => {
                   return (
                     <SwiperSlide>
                       <div className="grid place-items-center py-10">
-                        <SmallCollection collection={collection} />
+                        <SmallCollection address={address} collection={collection} />
                       </div>
                     </SwiperSlide>
                   )

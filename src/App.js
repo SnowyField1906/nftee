@@ -26,7 +26,7 @@ function App() {
 
 	const pageTag = (i) => {
 		const Tag = Pages[allPagesList[i]];
-		return <Tag account={account} setAccount={setAccount} />;
+		return <Tag address={account.address} account={account} setAccount={setAccount} />;
 	};
 
 
