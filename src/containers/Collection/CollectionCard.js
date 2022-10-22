@@ -27,6 +27,8 @@ function CollectionCard({ address, collection }) {
         infoAwait();
     }, [collection])
 
+    console.log(collection)
+
     if (nfts.length === 0) {
         return (
             <div className="w-[25rem] h-[8rem] select-none bg- bg-cover bg-center">
@@ -49,7 +51,8 @@ function CollectionCard({ address, collection }) {
     else {
         return (
             <>
-                {bigCollection && <BigCollection address={address} collectionInfo={collectionInfo} nfts={nfts} setBigCollecion={setBigCollecion} />}
+                {bigCollection && <BigCollection address={address} collection={collection} collectionInfo={collectionInfo} nfts={nfts} setBigCollecion={setBigCollecion} />}
+
                 <div className="w-[25rem] h-[8rem] select-none bg- bg-cover bg-center"
                     onClick={() => setBigCollecion(true)}>
                     <div className="grid absolute w-[25rem] h-[8rem]">

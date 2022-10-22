@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { findPublicGateWay } from "../../utils/constants";
-import { getCollectionNFTs } from "../../utils/ReadonlyContracts";
+import { getCollectionNFTs, getCollectionPublicNFTs, getPublicNFTs } from "../../utils/ReadonlyContracts";
 import { getCollectionInfo } from "../../utils/ReadonlyContracts";
 
 import BigCollection from "./BigCollection";
@@ -9,20 +9,31 @@ import Collection from "./components/Collection";
 import User from "../NFT/components/User";
 
 
-function SmallCollection({ address, collection }) {
+function SmallCollection({ address, collection, isPublic }) {
     const [bigCollection, setBigCollection] = useState(false)
 
-    const [nfts, setNfts] = useState([]);
+    const [nfts, setNFTs] = useState([]);
     const [collectionInfo, setCollectionInfo] = useState([]);
 
-    useEffect(() => {
-        const nftsAwait = async () => {
-            await getCollectionNFTs(collection).then((res) => {
-                setNfts(res)
-            })
-        }
-        nftsAwait();
+    console.log(nfts)
 
+    useEffect(() => {
+        if (isPublic) {
+            const publicNFTAwaits = async () => {
+                await getCollectionPublicNFTs(collection).then((res) => {
+                    setNFTs(res)
+                })
+            }
+            publicNFTAwaits();
+        }
+        else {
+            const nftsAwait = async () => {
+                await getCollectionNFTs(collection).then((res) => {
+                    setNFTs(res)
+                })
+            }
+            nftsAwait();
+        }
         const infoAwait = async () => {
             await getCollectionInfo(collection).then((res) => {
                 setCollectionInfo(res)
@@ -32,12 +43,11 @@ function SmallCollection({ address, collection }) {
     }, [])
 
 
+
+
     if (nfts.length === 0) {
         return (
             <div className="w-[21rem] h-[25.5rem] hover:scale-105 transform duration-300 ease-in-out select-none rounded-lg backdrop-blur-sm bg-gray-100/50 dark:bg-gray-800/50 bg- bg-cover bg-center"
-                style={{
-                    backgroundImage: `url(${findPublicGateWay(nfts[0])})`,
-                }}
                 onClick={() => setBigCollection(true)}>
                 <div className="absolute w-[21rem] h-[25.5rem] p-2 rounded-lg backdrop-blur-3xl bg-gray-100/30 dark:bg-gray-800/30 ">
                     <div className="w-80 h-80 grid place-content-center">
@@ -73,7 +83,7 @@ function SmallCollection({ address, collection }) {
             <>
                 {bigCollection &&
                     <div className="fixed w-screen h-screen z-30">
-                        <BigCollection address={address} setBigCollection={setBigCollection} collection={collection} collectionInfo={collectionInfo} nfts={nfts} />
+                        <BigCollection address={address} setBigCollection={setBigCollection} collection={collection} collectionInfo={collectionInfo} nfts={nfts} isPublic={true} />
                     </div>}
                 <div className="w-[21rem] h-[25.5rem] hover:scale-105 transform duration-300 ease-in-out select-none rounded-lg backdrop-blur-sm bg-gray-100/50 dark:bg-gray-800/50 bg- bg-cover bg-center"
                     style={{

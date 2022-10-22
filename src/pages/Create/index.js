@@ -161,7 +161,7 @@ function Create({ account }) {
                 </div>
               </label>
             </div>
-            <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white"
+            <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer"
               disabled={createNFTParams._ipfs === '' || createNFTParams._price === 0}
               onClick={() => createNFT(createNFTParams._user, createNFTParams._price, createNFTParams._visibility, createNFTParams._onSale, createNFTParams._ipfs)}>Create</button>
           </div>

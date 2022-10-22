@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { findPublicGateWay } from "../../utils/constants"
 import { deleteCollection, removeNFT } from "../../utils/TransactionContracts";
+import { getCollectionNFTs } from "../../utils/ReadonlyContracts";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSwiper } from "swiper/react";
@@ -17,24 +18,26 @@ import Edit from "./components/Edit";
 import Delete from "./components/Delete";
 
 
-function BigCollection({ address, collection, collectionInfo, nfts, setBigCollection }) {
+function BigCollection({ address, collection, collectionInfo, nfts, setBigCollection, isPublic }) {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
+    const [realQuality, setRealQuality] = useState(0);
 
+    useEffect(() => {
+        const nftsAwait = async () => {
+            await getCollectionNFTs(collection).then((res) => {
+                setRealQuality(res.length)
+            })
+        }
+        nftsAwait();
 
-    // const [bigNFT, setBigNFT] = useState();
-    // const [nft, setNFT] = useState('');
-    // const [requests, setRequests] = useState([])
+    }, [])
 
-    // useEffect(() => {
-    //     const requestsAwait = async () => {
-    //         await users().then((res) => {
-    //             setRequests(res)
-    //         })
-    //     }
-    //     requestsAwait()
-    // }, [])
+    const showQuality = () => {
+        const unit = nfts.length > 1 ? nfts.length + " NFTs" : nfts.length + " NFT";
+        return `${nfts.length}/${realQuality} (${realQuality - nfts.length} ${unit} hidden)`
+    }
 
-    // console.log(nft)
+    console.log(collection)
 
     return (
         <>
@@ -145,7 +148,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
-                                        {nfts.length > 1 ? nfts.length + " NFTs" : nfts.length + " NFT"}
+                                        {showQuality()}
                                     </p>
                                 </div>
                             </div>

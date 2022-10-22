@@ -18,6 +18,8 @@ function Galleries({ address }) {
     collectionsAwait();
   }, [])
 
+  console.log(collections)
+
   const [sort, setSort] = useState('Newest')
 
   const [filter, setFilter] = useState([])
@@ -56,7 +58,7 @@ function Galleries({ address }) {
           collections.length > 0 && collections.map((_, i) => {
             return (
               <div className="flex flex-nowrap my-5 mx-3">
-                <SmallCollection address={address} collection={collections[i]} />
+                <SmallCollection address={address} collection={collections[i]} isPublic={true} />
               </div>
             )
           })

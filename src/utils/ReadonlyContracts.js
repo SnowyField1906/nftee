@@ -69,6 +69,20 @@ export const getCollectionNFTs = async (_collection) => {
     return nfts;
 }
 
+export const getCollectionPublicNFTs = async (_collection) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getCollectionPublicNFTs')
+        .params({
+            _collection: _collection
+        })
+        .build()
+
+    const nfts = await iconService.call(call).execute()
+    return nfts;
+}
+
+
 export const getNFTRequests = async (_nft) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
