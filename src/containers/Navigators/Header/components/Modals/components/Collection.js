@@ -6,34 +6,32 @@ import "swiper/css/free-mode";
 import "swiper/css/scrollbar";
 import { FreeMode, Scrollbar, Mousewheel } from "swiper";
 
-
 import CollectionCard from './../../../../../Collection/CollectionCard'
+import BigCollection from '../../../../../Collection/BigCollection';
 import CreateCollection from '../../../../../Collection/CreateCollection'
 
-import { getUserCollections } from '../../../../../../utils/ReadonlyContracts'
+import { getUserCustomCollections } from '../../../../../../utils/ReadonlyContracts'
 
 
 function Collection({ address, active }) {
     const [createCollection, setCreateCollection] = useState(false)
 
-    const [collections, setCollections] = useState([])
+    const [customCollections, setCustomCollection] = useState([])
 
     useEffect(() => {
         const collectionsAwait = async () => {
-            await getUserCollections(address).then((res) => {
-                setCollections(res)
+            await getUserCustomCollections(address).then((res) => {
+                setCustomCollection(res)
             })
         }
         collectionsAwait();
     }, [active])
 
 
-    const customCollections = collections.filter((collection) => (collection !== address + '/owning' && collection !== address + '/cart'))
-
-
     return (
         <>
             {createCollection && <CreateCollection address={address} setCreateCollection={setCreateCollection} />}
+
 
             <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14
             transform duration-300 ease-in-out select-none
@@ -45,7 +43,7 @@ function Collection({ address, active }) {
                     </div>
                     <div className='flex-initial gap-2 w-full h-full'>
 
-                        <div className='grid place-content-center w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global' onClick={() => createCollection(true)}>
+                        <div className='grid place-content-center w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global' onClick={() => setCreateCollection(true)}>
                             <p className="text-high h-full w-full">
                                 Create new collection
                             </p>
@@ -54,7 +52,7 @@ function Collection({ address, active }) {
                             customCollections ? customCollections.map((collection) => {
                                 return (
                                     <div className='w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global'>
-                                        <CollectionCard collection={collection} />
+                                        <CollectionCard address={address} collection={collection} />
                                     </div>
                                 )
                             })

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { findPublicGateWay } from "../../utils/constants"
-import { addToCart } from "../../utils/TransactionContracts"
+import { addToCart, sendRequest } from "../../utils/TransactionContracts"
 import { getNFTRequests } from "../../utils/ReadonlyContracts"
 
 import CollectionList from "../Collection/CollectionList"
@@ -14,12 +14,14 @@ import Reject from "./components/Reject"
 import Auction from "./components/auction-icon"
 import Delete from "../Collection/components/Delete"
 import Edit from "../Collection/components/Edit"
+import EditNFT from "./EditNFT"
 
 
 
 function BigNFT({ address, nft, nftInfo, setBigNFT }) {
-    const [collectionList, setCollectionList] = useState(false)
+    const [editNFT, setEditNFT] = useState(false)
 
+    const [collectionList, setCollectionList] = useState(false)
     const [requests, setRequests] = useState([])
 
     useEffect(() => {
@@ -33,12 +35,16 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
 
 
 
-
     return (
         <>
             {collectionList &&
                 <div className="fixed w-screen h-screen z-40">
                     <CollectionList address={address} nft={nft} setCollectionList={setCollectionList} />
+                </div>}
+
+            {editNFT &&
+                <div className="fixed w-screen h-screen z-50">
+                    <EditNFT address={address} nft={nft} nftInfo={nftInfo} setEditNFT={setEditNFT} />
                 </div>}
 
             <div className='fixed mt-20 w-[80vw] h-[80vh] top-[5vh] left-[10vw] rounded-2xl z-30 backdrop-lg'>
@@ -107,7 +113,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 <p className='text-medium text-lg place-self-center'>Purchase requests</p>
                                 <div className="flex place-items-center button-medium rounded-xl">
                                     <Auction />
-                                    <p className='text-medium text-base pl-4'>Open auction</p>
+                                    <p className='text-medium text-base pl-4'>Expand list</p>
                                 </div>
                             </div>
                             <div className="w-full">
@@ -115,10 +121,13 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                     return (
                                         <div className="flex justify-between place-items-center h-12 w-full ">
                                             <p className='pl-8 cursor-pointer hover:underline text-black dark:text-white'>{request}</p>
-                                            <div className="flex justify-around place-items-center w-1/4 ">
-                                                <Approve />
-                                                <Reject />
-                                            </div>
+
+                                            {address === nftInfo[0] &&
+                                                <div className="flex justify-around place-items-center w-1/4 ">
+                                                    <Approve />
+                                                    <Reject />
+                                                </div>
+                                            }
                                         </div>
                                     )
                                 })}
@@ -149,7 +158,8 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                             }
                             {address === nftInfo[0] ?
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'>
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                    onClick={() => setEditNFT(true)}>
                                     <div className="self-center mx-1">
                                         <Edit />
                                     </div>
@@ -171,7 +181,8 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                     <p className="text-medium w-5/6 text-center justify-self-center self-center">Delete NFT</p>
                                 </div>
                                 :
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'>
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                    onClick={() => sendRequest(address, nft)}>
                                     <div className="self-center mx-1">
                                         <SendRequest />
                                     </div>

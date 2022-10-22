@@ -4,7 +4,7 @@
 
 @layer components {
   .page-bg {
-    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-white/80 dark:bg-black/80 select-none;
+    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-gray-200/80 dark:bg-gray-900/80 select-none;
   }
 
   .content-board-view {
@@ -50,6 +50,22 @@
   .filter-sort-button {
     @apply flex w-full text-center px-4 py-2 cursor-pointer text-slate-920 dark:text-slate-100 hover:bg-indigo-300 dark:hover:bg-indigo-700
     text-lg font-medium border-slate-800 dark:border-slate-200;
+  }
+
+  .radio-disabled {
+    @apply inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 rounded-lg border border-gray-300/30 dark:border-gray-700/30 bg-gray-300/30 dark:bg-gray-700/30;
+  }
+
+  .radio-positive {
+    @apply inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-green-300/10 dark:hover:bg-green-700/10 peer-checked:border-green-500 peer-checked:text-green-700 dark:peer-checked:text-green-300 peer-checked:bg-green-500/20;
+  }
+
+  .radio-negative {
+    @apply inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-red-300/10 dark:hover:bg-red-700/10 peer-checked:border-red-500 peer-checked:text-red-700 dark:peer-checked:text-red-300 peer-checked:bg-red-500/20;
+  }
+
+  .input {
+    @apply button-light rounded-md appearance-none cursor-pointer hover:border-gray-500 focus:outline-none text-black dark:text-white font-medium;
   }
 }
 

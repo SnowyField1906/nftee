@@ -8,10 +8,45 @@ const { IconBuilder } = IconService
 const { CallBuilder } = IconBuilder
 
 
+export const getPublicCollections = async () => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getPublicCollections')
+        .params({})
+        .build()
+
+    const collections = await iconService.call(call).execute()
+    return collections;
+}
+
+export const getPublicNFTs = async () => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getPublicNFTs')
+        .params({})
+        .build()
+
+    const collections = await iconService.call(call).execute()
+    return collections;
+}
+
 export const getUserCollections = async (_user) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getUserCollections')
+        .params({
+            _user: _user
+        })
+        .build()
+
+    const collections = await iconService.call(call).execute()
+    return collections;
+}
+
+export const getUserCustomCollections = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getUserCustomCollections')
         .params({
             _user: _user
         })

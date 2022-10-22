@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 
 import { findPublicGateWay } from "../../utils/constants"
-import { addNFT, sendRequest } from "../../utils/TransactionContracts"
+import { addNFT, sendRequest, deleteNFT } from "../../utils/TransactionContracts"
 import { getNFTInfo } from "../../utils/ReadonlyContracts"
 
 import BigNFT from "./BigNFT"
@@ -13,7 +13,7 @@ import Add from "./components/Add"
 import AddToCart from "./components/AddToCart"
 import AddToCollection from "./components/AddToCollection"
 import SendRequestBig from "./components/SendRequestBig"
-
+import DeleteBig from "../Collection/components/DeleteBig"
 
 function SmallNFT({ address, nft }) {
     const [add, setAdd] = useState(false)
@@ -29,6 +29,8 @@ function SmallNFT({ address, nft }) {
         }
         nftInfo()
     }, [nft])
+
+    console.log(address)
 
     return (
         <>
@@ -92,9 +94,15 @@ function SmallNFT({ address, nft }) {
                             <div className="flex h-1/3" onClick={() => setAdd(!add)}>
                                 <Add active={add} />
                             </div>
-                            <div className="flex h-1/3" onClick={() => sendRequest(address, nft)}>
-                                <SendRequestBig />
-                            </div>
+                            {address === nftInfo[0] ?
+                                <div className="flex h-1/3" onClick={() => deleteNFT(address, nft)}>
+                                    <DeleteBig />
+                                </div>
+                                :
+                                <div className="flex h-1/3" onClick={() => sendRequest(address, nft)}>
+                                    <SendRequestBig />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import IconService from 'icon-sdk-js';
-import { getUserCollections, getCollectionNFTs } from '../../utils/ReadonlyContracts';
+import { getUserCollections, getCollectionNFTs, getUserCustomCollections } from '../../utils/ReadonlyContracts';
 import SmallCollection from '../../containers/Collection/SmallCollection';
 import SmallNFT from '../../containers/NFT/SmallNFT';
 
@@ -21,7 +21,7 @@ SwiperCore.use([Navigation, Pagination]);
 
 function Profile({ address }) {
   const [balance, setBalance] = useState('')
-  const [collections, setCollections] = useState([])
+  const [customCollections, setCustomCOllections] = useState([])
   const [nfts, setNFTs] = useState([])
 
 
@@ -33,24 +33,20 @@ function Profile({ address }) {
     }
     getBalance();
 
-    const collectionsAwait = async () => {
-      await getUserCollections(address).then((res) => {
-        setCollections(res)
+    const customCollectionsAwait = async () => {
+      await getUserCustomCollections(address).then((res) => {
+        setCustomCOllections(res)
       })
     }
-    collectionsAwait();
+    customCollectionsAwait();
 
     const nftsAwait = async () => {
-      await getCollectionNFTs(address + "/owning").then((res) => {
+      await getCollectionNFTs(address + "/Owning").then((res) => {
         setNFTs(res)
       })
     }
     nftsAwait();
   }, [])
-
-
-
-  const customCollections = collections.filter((collection) => (collection !== address + '/owning' && collection !== address + '/cart'))
 
 
   if (address === false) {
@@ -66,13 +62,13 @@ function Profile({ address }) {
         <p className="text-huge">{balance}</p>
       </div>
       <div className="">
-        {!nfts ?
+        {!nfts || !nfts.length ?
           <p className="text-huge">Create your first NFTs</p>
           :
           <div className="grid w-full justify-items-center place-items-center">
             <p className="text-huge mb-5">Your owning NFTs</p>
             <Swiper
-              slidesPerView={5}
+              slidesPerView={nfts.length > 5 ? 5 : nfts.length}
               slidesPerGroup={1}
               centeredSlides={true}
               centeredSlidesBounds={true}
@@ -83,14 +79,14 @@ function Profile({ address }) {
               }}
               navigation={true}
               modules={[Pagination, Navigation]}
-              className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5"
+              className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 w-screen"
             >
               {
-                nfts && nfts.map((nft) => {
+                nfts.map((nft) => {
                   return (
                     <SwiperSlide>
-                      <div className="grid justify-items-center place-items-center">
-                        <SmallNFT nft={nft} />
+                      <div className="grid justify-items-center place-items-center ">
+                        <SmallNFT address={address} nft={nft} />
                       </div>
                     </SwiperSlide>
                   )
@@ -108,7 +104,7 @@ function Profile({ address }) {
           <div className="grid w-full justify-items-center place-items-center">
             <p className="text-huge mb-5">Your custom collections</p>
             <Swiper
-              slidesPerView={4}
+              slidesPerView={customCollections.length > 5 ? 5 : customCollections.length}
               slidesPerGroup={1}
               loop={true}
               loopFillGroupWithBlank={true}
@@ -117,7 +113,7 @@ function Profile({ address }) {
               }}
               navigation={true}
               modules={[Pagination, Navigation]}
-              className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl"
+              className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl w-screen"
             >
               {
                 customCollections.map((collection) => {

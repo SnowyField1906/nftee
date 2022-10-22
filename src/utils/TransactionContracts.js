@@ -330,6 +330,40 @@ export const deleteNFT = (_user, _nft) => {
     }))
 }
 
+export const editNFTInfo = (address, _nft, _visibility, _onSale) => {
+    var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
+    var callTransactionData = callTransactionBuilder
+        .from(address)
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .nid(process.env.REACT_APP_NID)
+        .value(0x0)
+        .timestamp((new Date()).getTime() * 1000)
+        .stepLimit(IconService.IconConverter.toBigNumber(10000000))
+        .version(0x3)
+        .method('editNFTInfo')
+        .params({
+            _nft: _nft,
+            _visibility: _visibility,
+            _onSale: _onSale,
+        })
+        .build();
+
+    var score_sdk = JSON.stringify({
+        jsonrpc: "2.0",
+        method: "icx_sendTransaction",
+        params: IconService.IconConverter.toRawTransaction(callTransactionData),
+        id: 0,
+    })
+
+    var parsed = JSON.parse(score_sdk)
+    window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_JSON-RPC',
+            payload: parsed,
+        }
+    }))
+}
+
 export const sendRequest = (_user, _nft) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder

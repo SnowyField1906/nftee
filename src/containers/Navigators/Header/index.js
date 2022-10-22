@@ -6,7 +6,6 @@ import { pagesList } from "./../../../utils/constants";
 import * as Pages from './../../../svgs/Pages'
 import * as Buttons from './../../../svgs/Buttons'
 import * as Modals from './components/Modals'
-import { accountHandler } from "../../../provider/IconService";
 
 function Nagivator({ account, setAccount }) {
 	const location = useLocation();
@@ -20,7 +19,7 @@ function Nagivator({ account, setAccount }) {
 
 	const buttonTag = (i) => {
 		const Tag = Buttons[pagesList.Button[i]];
-		return <Tag active={open === pagesList.Button[i]} />;
+		return <Tag address={account.address} active={open === pagesList.Button[i]} />;
 	};
 
 	const modalTag = (i) => {

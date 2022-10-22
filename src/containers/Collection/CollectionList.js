@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import CollectionCard from './CollectionCard'
 import CreateCollection from './CreateCollection'
 
-import { getUserCollections } from './../../utils/ReadonlyContracts'
+import { getUserCustomCollections } from './../../utils/ReadonlyContracts'
 import { addNFT } from './../../utils/TransactionContracts'
 import BigCollection from './BigCollection'
 
@@ -17,16 +17,14 @@ function CollectionList({ address, setCollectionList, nft }) {
 
     useEffect(() => {
         const collectionsAwait = async () => {
-            await getUserCollections(address).then((res) => {
+            await getUserCustomCollections(address).then((res) => {
                 setCollections(res)
             })
         }
         collectionsAwait();
     }, [])
 
-    const customCollections = collections.filter((collection) => (collection !== address + '/owning' && collection !== address + '/cart'))
 
-    console.log(collections, customCollections)
 
     return (
         <>
@@ -46,7 +44,7 @@ function CollectionList({ address, setCollectionList, nft }) {
                         </p>
                     </div>
                     {
-                        customCollections ? customCollections.map((collection) => {
+                        collections ? collections.map((collection) => {
                             return (
                                 <div className='w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global'
                                     onClick={() => addNFT(nft, collection)}>

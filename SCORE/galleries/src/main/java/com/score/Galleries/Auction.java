@@ -22,12 +22,12 @@ import score.ObjectReader;
 import score.ObjectWriter;
 
 public class Auction {
-  BigInteger timestamp;
-  BigInteger duration;
+  int timestamp;
+  int duration;
   BigInteger bid;
   Address bidder;
 
-  public Auction(BigInteger _timestamp, BigInteger _bid, Address _bidder) {
+  public Auction(int _timestamp, BigInteger _bid, Address _bidder) {
     this.timestamp = _timestamp;
     this.duration = 86400;
     this.bid = _bid;
@@ -45,12 +45,7 @@ public class Auction {
 
   public static Auction readObject(ObjectReader r) {
     r.beginList();
-    Auction a = new Auction(
-      r.readBigInteger(),
-      r.readBigInteger(),
-      r.readBigInteger(),
-      r.readAddress()
-    );
+    Auction a = new Auction(r.readInt(), r.readBigInteger(), r.readAddress());
     r.end();
     return a;
   }

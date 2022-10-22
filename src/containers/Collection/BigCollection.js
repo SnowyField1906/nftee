@@ -18,8 +18,8 @@ import Delete from "./components/Delete";
 
 
 function BigCollection({ address, collection, collectionInfo, nfts, setBigCollection }) {
-    const swiper = useSwiper()
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
 
     // const [bigNFT, setBigNFT] = useState();
     // const [nft, setNFT] = useState('');
@@ -174,7 +174,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                 <div className="self-center mx-1">
                                     <Edit />
                                 </div>
-                                <p className="text-medium w-5/6 text-center justify-self-center self-center">Edit information</p>
+                                <p className="text-medium w-5/6 text-center justify-self-center self-center">Edit Information</p>
                             </div>
                             <div className='flex h-14 w-11/12 button-medium rounded-xl'>
                                 <div className="self-center mx-1"

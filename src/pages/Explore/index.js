@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getCollectionNFTs } from "../../utils/ReadonlyContracts"
+import { getCollectionNFTs, getPublicNFTs } from "../../utils/ReadonlyContracts"
 
 
 import SmallNFT from "../../containers/NFT/SmallNFT"
@@ -19,19 +19,19 @@ function Explore({ address }) {
   const filterByRequests = ["No one", "1 - 2", "2 - 5", "More than 5"]
   const filterByPrice = ["On sale", "Not on sale", "Lower than 1", "1 - 10", "10 - 25", "Higher than 25"]
 
-  const [nfts, setNfts] = useState([]);
+  const [nfts, setNFTs] = useState([]);
 
   useEffect(() => {
     const nftsAwait = async () => {
-      await getCollectionNFTs("hxf9bfff62e92b621dfd823439c822d73c7df8e698/owning").then((res) => {
-        setNfts(res)
+      await getPublicNFTs().then((res) => {
+        setNFTs(res)
       })
     }
     nftsAwait();
   }, [])
 
   return (
-    <div className='page-bg'>
+    <div className='page-bg h-screen'>
       <div className='flex justify-self-center justify-between w-11/12 h-20 z-10'>
         <div className='flex justify-between w-auto'>
           <div className='w-40 h-full mx-3'>
