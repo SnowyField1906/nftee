@@ -96,8 +96,43 @@ export const deleteCollection = (_user, _collection) => {
     }))
 }
 
+export const editCollectionInfo = (address, _collection, _name, _description, _visibility) => {
+    var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
+    var callTransactionData = callTransactionBuilder
+        .from(address)
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .nid(process.env.REACT_APP_NID)
+        .value(0x0)
+        .timestamp((new Date()).getTime() * 1000)
+        .stepLimit(IconService.IconConverter.toBigNumber(10000000))
+        .version(0x3)
+        .method('editCollectionInfo')
+        .params({
+            _collection: _collection,
+            _name: _name,
+            _description: _description,
+            _visibility: IconService.IconConverter.toBigNumber(+_visibility),
+        })
+        .build();
 
-export const createNFT = (_user, _price, _visibility, _onSale, _ipfs) => {
+    var score_sdk = JSON.stringify({
+        jsonrpc: "2.0",
+        method: "icx_sendTransaction",
+        params: IconService.IconConverter.toRawTransaction(callTransactionData),
+        id: 0,
+    })
+
+    var parsed = JSON.parse(score_sdk)
+    window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_JSON-RPC',
+            payload: parsed,
+        }
+    }))
+}
+
+
+export const createNFT = (_user, _ipfs, _price, _visibility, _onSale) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
@@ -266,7 +301,7 @@ export const deleteNFT = (_user, _nft) => {
     }))
 }
 
-export const editNFTInfo = (address, _nft, _visibility, _onSale) => {
+export const editNFTInfo = (address, _nft, _price, _visibility, _onSale) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(address)
@@ -279,6 +314,7 @@ export const editNFTInfo = (address, _nft, _visibility, _onSale) => {
         .method('editNFTInfo')
         .params({
             _nft: _nft,
+            _price: IconService.IconConverter.toBigNumber(_price * 1e9),
             _visibility: IconService.IconConverter.toBigNumber(+_visibility),
             _onSale: IconService.IconConverter.toBigNumber(+_onSale),
         })

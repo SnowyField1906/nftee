@@ -1,54 +1,62 @@
 import { useState, useEffect } from "react";
 import { findPublicGateWay } from "../../utils/constants";
-import { getCollectionNFTs, getCollectionPublicNFTs, getPublicNFTs } from "../../utils/ReadonlyContracts";
-import { getCollectionInfo } from "../../utils/ReadonlyContracts";
+import { getCollectionInfo, getCollectionNFTs, getCollectionPublicNFTs } from "../../utils/ReadonlyContracts";
 
-import BigCollection from "./BigCollection";
 
 import Collection from "./components/Collection";
 import User from "../NFT/components/User";
 
 
-function SmallCollection({ address, collection, isPublic }) {
-    const [bigCollection, setBigCollection] = useState(false)
+function SmallCollection({ collection, setCollection, setCollectionInfo, setNFTs, setBigCollection, isPublic }) {
+    const [temporaryCollectionInfo, setTemporaryCollectionInfo] = useState([])
+    const [temporaryNFTs, setTemporaryNFTs] = useState([])
 
-    const [nfts, setNFTs] = useState([]);
-    const [collectionInfo, setCollectionInfo] = useState([]);
 
-    console.log(nfts)
-
+    const publicNFTAwaits = async () => {
+        await getCollectionPublicNFTs(collection).then((res) => {
+            setTemporaryNFTs(res)
+        })
+    }
+    const nftsAwait = async () => {
+        await getCollectionNFTs(collection).then((res) => {
+            setTemporaryNFTs(res)
+        })
+    }
+    const infoAwait = async () => {
+        await getCollectionInfo(collection).then((res) => {
+            setTemporaryCollectionInfo(res)
+        })
+    }
     useEffect(() => {
         if (isPublic) {
-            const publicNFTAwaits = async () => {
-                await getCollectionPublicNFTs(collection).then((res) => {
-                    setNFTs(res)
-                })
-            }
             publicNFTAwaits();
         }
         else {
-            const nftsAwait = async () => {
-                await getCollectionNFTs(collection).then((res) => {
-                    setNFTs(res)
-                })
-            }
             nftsAwait();
-        }
-        const infoAwait = async () => {
-            await getCollectionInfo(collection).then((res) => {
-                setCollectionInfo(res)
-            })
         }
         infoAwait();
     }, [])
 
+    const openBigCollection = () => {
+        setCollectionInfo(temporaryCollectionInfo)
+        setNFTs(temporaryNFTs)
+        setCollection(collection)
+        setBigCollection(true)
+    }
 
+    if (!temporaryCollectionInfo || temporaryCollectionInfo.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center w-full h-full">
+                <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-500">
+                </div>
+            </div>
+        )
+    }
 
-
-    if (nfts.length === 0) {
+    else if (temporaryNFTs.length === 0) {
         return (
             <div className="w-[21rem] h-[25.5rem] hover:scale-105 transform duration-300 ease-in-out select-none rounded-lg backdrop-blur-sm bg-gray-100/50 dark:bg-gray-800/50 bg- bg-cover bg-center"
-                onClick={() => setBigCollection(true)}>
+                onClick={openBigCollection}>
                 <div className="absolute w-[21rem] h-[25.5rem] p-2 rounded-lg backdrop-blur-3xl bg-gray-100/30 dark:bg-gray-800/30 ">
                     <div className="w-80 h-80 grid place-content-center">
                         <p className="text-xl font-bold text-white dark:text-gray-200">No NFTs</p>
@@ -59,7 +67,7 @@ function SmallCollection({ address, collection, isPublic }) {
                                 <div className='h-10 w-[13.5rem]'>
                                     <div className='pl-2 h-full w-full flex items-center'>
                                         <Collection />
-                                        <p className="pl-4 font-bold text-lg text-black dark:text-white">{collectionInfo[0]}</p>
+                                        <p className="pl-4 font-bold text-lg text-black dark:text-white">{temporaryCollectionInfo[0]}</p>
                                     </div>
                                     <div className='h-10 w-[13.5rem]'>
                                         <div className='pl-2 h-full w-full flex items-center'>
@@ -81,34 +89,30 @@ function SmallCollection({ address, collection, isPublic }) {
     else {
         return (
             <>
-                {bigCollection &&
-                    <div className="fixed w-screen h-screen z-30">
-                        <BigCollection address={address} setBigCollection={setBigCollection} collection={collection} collectionInfo={collectionInfo} nfts={nfts} isPublic={true} />
-                    </div>}
                 <div className="w-[21rem] h-[25.5rem] hover:scale-105 transform duration-300 ease-in-out select-none rounded-lg backdrop-blur-sm bg-gray-100/50 dark:bg-gray-800/50 bg- bg-cover bg-center"
                     style={{
-                        backgroundImage: `url(${findPublicGateWay(nfts[0])})`,
+                        backgroundImage: `url(${findPublicGateWay(temporaryNFTs[0])})`,
                     }}
-                    onClick={() => setBigCollection(true)}>
+                    onClick={openBigCollection}>
                     <div className="absolute w-[21rem] h-[25.5rem] p-2 rounded-lg backdrop-blur-3xl bg-gray-100/30 dark:bg-gray-800/30 ">
                         <div className="w-80 h-80 grid grid-cols-2 grid-rows-2 gap-2">
-                            {nfts.slice(0, 4).map((_, i) => {
+                            {temporaryNFTs.slice(0, 4).map((_, i) => {
                                 return (
                                     <>
                                         <div
                                             className="relative w-full h-full bg- bg-cover bg-center overflow-hidden rounded-lg"
                                             style={{
-                                                backgroundImage: `url(${findPublicGateWay(nfts[i])})`,
+                                                backgroundImage: `url(${findPublicGateWay(temporaryNFTs[i])})`,
                                             }}>
-                                            {i === 3 && nfts.length > 4 && (
+                                            {i === 3 && temporaryNFTs.length > 4 && (
                                                 <div className="absolute w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
                                                     <div className="text-white text-2xl font-semibold">
-                                                        +{nfts.length - 4}
+                                                        +{temporaryNFTs.length - 4}
                                                     </div>
                                                 </div>
                                             )}
                                         </div>
-                                        {findPublicGateWay(nfts[i]) ? null :
+                                        {findPublicGateWay(temporaryNFTs[i]) ? null :
                                             <div className="animate-spin self-center justify-self-center rounded-full h-20 w-20 border-b-2 border-gray-900 dark:border-gray-100"></div>
                                         }
                                     </>
@@ -122,7 +126,7 @@ function SmallCollection({ address, collection, isPublic }) {
                                     <div className='h-10 w-[13.5rem]'>
                                         <div className='pl-2 h-full w-full flex items-center'>
                                             <Collection />
-                                            <p className="pl-4 font-bold text-lg text-black dark:text-white">{collectionInfo[0]}</p>
+                                            <p className="pl-4 font-bold text-lg text-black dark:text-white">{temporaryCollectionInfo[0]}</p>
                                         </div>
                                         <div className='h-10 w-[13.5rem]'>
                                             <div className='pl-2 h-full w-full flex items-center'>

@@ -8,10 +8,10 @@ import { createNFT } from "../../utils/TransactionContracts";
 function Create({ account }) {
   const [createNFTParams, setCreateNFTParams] = useState({
     _user: account.address,
+    _ipfs: "",
     _price: 0,
     _visibility: false,
     _onSale: false,
-    _ipfs: "",
   });
 
   console.log(createNFTParams);
@@ -109,7 +109,7 @@ function Create({ account }) {
 
             <p className="text-high text-left place-self-center">Price:</p>
             <input className="col-start-2 col-end-6 place-self-center w-4/5 h-14 px-4 transition input"
-              type="number" placeholder="Price"
+              type="number" placeholder="Price" defaultValue={createNFTParams._price}
               onChange={(e) => setCreateNFTParams({ ...createNFTParams, _price: +e.target.value })} />
 
             <p className="text-high text-left place-self-center">Visibility:</p>
@@ -163,7 +163,7 @@ function Create({ account }) {
             </div>
             <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer"
               disabled={createNFTParams._ipfs === '' || createNFTParams._price === 0}
-              onClick={() => createNFT(createNFTParams._user, createNFTParams._price, createNFTParams._visibility, createNFTParams._onSale, createNFTParams._ipfs)}>Create</button>
+              onClick={() => createNFT(createNFTParams._user, createNFTParams._ipfs, createNFTParams._price, createNFTParams._visibility, createNFTParams._onSale)}>Create</button>
           </div>
 
 

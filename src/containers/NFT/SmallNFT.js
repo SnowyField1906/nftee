@@ -15,37 +15,45 @@ import AddToCollection from "./components/AddToCollection"
 import SendRequestBig from "./components/SendRequestBig"
 import DeleteBig from "../Collection/components/DeleteBig"
 
-function SmallNFT({ address, nft }) {
+function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setCollectionList }) {
+    const [temporaryNFTInfo, setTemporaryNFTInfo] = useState([])
+
     const [add, setAdd] = useState(false)
-    const [bigNFT, setBigNFT] = useState(false)
-    const [collectionList, setCollectionList] = useState(false)
-    const [nftInfo, setNftInfo] = useState([]);
+
+    const infoAwait = async () => {
+        await getNFTInfo(nft).then((res) => setTemporaryNFTInfo(res))
+    }
 
     useEffect(() => {
-        const nftInfo = async () => {
-            await getNFTInfo(nft).then((res) => {
-                setNftInfo(res)
-            })
-        }
-        nftInfo()
-    }, [nft])
+        infoAwait()
+    }, [])
 
-    console.log(address)
+    const openBigNFT = () => {
+        setNFTInfo(temporaryNFTInfo)
+        setNFT(nft)
+        setBigNFT(true)
+    }
+
+    const openCollectionList = () => {
+        setNFT(nft)
+        setCollectionList(true)
+    }
+
+
+    if (!temporaryNFTInfo || temporaryNFTInfo.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center w-full h-full">
+                <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-500">
+                </div>
+            </div>
+        )
+    }
 
     return (
         <>
-            {bigNFT &&
-                <div className="fixed w-screen h-screen z-30">
-                    <BigNFT address={address} nft={nft} nftInfo={nftInfo} setBigNFT={setBigNFT} />
-                </div>}
-            {collectionList &&
-                <div className="fixed w-screen h-screen z-40">
-                    <CollectionList address={address} nft={nft} setCollectionList={setCollectionList} />
-                </div>}
-
             <div className='inline-block my-10 rounded-lg hover:scale-105 transform duration-300 ease-in-out select-none'>
                 <div className='absolute top-0 w-full h-3/4 z-20'
-                    onClick={() => setBigNFT(true)}>
+                    onClick={openBigNFT}>
                 </div>
                 <div
                     className="relative w-80 h-80 bg- bg-cover bg-center max-w-xs overflow-hidden rounded-lg"
@@ -64,7 +72,7 @@ function SmallNFT({ address, nft }) {
                                 </div>
                                 <div className='h-10 w-[13.5rem]'>
                                     <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
-                                        onClick={() => setCollectionList(true)}>
+                                        onClick={openCollectionList}>
                                         <AddToCollection />
                                         <p className="pl-4 font-medium text-lg text-black dark:text-white">Add to collection</p>
                                     </div>
@@ -75,13 +83,13 @@ function SmallNFT({ address, nft }) {
                                 <div className='h-10 w-[13.5rem]'>
                                     <div className='pl-2 h-full w-full flex items-center'>
                                         <User />
-                                        {nftInfo[0] && <p className="pl-4 font-bold text-lg text-black dark:text-white">{nftInfo[0].slice(0, 8)}...{nftInfo[0].slice(-5)}</p>}
+                                        {temporaryNFTInfo[0] && <p className="pl-4 font-bold text-lg text-black dark:text-white">{temporaryNFTInfo[0].slice(0, 8)}...{temporaryNFTInfo[0].slice(-5)}</p>}
                                     </div>
                                 </div>
                                 <div className='h-10 w-[13.5rem]'>
                                     <div className='pl-2 h-full w-full flex items-center'>
                                         <Price />
-                                        <p className="pl-4 text-black dark:text-white">{nftInfo[1] / 1e9}
+                                        <p className="pl-4 text-black dark:text-white">{temporaryNFTInfo[1] / 1e9}
                                             <span className="font-semibold text-teal-800 dark:text-teal-200">&nbsp;&nbsp;ICX</span>
                                         </p>
                                     </div>
@@ -94,7 +102,7 @@ function SmallNFT({ address, nft }) {
                             <div className="flex h-1/3" onClick={() => setAdd(!add)}>
                                 <Add active={add} />
                             </div>
-                            {address === nftInfo[0] ?
+                            {address === temporaryNFTInfo[0] ?
                                 <div className="flex h-1/3" onClick={() => deleteNFT(address, nft)}>
                                     <DeleteBig />
                                 </div>

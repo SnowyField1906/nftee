@@ -9,27 +9,26 @@ import { addNFT } from './../../utils/TransactionContracts'
 import BigCollection from './BigCollection'
 
 
-function CollectionList({ address, setCollectionList, nft }) {
+function CollectionList({ address, collections, setCollectionList, nft }) {
     const [createCollection, setCreateCollection] = useState(false)
-    const [bigCollection, setBigCollection] = useState(false)
+    const [temporaryCollections, setTemporaryCollections] = useState(collections)
 
-    const [collections, setCollections] = useState([])
 
-    useEffect(() => {
-        const collectionsAwait = async () => {
+    const collectionsAwait = async () => {
+        if (!collections || collections.length === 0) {
             await getUserCustomCollections(address).then((res) => {
-                setCollections(res)
+                setTemporaryCollections(res)
             })
         }
+    }
+
+    useEffect(() => {
         collectionsAwait();
     }, [])
-
-
 
     return (
         <>
             {createCollection && <CreateCollection address={address} setCreateCollection={setCreateCollection} />}
-            {bigCollection && <BigCollection address={address} setBigCollection={setBigCollection} />}
 
             <div className='fixed mt-20 w-[60%] h-[70%] top-[10%] left-[20%] rounded-2xl z-30 backdrop-lg'>
                 <svg className="absolute top-0 right-0 m-4 h-8 w-8 fill-black dark:fill-white cursor-pointer z-50" onClick={() => setCollectionList(false)}
@@ -44,11 +43,11 @@ function CollectionList({ address, setCollectionList, nft }) {
                         </p>
                     </div>
                     {
-                        collections ? collections.map((collection) => {
+                        temporaryCollections ? temporaryCollections.map((collection) => {
                             return (
                                 <div className='w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global'
                                     onClick={() => addNFT(nft, collection)}>
-                                    <CollectionCard collection={collection} />
+                                    <CollectionCard collection={collection} expand={false} />
                                 </div>
                             )
                         })

@@ -229,7 +229,7 @@ public class Galleries {
     collection.description = _description;
     collection.visibility = _visibility;
 
-    String collectionID =
+    String newCollection =
       this.generateCollectionID(
           Address.fromString(
             _collection.substring(0, _collection.indexOf("/"))
@@ -240,10 +240,14 @@ public class Galleries {
       this.getUserCollections(
           Address.fromString(_collection.substring(0, _collection.indexOf("/")))
         );
-    collections.set(collections.indexOf(_collection), collectionID);
+    collections.set(collections.indexOf(_collection), newCollection);
 
     this.collectionInfo.remove(_collection);
-    this.collectionInfo.put(collectionID, collection);
+    this.collectionInfo.put(newCollection, collection);
+
+    ArrayList<String> nfts = this.getCollectionNFTs(_collection);
+    this.collectionMapNFTs.remove(_collection);
+    this.collectionMapNFTs.put(newCollection, nfts);
   }
 
   @External
@@ -308,8 +312,14 @@ public class Galleries {
   }
 
   @External
-  public void editNFTInfo(String _nft, boolean _visibility, boolean _onSale) {
+  public void editNFTInfo(
+    String _nft,
+    BigInteger _price,
+    boolean _visibility,
+    boolean _onSale
+  ) {
     NFT nft = this.nftInfo.get(_nft);
+    nft.price = _price;
     nft.visibility = _visibility;
     nft.onSale = _onSale;
     this.nftMapRequests.put(_nft, new ArrayList<>());

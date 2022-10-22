@@ -7,16 +7,16 @@ import "swiper/css/scrollbar";
 import { FreeMode, Scrollbar, Mousewheel } from "swiper";
 
 import CollectionCard from './../../../../../Collection/CollectionCard'
-import BigCollection from '../../../../../Collection/BigCollection';
 import CreateCollection from '../../../../../Collection/CreateCollection'
 
 import { getUserCustomCollections } from '../../../../../../utils/ReadonlyContracts'
 
 
-function Collection({ address, active }) {
+function Collection({ address, active, setOpen, setCollection, setCollectionInfo, setNFTs, setBigCollection }) {
     const [createCollection, setCreateCollection] = useState(false)
 
     const [customCollections, setCustomCollection] = useState([])
+
 
     useEffect(() => {
         const collectionsAwait = async () => {
@@ -24,6 +24,7 @@ function Collection({ address, active }) {
                 setCustomCollection(res)
             })
         }
+
         collectionsAwait();
     }, [active])
 
@@ -31,7 +32,6 @@ function Collection({ address, active }) {
     return (
         <>
             {createCollection && <CreateCollection address={address} setCreateCollection={setCreateCollection} />}
-
 
             <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14
             transform duration-300 ease-in-out select-none
@@ -43,7 +43,7 @@ function Collection({ address, active }) {
                     </div>
                     <div className='flex-initial gap-2 w-full h-full'>
 
-                        <div className='grid place-content-center w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global' onClick={() => setCreateCollection(true)}>
+                        <div className='grid place-content-center w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global' onClick={() => { setOpen(''); setCreateCollection(true) }}>
                             <p className="text-high h-full w-full">
                                 Create new collection
                             </p>
@@ -52,7 +52,7 @@ function Collection({ address, active }) {
                             customCollections ? customCollections.map((collection) => {
                                 return (
                                     <div className='w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global'>
-                                        <CollectionCard address={address} collection={collection} />
+                                        <CollectionCard setOpen={setOpen} collection={collection} setCollection={setCollection} setNFTs={setNFTs} setCollectionInfo={setCollectionInfo} setBigCollection={setBigCollection} />
                                     </div>
                                 )
                             })

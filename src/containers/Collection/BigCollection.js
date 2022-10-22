@@ -16,28 +16,26 @@ import BigNFT from "../NFT/BigNFT";
 
 import Edit from "./components/Edit";
 import Delete from "./components/Delete";
+import EditCollection from "./EditCollection";
 
 
-function BigCollection({ address, collection, collectionInfo, nfts, setBigCollection, isPublic }) {
+function BigCollection({ address, collection, collectionInfo, nfts, setBigCollection }) {
+    const [editCollection, setEditCollection] = useState(false);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [realQuality, setRealQuality] = useState(0);
 
+    const nftsAwait = async () => {
+        await getCollectionNFTs(collection).then((res) => {
+            setRealQuality(res.length)
+        })
+    }
     useEffect(() => {
-        const nftsAwait = async () => {
-            await getCollectionNFTs(collection).then((res) => {
-                setRealQuality(res.length)
-            })
-        }
         nftsAwait();
-
-    }, [])
+    }, [editCollection])
 
     const showQuality = () => {
-        const unit = nfts.length > 1 ? nfts.length + " NFTs" : nfts.length + " NFT";
-        return `${nfts.length}/${realQuality} (${realQuality - nfts.length} ${unit} hidden)`
+        return `${nfts.length}/${realQuality} ${realQuality > 1 ? " NFTs" : " NFT"} (${realQuality - nfts.length} hidden)`
     }
-
-    console.log(collection)
 
     return (
         <>
@@ -45,6 +43,12 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                 <div className="fixed w-screen h-screen z-30">
                     <BigNFT address={address} nft={nft} setBigNFT={setBigNFT} />
                 </div>} */}
+
+            {editCollection &&
+                <div className="fixed w-screen h-screen z-40">
+                    <EditCollection address={address} collection={collection} collectionInfo={collectionInfo} setEditCollection={setEditCollection} />
+                </div>}
+
             <div className='fixed mt-20 w-[80vw] h-[80vh] top-[5vh] left-[10vw] rounded-2xl z-30 backdrop-lg'>
                 <svg className="absolute top-0 right-0 m-4 z-50 h-8 w-8 fill-black dark:fill-white cursor-pointer" onClick={() => setBigCollection(false)}
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
@@ -127,7 +131,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                         {collection.split('/')[0]}
                                     </p>
                                     <svg className="w-7 h-7 mr-4 cursor-pointer fill-black/30 dark:fill-white/30 hover:fill-black/50 dark:hover:fill-white/50"
-                                        onClick={() => { navigator.clipboard.writeText(collectionInfo[0]) }}
+                                        onClick={() => { navigator.clipboard.writeText(collection.split('/')[0]) }}
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ><path d="m13 20a5.006 5.006 0 0 0 5-5v-8.757a3.972 3.972 0 0 0 -1.172-2.829l-2.242-2.242a3.972 3.972 0 0 0 -2.829-1.172h-4.757a5.006 5.006 0 0 0 -5 5v10a5.006 5.006 0 0 0 5 5zm-9-5v-10a3 3 0 0 1 3-3s4.919.014 5 .024v1.976a2 2 0 0 0 2 2h1.976c.01.081.024 9 .024 9a3 3 0 0 1 -3 3h-6a3 3 0 0 1 -3-3zm18-7v11a5.006 5.006 0 0 1 -5 5h-9a1 1 0 0 1 0-2h9a3 3 0 0 0 3-3v-11a1 1 0 0 1 2 0z" />
                                     </svg>
                                 </div>
@@ -173,18 +177,19 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                             </div>
                         </div>
                         {address === collection.split('/')[0] && <div className="h-[17%] w-3/4 absolute bottom-0 grid grid-rows-2 grid-cols-2 place-items-center">
-                            <div className='flex h-14 w-11/12 button-medium rounded-xl'>
+                            <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                onClick={() => setEditCollection(true)}>
                                 <div className="self-center mx-1">
                                     <Edit />
                                 </div>
-                                <p className="text-medium w-5/6 text-center justify-self-center self-center">Edit Information</p>
+                                <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Edit Information</p>
                             </div>
                             <div className='flex h-14 w-11/12 button-medium rounded-xl'>
                                 <div className="self-center mx-1"
                                     onClick={() => deleteCollection(address, collection)}>
                                     <Delete />
                                 </div>
-                                <p className="text-medium w-5/6 text-center justify-self-center self-center">Delete collection</p>
+                                <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Delete collection</p>
                             </div>
 
                         </div>

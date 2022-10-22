@@ -31,7 +31,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
             })
         }
         requestsAwait()
-    }, [nft])
+    }, [collectionList, editNFT, requests])
 
 
 
