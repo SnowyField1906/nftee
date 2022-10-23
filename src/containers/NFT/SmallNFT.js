@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
 
 import { findPublicGateWay } from "../../utils/constants"
-import { addNFT, sendRequest, deleteNFT } from "../../utils/TransactionContracts"
+import { addNFT, addToCart, sendRequest, deleteNFT, editNFTInfo } from "../../utils/TransactionContracts"
 import { getNFTInfo } from "../../utils/ReadonlyContracts"
 
 import BigNFT from "./BigNFT"
 import CollectionList from "../Collection/CollectionList"
+import EditNFT from "./EditNFT"
 
 import User from "./components/User"
 import Price from "./components/Price"
@@ -14,10 +15,10 @@ import AddToCart from "./components/AddToCart"
 import AddToCollection from "./components/AddToCollection"
 import SendRequestBig from "./components/SendRequestBig"
 import DeleteBig from "../Collection/components/DeleteBig"
+import Edit from "../Collection/components/Edit"
 
-function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setCollectionList }) {
+function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, setCollectionList }) {
     const [temporaryNFTInfo, setTemporaryNFTInfo] = useState([])
-
     const [add, setAdd] = useState(false)
 
     const infoAwait = async () => {
@@ -26,7 +27,7 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setCollectionLi
 
     useEffect(() => {
         infoAwait()
-    }, [nft])
+    }, [setNFT, setBigNFT, setEditNFT, setCollectionList])
 
     const openBigNFT = () => {
         setNFTInfo(temporaryNFTInfo)
@@ -37,6 +38,12 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setCollectionLi
     const openCollectionList = () => {
         setNFT(nft)
         setCollectionList(true)
+    }
+
+    const openEditNFT = () => {
+        setNFTInfo(temporaryNFTInfo)
+        setNFT(nft)
+        setEditNFT(true)
     }
 
 
@@ -65,18 +72,28 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setCollectionLi
                             <div className="grid justify-between items-center w-[13.5rem] h-full px-6">
                                 <div className='h-10 w-[13.5rem] border-b-2 border-gray-800 dark:border-gray-200 border-opacity-20 dark:border-opacity-20'>
                                     <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
-                                        onClick={() => addNFT(nft, address + "/cart")}>
-                                        <AddToCart />
-                                        <p className="pl-4 font-medium text-lg text-black dark:text-white">Add to cart</p>
-                                    </div>
-                                </div>
-                                <div className='h-10 w-[13.5rem]'>
-                                    <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
                                         onClick={openCollectionList}>
                                         <AddToCollection />
                                         <p className="pl-4 font-medium text-lg text-black dark:text-white">Add to collection</p>
+
                                     </div>
                                 </div>
+                                {address === temporaryNFTInfo[0] ?
+                                    <div className='h-10 w-[13.5rem]'>
+                                        <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
+                                            onClick={openEditNFT}>
+                                            <Edit />
+                                            <p className="pl-4 font-medium text-lg text-black dark:text-white">Edit information</p>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className='h-10 w-[13.5rem]'>
+                                        <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
+                                            onClick={() => addToCart(address, nft)}>
+                                            <AddToCart />
+                                            <p className="pl-4 font-medium text-lg text-black dark:text-white">Add to cart</p>
+                                        </div>
+                                    </div>}
                             </div>
                             :
                             <div className="grid justify-between items-center w-[13.5rem] h-full px-6">

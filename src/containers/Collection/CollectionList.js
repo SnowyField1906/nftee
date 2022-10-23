@@ -24,7 +24,7 @@ function CollectionList({ address, collections, setCollectionList, nft }) {
 
     useEffect(() => {
         collectionsAwait();
-    }, [])
+    }, [createCollection, setCollectionList])
 
     return (
         <>

@@ -7,6 +7,15 @@ const iconService = new IconService(httpProvider);
 const { IconBuilder } = IconService
 const { CallBuilder } = IconBuilder
 
+export const users = async () => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('users')
+        .build()
+
+    const users = await iconService.call(call).execute()
+    return users;
+}
 
 export const getPublicCollections = async () => {
     const call = new CallBuilder()
@@ -122,12 +131,41 @@ export const getNFTInfo = async (_nft) => {
     return nftInfo;
 }
 
-export const users = async () => {
+export const getAuctionInfo = async (_auction) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
-        .method('users')
+        .method('getAuctionInfo')
+        .params({
+            _auction: _auction
+        })
         .build()
 
-    const users = await iconService.call(call).execute()
-    return users;
+    const nftInfo = await iconService.call(call).execute()
+    return nftInfo;
+}
+
+export const balance = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('balance')
+        .params({
+            _user: _user
+        })
+        .build()
+
+    const balance = await iconService.call(call).execute()
+    return IconService.IconConverter.toNumber(balance);
+}
+
+export const payableBalance = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('payableBalance')
+        .params({
+            _user: _user
+        })
+        .build()
+
+    const balance = await iconService.call(call).execute()
+    return IconService.IconConverter.toNumber(balance);
 }

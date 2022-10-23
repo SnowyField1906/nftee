@@ -16,7 +16,7 @@ import BigCollection from '../../containers/Collection/BigCollection';
 import SmallNFT from '../../containers/NFT/SmallNFT';
 import BigNFT from '../../containers/NFT/BigNFT';
 import CollectionList from '../../containers/Collection/CollectionList';
-
+import EditNFT from '../../containers/NFT/EditNFT';
 
 const httpProvider = new IconService.HttpProvider('https://sejong.net.solidwallet.io/api/v3')
 const iconService = new IconService(httpProvider);
@@ -26,6 +26,7 @@ SwiperCore.use([Navigation, Pagination]);
 
 
 function Profile({ address }) {
+  const [editNFT, setEditNFT] = useState(false)
   const [collectionList, setCollectionList] = useState(false)
 
   const [bigNFT, setBigNFT] = useState(false)
@@ -68,7 +69,7 @@ function Profile({ address }) {
       })
     }
     nftsAwait();
-  }, [collectionList, bigNFT, bigCollection])
+  }, [editNFT, collectionList, bigNFT, bigCollection, nft, collection])
 
 
   console.log(nft)
@@ -82,13 +83,17 @@ function Profile({ address }) {
 
   return (
     <>
-      {collectionList &&
-        <div className="fixed w-screen h-screen z-40">
-          <CollectionList address={address} nft={nft} collections={customCollections} setCollectionList={setCollectionList} />
-        </div>}
       {bigNFT &&
         <div className="fixed w-screen h-screen z-30">
           <BigNFT address={address} nft={nft} nftInfo={nftInfo} setBigNFT={setBigNFT} />
+        </div>}
+      {editNFT &&
+        <div className="fixed w-screen h-screen z-50">
+          <EditNFT address={address} nft={nft} nftInfo={nftInfo} setEditNFT={setEditNFT} />
+        </div>}
+      {collectionList &&
+        <div className="fixed w-screen h-screen z-40">
+          <CollectionList address={address} nft={nft} collections={customCollections} setCollectionList={setCollectionList} />
         </div>}
       {bigCollection &&
         <div className="fixed w-screen h-screen z-30">
@@ -125,7 +130,7 @@ function Profile({ address }) {
                     return (
                       <SwiperSlide>
                         <div className="grid justify-items-center place-items-center ">
-                          <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setCollectionList={setCollectionList} />
+                          <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
                         </div>
                       </SwiperSlide>
                     )

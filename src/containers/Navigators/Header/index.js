@@ -4,16 +4,24 @@ import { useState } from "react";
 import { pagesList } from "./../../../utils/constants";
 
 import BigCollection from "../../Collection/BigCollection";
+import BigNFT from "../../NFT/BigNFT";
 
 import * as Pages from './../../../svgs/Pages'
 import * as Buttons from './../../../svgs/Buttons'
 import * as Modals from './components/Modals'
 
 function Nagivator({ account, setAccount }) {
+	const [bigNFT, setBigNFT] = useState(false)
 	const [bigCollection, setBigCollection] = useState(false)
+
+	const [nft, setNFT] = useState('');
 	const [collection, setCollection] = useState('');
+
+	const [nftInfo, setNFTInfo] = useState([]);
 	const [collectionInfo, setCollectionInfo] = useState([]);
+
 	const [nfts, setNFTs] = useState([])
+	const [owningNFTs, setOwningNFTs] = useState([])
 
 	console.log(collectionInfo)
 
@@ -34,7 +42,7 @@ function Nagivator({ account, setAccount }) {
 
 	const modalTag = (i) => {
 		const Tag = Modals[pagesList.Button[i]];
-		return <Tag address={account.address} active={(open === pagesList.Button[i])} setOpen={setOpen} setCollection={setCollection} setNFTs={setNFTs} setCollectionInfo={setCollectionInfo} setBigCollection={setBigCollection} />;
+		return <Tag address={account.address} active={(open === pagesList.Button[i])} setOpen={setOpen} setCollection={setCollection} setNFTs={setNFTs} setCollectionInfo={setCollectionInfo} setBigCollection={setBigCollection} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} />;
 	};
 
 	const handleModal = (i) => {
@@ -51,6 +59,11 @@ function Nagivator({ account, setAccount }) {
 			{bigCollection &&
 				<div className="fixed w-screen h-screen z-30">
 					<BigCollection address={account.address} setBigCollection={setBigCollection} collection={collection} collectionInfo={collectionInfo} nfts={nfts} isPublic={false} />
+				</div>}
+
+			{bigNFT &&
+				<div className="fixed w-screen h-screen z-30">
+					<BigNFT address={account.address} nft={nft} nftInfo={nftInfo} setBigNFT={setBigNFT} />
 				</div>}
 
 			<nav className="absolute top-0 z-50">

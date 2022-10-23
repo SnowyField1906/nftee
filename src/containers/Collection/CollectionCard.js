@@ -22,7 +22,7 @@ function CollectionCard({ setOpen, collection, setCollection, setCollectionInfo,
     useEffect(() => {
         nftsAwait();
         infoAwait();
-    }, [])
+    }, [setOpen, setCollection, setBigCollection])
 
 
     const openBigCollection = () => {

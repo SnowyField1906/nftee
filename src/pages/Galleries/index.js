@@ -22,7 +22,7 @@ function Galleries({ address }) {
       })
     }
     collectionsAwait();
-  }, [])
+  }, [bigCollection, collection])
 
   const [sort, setSort] = useState('Newest')
 

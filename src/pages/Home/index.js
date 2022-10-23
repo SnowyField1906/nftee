@@ -5,10 +5,11 @@ import { getPublicNFTs } from '../../utils/ReadonlyContracts';
 
 import SmallNFT from '../../containers/NFT/SmallNFT'
 import BigNFT from '../../containers/NFT/BigNFT';
-
+import EditNFT from '../../containers/NFT/EditNFT';
 
 function Home({ address }) {
   const [collectionList, setCollectionList] = useState(false)
+  const [editNFT, setEditNFT] = useState(false)
   const [bigNFT, setBigNFT] = useState(false)
   const [nft, setNFT] = useState('');
   const [nftInfo, setNFTInfo] = useState([]);
@@ -21,7 +22,7 @@ function Home({ address }) {
       })
     }
     nftsAwait();
-  }, [bigNFT, collectionList, nft])
+  }, [bigNFT, editNFT, collectionList, nft])
 
 
   return (
@@ -29,6 +30,10 @@ function Home({ address }) {
       {bigNFT &&
         <div className="fixed w-screen h-screen z-30">
           <BigNFT address={address} nft={nft} nftInfo={nftInfo} setBigNFT={setBigNFT} />
+        </div>}
+      {editNFT &&
+        <div className="fixed w-screen h-screen z-50">
+          <EditNFT address={address} nft={nft} nftInfo={nftInfo} setEditNFT={setEditNFT} />
         </div>}
       <div className='grid h-max w-screen justify-items-center overflow-x-hidden'>
         <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
@@ -46,9 +51,9 @@ function Home({ address }) {
           <p className='text-huge'>Just released NFTs</p>
           <div className='content-list-view bg-white/50 dark:bg-black/50 rounded-xl'>
             {
-              nfts.map((nft) => {
+              nfts.map((_, i) => {
                 return (
-                  <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setCollectionList={setCollectionList} />
+                  <SmallNFT address={address} nft={nfts[nfts.length - 1 - i]} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
                 )
               })
             }
@@ -60,7 +65,7 @@ function Home({ address }) {
             {
               nfts.map((nft) => {
                 return (
-                  <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setCollectionList={setCollectionList} />
+                  <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
                 )
               })
             }

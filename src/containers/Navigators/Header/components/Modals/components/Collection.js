@@ -26,7 +26,7 @@ function Collection({ address, active, setOpen, setCollection, setCollectionInfo
         }
 
         collectionsAwait();
-    }, [active])
+    }, [setOpen, setCollection, setBigCollection])
 
 
     return (

@@ -31,7 +31,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
     }
     useEffect(() => {
         nftsAwait();
-    }, [editCollection])
+    }, [editCollection, setBigCollection])
 
     const showQuality = () => {
         return `${nfts.length}/${realQuality} ${realQuality > 1 ? " NFTs" : " NFT"} (${realQuality - nfts.length} hidden)`
@@ -184,9 +184,9 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                 </div>
                                 <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Edit Information</p>
                             </div>
-                            <div className='flex h-14 w-11/12 button-medium rounded-xl'>
-                                <div className="self-center mx-1"
-                                    onClick={() => deleteCollection(address, collection)}>
+                            <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                onClick={() => deleteCollection(address, collection)}>
+                                <div className="self-center mx-1">
                                     <Delete />
                                 </div>
                                 <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Delete collection</p>

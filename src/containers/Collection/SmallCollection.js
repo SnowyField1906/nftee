@@ -35,7 +35,7 @@ function SmallCollection({ collection, setCollection, setCollectionInfo, setNFTs
             nftsAwait();
         }
         infoAwait();
-    }, [])
+    }, [setCollection, setBigCollection])
 
     const openBigCollection = () => {
         setCollectionInfo(temporaryCollectionInfo)

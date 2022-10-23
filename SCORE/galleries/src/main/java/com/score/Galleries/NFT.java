@@ -34,7 +34,7 @@ public class NFT {
     BigInteger _price,
     String _description,
     boolean _visibility,
-    boolean _onSale
+    boolean _onSale,
   ) {
     this.owner = _owner;
     this.price = _price;
