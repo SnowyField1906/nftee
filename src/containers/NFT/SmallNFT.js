@@ -26,7 +26,7 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setCollectionLi
 
     useEffect(() => {
         infoAwait()
-    }, [])
+    }, [nft])
 
     const openBigNFT = () => {
         setNFTInfo(temporaryNFTInfo)
@@ -89,7 +89,7 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setCollectionLi
                                 <div className='h-10 w-[13.5rem]'>
                                     <div className='pl-2 h-full w-full flex items-center'>
                                         <Price />
-                                        <p className="pl-4 text-black dark:text-white">{temporaryNFTInfo[1] / 1e9}
+                                        <p className="pl-4 text-black dark:text-white">{temporaryNFTInfo[1] / 1e18}
                                             <span className="font-semibold text-teal-800 dark:text-teal-200">&nbsp;&nbsp;ICX</span>
                                         </p>
                                     </div>

@@ -5,9 +5,10 @@ import { editNFTInfo } from './../../utils/TransactionContracts'
 
 function EditNFT({ address, nft, nftInfo, setEditNFT }) {
     const [editNFTParams, setEditNFTParams] = useState({
-        _price: nftInfo[1] / 1e9,
-        _visibility: nftInfo[2] === 'true',
-        _onSale: nftInfo[3] === 'true',
+        _price: nftInfo[1] / 1e18,
+        _description: nftInfo[2],
+        _visibility: nftInfo[3] === 'true',
+        _onSale: nftInfo[4] === 'true',
     })
 
     return (
@@ -25,6 +26,12 @@ function EditNFT({ address, nft, nftInfo, setEditNFT }) {
                         <input className="col-start-2 col-end-6 place-self-center w-4/5 h-14 px-4 transition input"
                             type="number" placeholder="Price" defaultValue={editNFTParams._price}
                             onChange={(e) => setEditNFTParams({ ...editNFTParams, _price: +e.target.value })} />
+
+                        <p className="text-high text-left w-full place-self-center">Description:</p>
+                        <textarea className="col-start-2 col-end-6 place-self-center w-4/5 h-28 px-4 transition input"
+                            type="text" placeholder="Description" defaultValue={editNFTParams._description}
+                            onChange={(e) => setEditNFTParams({ ...editNFTParams, _description: e.target.value })} />
+
 
                         <p className="text-high text-left place-self-center">Visibility:</p>
 
@@ -74,8 +81,8 @@ function EditNFT({ address, nft, nftInfo, setEditNFT }) {
                                 </div>
                             </label>
                         </div>
-                        <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer"
-                            onClick={() => editNFTInfo(address, nft, editNFTParams._price, editNFTParams._visibility, editNFTParams._onSale)}>Summit change</button>
+                        <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border"
+                            onClick={() => editNFTInfo(address, nft, editNFTParams._price, editNFTParams._description, editNFTParams._visibility, editNFTParams._onSale)}>Summit change</button>
                     </div>
                 </div>
             </div>

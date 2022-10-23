@@ -20,23 +20,31 @@
   }
 
   .text-high {
-    @apply font-semibold text-black dark:text-white text-lg w-full;
+    @apply font-semibold select-none text-black dark:text-white text-lg w-full;
   }
 
   .text-medium {
-    @apply font-medium text-black dark:text-white;
+    @apply font-medium select-none text-black dark:text-white;
   }
 
   .button-global {
-    @apply border-2 bg-black/10 dark:bg-white/10 hover:bg-black/20 hover:dark:bg-white/20 border-black/50 dark:border-white/50;
+    @apply border-2 select-none bg-black/10 dark:bg-white/10 hover:bg-black/20 hover:dark:bg-white/20 border-black/50 dark:border-white/50;
   }
 
   .button-medium {
-    @apply px-4 py-2 bg-white/20 dark:bg-black/20 hover:bg-white/60 hover:dark:bg-black/60 border-black/50 dark:border-white/50;
+    @apply px-4 py-2 select-none bg-white/20 dark:bg-black/20 hover:bg-white/60 hover:dark:bg-black/60 border-black/50 dark:border-white/50;
+  }
+
+  .button-medium-disabled {
+    @apply px-4 py-2 select-none bg-white/10 dark:bg-black/10 border-black/50 dark:border-white/50;
+  }
+
+  .button-medium-no-hover {
+    @apply px-4 py-2 select-none bg-white/20 dark:bg-black/20 border-black/50 dark:border-white/50;
   }
 
   .button-light {
-    @apply px-4 py-2 hover bg-white/30 dark:bg-black/30 hover:bg-white/50 dark:hover:bg-black/50 border-black/70 dark:border-white/70;
+    @apply px-4 py-2 select-none bg-white/30 dark:bg-black/30 hover:bg-white/50 dark:hover:bg-black/50 border-black/70 dark:border-white/70;
   }
 
   .backdrop-lg {
@@ -53,15 +61,15 @@
   }
 
   .radio-disabled {
-    @apply inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 rounded-lg border border-gray-300/30 dark:border-gray-700/30 bg-gray-300/30 dark:bg-gray-700/30;
+    @apply select-none cursor-pointer inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 rounded-lg border border-gray-300/30 dark:border-gray-700/30 bg-gray-300/30 dark:bg-gray-700/30;
   }
 
   .radio-positive {
-    @apply inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-green-300/10 dark:hover:bg-green-700/10 peer-checked:border-green-500 peer-checked:text-green-700 dark:peer-checked:text-green-300 peer-checked:bg-green-500/20;
+    @apply select-none cursor-pointer inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-green-300/10 dark:hover:bg-green-700/10 peer-checked:border-green-500 peer-checked:text-green-700 dark:peer-checked:text-green-300 peer-checked:bg-green-500/20;
   }
 
   .radio-negative {
-    @apply inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-red-300/10 dark:hover:bg-red-700/10 peer-checked:border-red-500 peer-checked:text-red-700 dark:peer-checked:text-red-300 peer-checked:bg-red-500/20;
+    @apply select-none cursor-pointer inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-red-300/10 dark:hover:bg-red-700/10 peer-checked:border-red-500 peer-checked:text-red-700 dark:peer-checked:text-red-300 peer-checked:bg-red-500/20;
   }
 
   .input {

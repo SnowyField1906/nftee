@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { findPublicGateWay } from "../../utils/constants"
-import { addToCart, sendRequest } from "../../utils/TransactionContracts"
+import { addToCart, sendRequest, deleteNFT } from "../../utils/TransactionContracts"
 import { getNFTRequests } from "../../utils/ReadonlyContracts"
 
 import CollectionList from "../Collection/CollectionList"
@@ -11,10 +11,11 @@ import SendRequest from "./components/SendRequest"
 import User from "./components/User"
 import Approve from "./components/Approve"
 import Reject from "./components/Reject"
-import Auction from "./components/auction-icon"
+import Auction from "./components/Auction"
 import Delete from "../Collection/components/Delete"
 import Edit from "../Collection/components/Edit"
 import EditNFT from "./EditNFT"
+import Expand from "./components/Expand"
 
 
 
@@ -60,8 +61,8 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                         }}>
                     </div>
 
-                    <div className="relative h-full w-full grid place-items-center">
-                        <div className="h-[20%] w-5/6 absolute top-[5%] grid">
+                    <div className="h-full w-full grid place-items-center">
+                        <div className="h-56 w-5/6 grid">
                             <div className='flex h-14 rounded-xl '>
                                 <div className="w-1/5 h-14 flex place-items-center rounded-tl-xl border-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-4 font-semibold text-black dark:text-white'>Owner</p>
@@ -82,7 +83,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
-                                        {nftInfo[1] / 1e9} ICX
+                                        {nftInfo[1] / 1e18} ICX
                                     </p>
                                 </div>
                             </div>
@@ -92,28 +93,40 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
-                                        {nftInfo[2] === 'true' ? 'Public' : 'Private'}
+                                        {nftInfo[3] === 'true' ? 'Public' : 'Private'}
                                     </p>
                                 </div>
                             </div>
-                            <div className='flex rounded-xl'>
+                            <div className='flex'>
                                 <div className="flex justify-between place-items-center h-14 w-1/5 rounded-bl-xl border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-4 font-semibold text-black dark:text-white'>Status</p>
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light rounded-br-xl border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
-                                        {nftInfo[3] === 'true' ? "On Sale" : "Not On Sale"}
+                                        {nftInfo[4] === 'true' ? "On Sale" : "Not On Sale"}
                                     </p>
                                 </div>
                             </div>
-
                         </div>
-                        <div className="w-3/4 h-[37%] mt-[13%] button-light rounded-lg">
+
+                        <div className="w-3/4 h-36 button-light rounded-lg">
+                            <div className="pl-4 border-b-2 pb-2 border-black/30 dark:border-white/30 flex justify-between">
+                                <p className='text-medium text-lg place-self-center'>Description</p>
+                                <div className="flex place-items-center button-medium rounded-xl">
+                                    <Expand />
+                                    <p className='text-medium text-base pl-4 cursor-pointer'>Expand text</p>
+                                </div>
+                            </div>
+                            <div className="w-full pl-4 pt-2 text-black dark:text-white">
+                                {nftInfo[2]}
+                            </div>
+                        </div>
+                        <div className="w-3/4 h-36 button-light rounded-lg">
                             <div className="pl-4 border-b-2 pb-2 border-black/30 dark:border-white/30 flex justify-between">
                                 <p className='text-medium text-lg place-self-center'>Purchase requests</p>
                                 <div className="flex place-items-center button-medium rounded-xl">
-                                    <Auction />
-                                    <p className='text-medium text-base pl-4'>Expand list</p>
+                                    <Expand />
+                                    <p className='text-medium text-base pl-4 cursor-pointer'>Expand list</p>
                                 </div>
                             </div>
                             <div className="w-full">
@@ -133,23 +146,23 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 })}
                             </div>
                         </div>
-                        <div className="h-[17%] w-3/4 absolute bottom-[5%] grid grid-rows-2 grid-cols-2 place-items-center">
-                            <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                        <div className=" h-32 w-3/4 grid grid-rows-2 grid-cols-2 place-items-center">
+                            <div className='flex h-14 w-11/12 button-medium rounded-xl cursor-pointer   '
                                 onClick={() => setCollectionList(true)}>
                                 <div className="self-center mx-1">
                                     <AddToCollection />
                                 </div>
-                                <p className="text-medium w-5/6 text-center justify-self-center self-center">Add to collection</p>
+                                <p className=" text-medium w-5/6 text-center justify-self-center self-center">Add to collection</p>
                             </div>
                             {address === nftInfo[0] ?
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'>
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl cursor-pointer '>
                                     <div className="self-center mx-1">
                                         <Auction />
                                     </div>
                                     <p className="text-medium w-5/6 text-center justify-self-center self-center">Open auction</p>
                                 </div>
                                 :
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl cursor-pointer'
                                     onClick={() => { addToCart(nftInfo[0], nft) }}>
                                     <div className="self-center mx-1">
                                         <AddToCart />
@@ -158,7 +171,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                             }
                             {address === nftInfo[0] ?
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl cursor-pointer '
                                     onClick={() => setEditNFT(true)}>
                                     <div className="self-center mx-1">
                                         <Edit />
@@ -166,7 +179,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                     <p className="text-medium w-5/6 text-center justify-self-center self-center">Edit information</p>
                                 </div>
                                 :
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'>
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl cursor-pointer '>
                                     <div className="self-center mx-1">
                                         <User />
                                     </div>
@@ -174,20 +187,29 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                             }
                             {address === nftInfo[0] ?
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'>
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl cursor-pointer '
+                                    onClick={() => deleteNFT(address, nft)}>
                                     <div className="self-center mx-1">
                                         <Delete />
                                     </div>
                                     <p className="text-medium w-5/6 text-center justify-self-center self-center">Delete NFT</p>
                                 </div>
                                 :
-                                <div className='flex h-14 w-11/12 button-medium rounded-xl'
-                                    onClick={() => sendRequest(address, nft)}>
-                                    <div className="self-center mx-1">
-                                        <SendRequest />
+                                nftInfo[4] === 'true' ?
+                                    <div className='flex h-14 w-11/12 button-medium rounded-xl cursor-pointer '
+                                        onClick={() => sendRequest(address, nft)}>
+                                        <div className="self-center mx-1">
+                                            <SendRequest />
+                                        </div>
+                                        <p className="text-medium w-5/6 text-center justify-self-center self-center">Send purchase request</p>
                                     </div>
-                                    <p className="text-medium w-5/6 text-center justify-self-center self-center">Send purchase request</p>
-                                </div>
+                                    :
+                                    <div className='flex h-14 w-11/12 button-medium-disabled cursor-not-allowed rounded-xl'>
+                                        <div className="self-center mx-1">
+                                            <SendRequest />
+                                        </div>
+                                        <p className=" text-medium w-5/6 text-center justify-self-center self-center">Send purchase request</p>
+                                    </div>
                             }
                         </div>
                     </div>

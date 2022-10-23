@@ -1,89 +1,74 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
+import { useState, useEffect } from 'react';
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+
+import { getPublicNFTs } from '../../utils/ReadonlyContracts';
 
 import SmallNFT from '../../containers/NFT/SmallNFT'
-
-SwiperCore.use([Navigation, Pagination]);
+import BigNFT from '../../containers/NFT/BigNFT';
 
 
 function Home({ address }) {
-  const nft = "QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ"
+  const [collectionList, setCollectionList] = useState(false)
+  const [bigNFT, setBigNFT] = useState(false)
+  const [nft, setNFT] = useState('');
+  const [nftInfo, setNFTInfo] = useState([]);
+  const [nfts, setNFTs] = useState([])
+
+  useEffect(() => {
+    const nftsAwait = async () => {
+      await getPublicNFTs().then((res) => {
+        setNFTs(res)
+      })
+    }
+    nftsAwait();
+  }, [bigNFT, collectionList, nft])
+
 
   return (
-    <div className='grid h-max w-screen justify-items-center overflow-x-hidden'>
-      <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
-      </div>
-      <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
-      </div>
+    <>
+      {bigNFT &&
+        <div className="fixed w-screen h-screen z-30">
+          <BigNFT address={address} nft={nft} nftInfo={nftInfo} setBigNFT={setBigNFT} />
+        </div>}
+      <div className='grid h-max w-screen justify-items-center overflow-x-hidden'>
+        <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
+        </div>
+        <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
+        </div>
 
-      <div className='w-[90rem] h-[27rem] relative mb-20 justify-self-center translate-y-32 bg-contain bg-center bg-no-repeat overflow-hidden bg-home-picture-1 rounded-[4rem]'>
-        <p className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[5rem] font-bold text-white border-2 p-5
+        <div className='w-[90rem] h-[27rem] relative mb-20 justify-self-center translate-y-32 bg-contain bg-center bg-no-repeat overflow-hidden bg-home-picture-1 rounded-[4rem]'>
+          <p className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[5rem] font-bold text-white border-2 p-5
         drop-shadow-xl'>NFTee</p>
-        <p className='absolute inset-x-0 bottom-5 text-4xl font-bold text-center text-white'>Welcome to the world of NFTs</p>
-      </div>
+          <p className='absolute inset-x-0 bottom-5 text-4xl font-bold text-center text-white'>Welcome to the world of NFTs</p>
+        </div>
 
-      <div className='grid w-screen mt-36'>
-        <p className='text-huge'>Just released NFTs</p>
-        <Swiper
-          slidesPerView={5}
-          slidesPerGroup={1}
-          centeredSlides={true}
-          centeredSlidesBounds={true}
-          loop={true}
-          loopFillGroupWithBlank={true}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl w-3/4"
-        >
-          {
-            [...Array(5)].map(() => {
-              return (
-                <SwiperSlide>
-                  <div className='grid justify-items-center place-items-center'>
-                    <SmallNFT address={address} nft={nft} />
-                  </div>
-                </SwiperSlide>
-              )
-            })
-          }
-        </Swiper>
-      </div>
-      <div className='grid w-screen'>
-        <p className='text-huge'>Best selling NFTs</p>
-        <Swiper
-          slidesPerView={5}
-          slidesPerGroup={1}
-          centeredSlides={true}
-          centeredSlidesBounds={true}
-          loop={true}
-          loopFillGroupWithBlank={true}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 "
-        >
-          {
-            [...Array(5)].map(() => {
-              return (
-                <SwiperSlide>
-                  <SmallNFT address={address} nft={nft} />
-                </SwiperSlide>
-              )
-            })
-          }
-        </Swiper>
-      </div>
+        <div className='grid w-screen mt-36'>
+          <p className='text-huge'>Just released NFTs</p>
+          <div className='content-list-view bg-white/50 dark:bg-black/50 rounded-xl'>
+            {
+              nfts.map((nft) => {
+                return (
+                  <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setCollectionList={setCollectionList} />
+                )
+              })
+            }
+          </div>
+        </div>
+        <div className='grid w-screen'>
+          <p className='text-huge'>Best selling NFTs</p>
+          <div className='content-list-view bg-white/50 dark:bg-black/50 rounded-xl'>
+            {
+              nfts.map((nft) => {
+                return (
+                  <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setCollectionList={setCollectionList} />
+                )
+              })
+            }
+          </div>
 
-    </div>
+        </div>
+      </div>
+    </>
   )
 }
 

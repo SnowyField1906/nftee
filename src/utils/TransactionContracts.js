@@ -132,7 +132,7 @@ export const editCollectionInfo = (address, _collection, _name, _description, _v
 }
 
 
-export const createNFT = (_user, _ipfs, _price, _visibility, _onSale) => {
+export const createNFT = (_user, _ipfs, _price, _description, _visibility, _onSale) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
@@ -145,10 +145,11 @@ export const createNFT = (_user, _ipfs, _price, _visibility, _onSale) => {
         .method('createNFT')
         .params({
             _user: _user,
-            _price: IconService.IconConverter.toBigNumber(_price * 1e9),
+            _ipfs: _ipfs,
+            _price: IconService.IconConverter.toBigNumber(_price * 1e18),
+            _description: _description,
             _visibility: IconService.IconConverter.toBigNumber(+_visibility),
             _onSale: IconService.IconConverter.toBigNumber(+_onSale),
-            _ipfs: _ipfs,
         })
         .build();
 
@@ -301,7 +302,7 @@ export const deleteNFT = (_user, _nft) => {
     }))
 }
 
-export const editNFTInfo = (address, _nft, _price, _visibility, _onSale) => {
+export const editNFTInfo = (address, _nft, _price, _description, _visibility, _onSale) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(address)
@@ -314,7 +315,8 @@ export const editNFTInfo = (address, _nft, _price, _visibility, _onSale) => {
         .method('editNFTInfo')
         .params({
             _nft: _nft,
-            _price: IconService.IconConverter.toBigNumber(_price * 1e9),
+            _price: IconService.IconConverter.toBigNumber(_price * 1e18),
+            _description: _description,
             _visibility: IconService.IconConverter.toBigNumber(+_visibility),
             _onSale: IconService.IconConverter.toBigNumber(+_onSale),
         })
@@ -349,6 +351,7 @@ export const sendRequest = (_user, _nft) => {
         .method('sendRequest')
         .params({
             _user: _user,
+            _timestamp: IconService.IconConverter.toBigNumber((new Date()).getTime() / 1000),
             _nft: _nft,
         })
         .build();

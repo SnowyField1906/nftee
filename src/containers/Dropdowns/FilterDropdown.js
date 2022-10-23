@@ -18,7 +18,7 @@ function FilterDropdown(props) {
                     {({ open }) => (
                         <>
                             <span className="rounded-md shadow-sm">
-                                <Menu.Button className={`${isActive() ? "text-indigo-700" : "text-gray-700"} inline-flex justify-center w-[11rem] h-12 px-4 py-2 pt-3 text-md font-semibold leading-5 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md focus:outline-none focus:border-blue-300 focus:shadow-outline-blue`}>
+                                <Menu.Button className={`${isActive() ? "text-black dark:text-white" : "text-black/50 dark:text-white/50"} inline-flex justify-center w-[11rem] h-12 px-4 py-2 pt-3 text-md font-semibold leading-5 transition duration-150 ease-in-out button-medium rounded-md focus:outline-none focus:shadow-outline-blue border`}>
                                     <span>{isActive() ? filter : props.name}</span>
                                     <svg
                                         className="w-5 h-5 ml-2 -mr-1"
@@ -45,16 +45,16 @@ function FilterDropdown(props) {
                             >
                                 <Menu.Items
                                     static
-                                    className="absolute right-0 w-[11rem] mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+                                    className="absolute right-0 w-[11rem] mt-2 origin-top-right button-medium-no-hover divide-black/50 dark:divide-white/50 rounded-md shadow-lg outline-none"
                                 >
                                     <div className="py-1">
                                         <Menu.Item>
                                             <button
                                                 onClick={() => setFilter("")}
                                                 className={`${filter === ""
-                                                    ? 'bg-indigo-100 text-indigo-600 text-semibold'
-                                                    : 'text-gray-700'
-                                                    } hover:bg-indigo-100 hover:text-indigo-600 group flex rounded-md items-center w-full px-2 py-2 text-md`}
+                                                    ? 'bg-black/50 text-white text-semibold'
+                                                    : 'text-black/50 dark:text-white/50'
+                                                    } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}
                                             >
                                                 All
                                             </button>
@@ -67,9 +67,9 @@ function FilterDropdown(props) {
                                                     <button
                                                         onClick={() => setFilter(item)}
                                                         className={`${item === filter
-                                                            ? 'bg-indigo-100 text-indigo-600 text-semibold'
-                                                            : 'text-gray-700'
-                                                            } hover:bg-indigo-100 hover:text-indigo-600 group flex rounded-md items-center w-full px-2 py-2 text-md`}
+                                                            ? 'bg-black/50 text-white text-semibold'
+                                                            : 'text-black/50 dark:text-white/50'
+                                                            } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}
                                                     >
                                                         {item}
                                                     </button>

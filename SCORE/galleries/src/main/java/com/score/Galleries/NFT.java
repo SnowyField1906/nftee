@@ -24,27 +24,34 @@ import score.ObjectWriter;
 public class NFT {
   Address owner;
   BigInteger price;
+  String description;
   boolean visibility;
   boolean onSale;
+  int purchaseTimes;
 
   public NFT(
     Address _owner,
     BigInteger _price,
+    String _description,
     boolean _visibility,
     boolean _onSale
   ) {
     this.owner = _owner;
     this.price = _price;
+    this.description = _description;
     this.visibility = _visibility;
     this.onSale = _onSale;
+    this.purchaseTimes = 0;
   }
 
   public static void writeObject(ObjectWriter w, NFT _nft) {
-    w.beginList(4);
+    w.beginList(6);
     w.write(_nft.owner);
+    w.write(_nft.description);
     w.write(_nft.price);
     w.write(_nft.visibility);
     w.write(_nft.onSale);
+    w.write(_nft.purchaseTimes);
     w.end();
   }
 
@@ -53,6 +60,7 @@ public class NFT {
     NFT n = new NFT(
       r.readAddress(),
       r.readBigInteger(),
+      r.readString(),
       r.readBoolean(),
       r.readBoolean()
     );

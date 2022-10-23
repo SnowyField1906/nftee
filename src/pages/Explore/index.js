@@ -36,7 +36,7 @@ function Explore({ address }) {
       })
     }
     nftsAwait();
-  }, [])
+  }, [bigNFT, collectionList, nft])
 
 
   return (
@@ -58,7 +58,7 @@ function Explore({ address }) {
               <SortDropdown name="Time" array={sortByTime} sort={sort} setSort={setSort} />
             </div>
             <div className='w-40 h-full mx-3'>
-              <SortDropdown name="Volume" array={sortByRequests} sort={sort} setSort={setSort} />
+              <SortDropdown name="Requests" array={sortByRequests} sort={sort} setSort={setSort} />
             </div>
             <div className='w-40 h-full mx-3'>
               <SortDropdown name="Price" array={sortByPrice} sort={sort} setSort={setSort} />
@@ -70,7 +70,7 @@ function Explore({ address }) {
               <FilterDropdown name="Time" array={filterByTime} filter={filter} setFilter={setFilter} />
             </div>
             <div className='w-40 h-full mx-3'>
-              <FilterDropdown name="Volume" array={filterByRequests} filter={filter} setFilter={setFilter} />
+              <FilterDropdown name="Requests" array={filterByRequests} filter={filter} setFilter={setFilter} />
             </div>
             <div className='w-40 h-full mx-3'>
               <FilterDropdown name="Price" array={filterByPrice} filter={filter} setFilter={setFilter} />

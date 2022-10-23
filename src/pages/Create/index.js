@@ -10,6 +10,7 @@ function Create({ account }) {
     _user: account.address,
     _ipfs: "",
     _price: 0,
+    _description: "",
     _visibility: false,
     _onSale: false,
   });
@@ -71,26 +72,26 @@ function Create({ account }) {
   return (
     <div className="page-bg h-screen">
       <div className="grid grid-cols-2 grid-rows-1 w-screen h-full select-none" >
-        <div className="grid self-center justify-self-center place-items-center w-[30vw] h-[30vw] transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-500 hover:scale-105 focus:outline-none">
+        <div className="grid self-center justify-self-center place-items-center w-[30vw] h-[30vw] transition button-medium border-2 border-dashed rounded-md appearance-none cursor-pointer hover:scale-105 focus:outline-none p-1">
           <label className="grid w-full h-full justify-self-center">
             {!status ?
               <>
-                <span className="flex self-center justify-self-center items-center space-x-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                <span className="flex self-center justify-self-center items-center space-x-2 fill-black dark:fill-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-600" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
-                  <span className="font-medium text-gray-600">
+                  <span className="text-medium">
                     Drop files to attach, or&nbsp;
-                    <span className="text-blue-600 underline">browse</span>
+                    <span className="text-blue-500 underline">browse</span>
                   </span>
                 </span>
                 <input type="file" name="file_upload" className="w-full h-full hidden" onChange={(e) => uploadImage(e)} required />
 
               </>
               : status.slice(0, 5) !== "https" ?
-                <p className="text-center self-center">
+                <p className="text-medium text-center self-center">
                   {status}
                 </p>
                 :
@@ -105,12 +106,18 @@ function Create({ account }) {
         </div>
 
         <div className="grid self-center w-[40vw] h-[30vw] ">
-          <div className="grid overflow-hidden grid-cols-5 grid-rows-4 gap-2">
+          <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
+
 
             <p className="text-high text-left place-self-center">Price:</p>
             <input className="col-start-2 col-end-6 place-self-center w-4/5 h-14 px-4 transition input"
               type="number" placeholder="Price" defaultValue={createNFTParams._price}
-              onChange={(e) => setCreateNFTParams({ ...createNFTParams, _price: +e.target.value })} />
+              onChange={(e) => { if (+e.target.value !== 0) setCreateNFTParams({ ...createNFTParams, _price: +e.target.value }) }} />
+
+            <p className="text-high text-left w-full place-self-center">Description:</p>
+            <textarea className="col-start-2 col-end-6 place-self-center w-4/5 h-28 px-4 transition input"
+              type="text" placeholder="Description"
+              onChange={(e) => setCreateNFTParams({ ...createNFTParams, _description: e.target.value })} />
 
             <p className="text-high text-left place-self-center">Visibility:</p>
 
@@ -161,9 +168,9 @@ function Create({ account }) {
                 </div>
               </label>
             </div>
-            <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer"
+            <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border"
               disabled={createNFTParams._ipfs === '' || createNFTParams._price === 0}
-              onClick={() => createNFT(createNFTParams._user, createNFTParams._ipfs, createNFTParams._price, createNFTParams._visibility, createNFTParams._onSale)}>Create</button>
+              onClick={() => createNFT(createNFTParams._user, createNFTParams._ipfs, createNFTParams._price, createNFTParams._description, createNFTParams._visibility, createNFTParams._onSale)}>Create</button>
           </div>
 
 
