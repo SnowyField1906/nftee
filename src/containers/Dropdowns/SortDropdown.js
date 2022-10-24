@@ -1,9 +1,12 @@
 import { Menu, Transition } from '@headlessui/react'
 
-function SortDropdown(props) {
+function SortDropdown({ index, sortType, rawSort, setRawSort }) {
     const isActive = () => {
-        return props.array.includes(props.sort)
+        return index === rawSort[0]
     }
+
+    console.log(rawSort)
+
     return (
         <div className="flex items-center justify-center p-12">
             <div className="relative inline-block text-left">
@@ -12,7 +15,7 @@ function SortDropdown(props) {
                         <>
                             <span className="rounded-md shadow-sm">
                                 <Menu.Button className={`${isActive() ? "text-black dark:text-white" : "text-black/50 dark:text-white/50"} inline-flex justify-center w-[11rem] h-12 px-4 py-2 pt-3 text-md font-semibold leading-5 transition duration-150 ease-in-out button-medium rounded-md focus:outline-none focus:shadow-outline-blue border`}>
-                                    <span>{isActive() ? props.sort : props.name}</span>
+                                    <span>{isActive() ? Object.values(sortType)[index][rawSort[1]] : Object.keys(sortType)[index]}</span>
                                     <svg
                                         className="w-5 h-5 ml-2 -mr-1"
                                         viewBox="0 0 20 20"
@@ -42,16 +45,16 @@ function SortDropdown(props) {
                                 >
                                     <div className="py-1">
                                         {
-                                            props.array.map((item, index) => (
-                                                <Menu.Item key={index}>
+                                            Object.values(sortType)[index].map((_, i) => (
+                                                <Menu.Item key={i}>
                                                     <button
-                                                        onClick={() => props.setSort(item)}
-                                                        className={`${item === props.sort
+                                                        onClick={() => setRawSort([index, i])}
+                                                        className={`${isActive() && i === rawSort[1]
                                                             ? 'bg-black/50 text-white text-semibold'
                                                             : 'text-black/50 dark:text-white/50'
                                                             } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}
                                                     >
-                                                        {item}
+                                                        {Object.values(sortType)[index][i]}
                                                     </button>
                                                 </Menu.Item>
                                             ))

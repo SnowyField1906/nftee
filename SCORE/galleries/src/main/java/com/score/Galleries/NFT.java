@@ -28,6 +28,7 @@ public class NFT {
   boolean visibility;
   boolean onSale;
   int purchaseTimes;
+  BigInteger createdDate;
 
   public NFT(
     Address _owner,
@@ -35,6 +36,7 @@ public class NFT {
     String _description,
     boolean _visibility,
     boolean _onSale,
+    BigInteger createdDate
   ) {
     this.owner = _owner;
     this.price = _price;
@@ -42,16 +44,18 @@ public class NFT {
     this.visibility = _visibility;
     this.onSale = _onSale;
     this.purchaseTimes = 0;
+    this.createdDate = createdDate;
   }
 
   public static void writeObject(ObjectWriter w, NFT _nft) {
-    w.beginList(6);
+    w.beginList(7);
     w.write(_nft.owner);
     w.write(_nft.description);
     w.write(_nft.price);
     w.write(_nft.visibility);
     w.write(_nft.onSale);
     w.write(_nft.purchaseTimes);
+    w.write(_nft.createdDate);
     w.end();
   }
 
@@ -62,7 +66,8 @@ public class NFT {
       r.readBigInteger(),
       r.readString(),
       r.readBoolean(),
-      r.readBoolean()
+      r.readBoolean(),
+      r.readBigInteger()
     );
     r.end();
     return n;

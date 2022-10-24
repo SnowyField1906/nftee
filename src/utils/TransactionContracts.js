@@ -150,6 +150,7 @@ export const createNFT = (_user, _ipfs, _price, _description, _visibility, _onSa
             _description: _description,
             _visibility: IconService.IconConverter.toBigNumber(+_visibility),
             _onSale: IconService.IconConverter.toBigNumber(+_onSale),
+            _dateCreated: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000)),
         })
         .build();
 

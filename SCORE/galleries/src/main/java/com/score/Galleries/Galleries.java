@@ -33,6 +33,9 @@ import scorex.util.HashMap;
 public class Galleries {
   public ArrayList<Address> users = new ArrayList<>();
 
+  public HashMap<Address, ArrayList<String>> userMapAuctions = new HashMap<>();
+  public HashMap<Address, ArrayList<String>> userMapNotifications = new HashMap<>();
+
   public HashMap<Address, ArrayList<String>> userMapCollections = new HashMap<>();
   public HashMap<String, ArrayList<String>> collectionMapNFTs = new HashMap<>();
   public HashMap<String, ArrayList<Address>> nftMapRequests = new HashMap<>();
@@ -40,9 +43,6 @@ public class Galleries {
   public HashMap<String, Collection> collectionInfo = new HashMap<>();
   public HashMap<String, NFT> nftInfo = new HashMap<>();
   public HashMap<String, Auction> auctionInfo = new HashMap<>();
-
-  public HashMap<Address, ArrayList<String>> userMapAuctions = new HashMap<>();
-  public HashMap<Address, ArrayList<String>> userMapNotifications = new HashMap<>();
 
   private String decodeTransactionHash(String _hash) {
     byte[] decode = Base64.getDecoder().decode(Context.getTransactionHash());
@@ -173,7 +173,8 @@ public class Galleries {
         String.valueOf(nft.description),
         String.valueOf(nft.visibility),
         String.valueOf(nft.onSale),
-        String.valueOf(nft.purchaseTimes)
+        String.valueOf(nft.purchaseTimes),
+        String.valueOf(nft.createdDate)
       )
     );
   }
@@ -269,7 +270,8 @@ public class Galleries {
     BigInteger _price,
     String _description,
     boolean _visibility,
-    boolean _onSale
+    boolean _onSale,
+    BigInteger _dateCreated
   ) {
     Context.require(
       _price.compareTo(BigInteger.ZERO) > 0,
@@ -280,7 +282,14 @@ public class Galleries {
       "NFT already exists on the chain"
     );
 
-    NFT nft = new NFT(_user, _price, _description, _visibility, _onSale);
+    NFT nft = new NFT(
+      _user,
+      _price,
+      _description,
+      _visibility,
+      _onSale,
+      _dateCreated
+    );
     String collection = this.generateCollectionID(_user, "Owning");
     if (!this.collectionInfo.containsKey(collection)) {
       this.createCollection(
@@ -547,7 +556,22 @@ public class Galleries {
     this.nftMapRequests.put(_nft, new ArrayList<>());
   }
 
-
   @External(readonly = true)
-  public ArrayList<String> get
+  public HashMap<String, ArrayList<BigInteger>> sortedNFTs() {
+    ArrayList<String> nfts = this.getPublicNFTs();
+    HashMap<String, ArrayList<BigInteger>> sortedNFTs = new HashMap<>();
+
+    for (String nft : nfts) {
+      ArrayList<BigInteger> keys = new ArrayList<>();
+      NFT nftInfo = this.nftInfo.get(nft);
+
+      keys.add(nftInfo.createdDate);
+      keys.add(BigInteger.valueOf(this.nftMapRequests.get(nft).size()));
+      keys.add(nftInfo.price);
+      keys.add(BigInteger.valueOf(nftInfo.purchaseTimes));
+
+      sortedNFTs.put(nft, keys);
+    }
+    return sortedNFTs;
+  }
 }

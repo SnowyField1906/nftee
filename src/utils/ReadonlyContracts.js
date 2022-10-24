@@ -169,3 +169,21 @@ export const payableBalance = async (_user) => {
     const balance = await iconService.call(call).execute()
     return IconService.IconConverter.toNumber(balance);
 }
+
+
+export const sortedNFTs = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('sortedNFTs')
+        .params({})
+        .build()
+
+    const nfts = await iconService.call(call).execute()
+    Object.keys(nfts).forEach((nft) => {
+        nfts[nft][0] = IconService.IconConverter.toNumber(nfts[nft][0])
+        nfts[nft][1] = IconService.IconConverter.toNumber(nfts[nft][1])
+        nfts[nft][2] = IconService.IconConverter.toNumber(nfts[nft][2] / 1e18)
+        nfts[nft][3] = IconService.IconConverter.toNumber(nfts[nft][3])
+    })
+    return nfts;
+}

@@ -44,7 +44,10 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
 
     }, [collectionList, auctionModal, editNFT, nft, setBigNFT])
 
-
+    const [now, setNow] = useState(Math.floor(Date.now() / 1000))
+    setTimeout(() => {
+        setNow(now + 1)
+    }, 1000);
 
     return (
         <>
@@ -140,8 +143,8 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                             <div className="pl-4 border-b-2 pb-2 border-black/30 dark:border-white/30 flex justify-between">
                                 <p className='text-medium text-lg place-self-center'>Requests</p>
                                 <div className="flex place-items-center rounded-xl">
-                                    {auctionInfo[0] && requests.length < 2 && <p className='pl-4 text-medium'>Pending: {+auctionInfo[0] + 86400 - Math.floor(new Date().getTime() / 1000)}</p>}
-                                    {requests.length >= 2 && <p className='pl-4 text-medium'>Start after: {auctionInfo[1] - Math.floor((new Date().getTime() / 1000))}</p>}
+                                    {auctionInfo[0] && requests.length < 2 && <p className='pl-4 text-medium'>Pending: {+auctionInfo[0] + 86400 - now}</p>}
+                                    {requests.length >= 2 && <p className='pl-4 text-medium'>Start after: {auctionInfo[1] - now}</p>}
                                 </div>
                                 <div className="flex place-items-center button-medium rounded-xl">
                                     <Expand />

@@ -6,7 +6,7 @@ import { findPublicGateWay } from "../../utils/constants";
 import { createNFT } from "../../utils/TransactionContracts";
 
 function Create({ account }) {
-  const [createNFTParams, setCreateNFTParams] = useState({
+  const [params, setParams] = useState({
     _user: account.address,
     _ipfs: "",
     _price: 0,
@@ -15,7 +15,7 @@ function Create({ account }) {
     _onSale: false,
   });
 
-  console.log(createNFTParams);
+  console.log(params);
 
   const [status, setStatus] = useState();
 
@@ -47,7 +47,7 @@ function Create({ account }) {
 
         console.log(resFile.data.IpfsHash);
 
-        setCreateNFTParams({ ...createNFTParams, _ipfs: resFile.data.IpfsHash });
+        setParams({ ...params, _ipfs: resFile.data.IpfsHash });
 
         setStatus("Finding gateway...")
 
@@ -60,7 +60,7 @@ function Create({ account }) {
   }
 
 
-  console.log(createNFTParams);
+  console.log(params);
 
   if (!account.login) {
     return (
@@ -111,19 +111,19 @@ function Create({ account }) {
 
             <p className="text-high text-left place-self-center">Price:</p>
             <input className="col-start-2 col-end-6 place-self-center w-4/5 h-14 px-4 transition input"
-              type="number" placeholder="Price" defaultValue={createNFTParams._price}
-              onChange={(e) => { if (+e.target.value !== 0) setCreateNFTParams({ ...createNFTParams, _price: +e.target.value }) }} />
+              type="number" placeholder="Price" defaultValue={params._price}
+              onChange={(e) => { if (+e.target.value !== 0) setParams({ ...params, _price: +e.target.value }) }} />
 
             <p className="text-high text-left w-full place-self-center">Description:</p>
             <textarea className="col-start-2 col-end-6 place-self-center w-4/5 h-28 px-4 transition input"
               type="text" placeholder="Description"
-              onChange={(e) => setCreateNFTParams({ ...createNFTParams, _description: e.target.value })} />
+              onChange={(e) => setParams({ ...params, _description: e.target.value })} />
 
             <p className="text-high text-left place-self-center">Visibility:</p>
 
             <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
-              onChange={(e) => setCreateNFTParams({ ...createNFTParams, _visibility: e.target.value === 'true' })} >
-              <input type="radio" id="nft-visibility-true" name="nft-visibility" class="hidden peer" value={true} required checked={createNFTParams._visibility} />
+              onChange={(e) => setParams({ ...params, _visibility: e.target.value === 'true' })} >
+              <input type="radio" id="nft-visibility-true" name="nft-visibility" class="hidden peer" value={true} required checked={params._visibility} />
               <label for="nft-visibility-true" class="radio-positive">
                 <div class="block">
                   <div class="w-full text-lg font-semibold">Yes</div>
@@ -133,8 +133,8 @@ function Create({ account }) {
             </div>
 
             <div className="col-start-4 col-end-6 flex place-self-center place-items-center w-2/3 h-20 mr-14"
-              onChange={(e) => setCreateNFTParams({ ...createNFTParams, _visibility: e.target.value === 'true', _onSale: e.target.value === 'true' })} >
-              <input type="radio" id="nft-visibility-false" name="nft-visibility" class="hidden peer" value={false} required checked={!createNFTParams._visibility} />
+              onChange={(e) => setParams({ ...params, _visibility: e.target.value === 'true', _onSale: e.target.value === 'true' })} >
+              <input type="radio" id="nft-visibility-false" name="nft-visibility" class="hidden peer" value={false} required checked={!params._visibility} />
               <label for="nft-visibility-false" class="radio-negative">
                 <div class="block">
                   <div class="w-full text-lg font-semibold">No</div>
@@ -147,10 +147,10 @@ function Create({ account }) {
             <p className="text-high text-left place-self-center">On sale:</p>
 
             <div className="col-start-2 col-end-4 flex place-self-center place-items-center w-2/3 h-20 ml-14"
-              onChange={(e) => setCreateNFTParams({ ...createNFTParams, _onSale: e.target.value === 'true' })} >
-              <input type="radio" id="nft-onsale-true" name="nft-onsale" className="hidden peer" value={true} required checked={createNFTParams._onSale}
-                disabled={!createNFTParams._visibility} />
-              <label for="nft-onsale-true" className={createNFTParams._visibility ? "radio-positive" : "radio-disabled"}>
+              onChange={(e) => setParams({ ...params, _onSale: e.target.value === 'true' })} >
+              <input type="radio" id="nft-onsale-true" name="nft-onsale" className="hidden peer" value={true} required checked={params._onSale}
+                disabled={!params._visibility} />
+              <label for="nft-onsale-true" className={params._visibility ? "radio-positive" : "radio-disabled"}>
                 <div className="block">
                   <div className="w-full text-lg font-semibold">Yes</div>
                   <div className="w-full">Sell this NFT</div>
@@ -159,8 +159,8 @@ function Create({ account }) {
             </div>
 
             <div className="col-start-4 col-end-6 flex place-self-center place-items-center w-2/3 h-20 mr-14"
-              onChange={(e) => setCreateNFTParams({ ...createNFTParams, _onSale: e.target.value === 'true' })} >
-              <input type="radio" id="nft-onsale-false" name="nft-onsale" class="hidden peer" value={false} required checked={!createNFTParams._onSale} />
+              onChange={(e) => setParams({ ...params, _onSale: e.target.value === 'true' })} >
+              <input type="radio" id="nft-onsale-false" name="nft-onsale" class="hidden peer" value={false} required checked={!params._onSale} />
               <label for="nft-onsale-false" class="radio-negative">
                 <div class="block">
                   <div class="w-full text-lg font-semibold">No</div>
@@ -169,8 +169,8 @@ function Create({ account }) {
               </label>
             </div>
             <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border"
-              disabled={createNFTParams._ipfs === '' || createNFTParams._price === 0}
-              onClick={() => createNFT(createNFTParams._user, createNFTParams._ipfs, createNFTParams._price, createNFTParams._description, createNFTParams._visibility, createNFTParams._onSale)}>Create</button>
+              disabled={params._ipfs === '' || params._price === 0}
+              onClick={() => createNFT(params._user, params._ipfs, params._price, params._description, params._visibility, params._onSale)}>Create</button>
           </div>
 
 
