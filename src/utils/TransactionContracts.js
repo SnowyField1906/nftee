@@ -44,6 +44,7 @@ export const createCollection = (_user, _name, _description, _visibility) => {
             _name: _name,
             _description: _description,
             _visibility: IconService.IconConverter.toBigNumber(+_visibility),
+            _dateCreated: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000))
         })
         .build();
 

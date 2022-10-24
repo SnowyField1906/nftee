@@ -8,14 +8,26 @@ export const pagesList = {
 
 export const nftSortType = {
     "Date": ["Newest", "Oldest"],
-    "Price": ["Lowest Price", "Highest Price"],
-    "Requests": ["Least Requests", "Most Requests"],
-    "Purchase times": ["Flop", "Best selling"]
+    "Price": ["Highest Price", "Lowest Price"],
+    "Requests": ["Most Requests", "Least Requests"],
+    "Purchase times": ["Best selling", "Flop"]
 }
 
 export const nftFilterType = {
-    "Begin": ["Date", "Price", "Requests", "Purchase times"],
-    "End": ["Date", "Price", "Requests", "Purchase times"]
+    "Date": ["Begin", "End"],
+    "Price": ["Begin", "End"],
+    "Requests": ["Begin", "End"],
+    "Purchase times": ["Begin", "End"]
+}
+
+export const collectionSortType = {
+    "Date": ["Newest", "Oldest"],
+    "Volume": ["Most NFTs", "Least NFTs"],
+}
+
+export const collectionFilterType = {
+    "Date": ["Begin", "End"],
+    "Volume": ["Begin", "End"],
 }
 
 

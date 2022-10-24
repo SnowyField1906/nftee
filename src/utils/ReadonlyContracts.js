@@ -181,9 +181,24 @@ export const sortedNFTs = async (_user) => {
     const nfts = await iconService.call(call).execute()
     Object.keys(nfts).forEach((nft) => {
         nfts[nft][0] = IconService.IconConverter.toNumber(nfts[nft][0])
-        nfts[nft][1] = IconService.IconConverter.toNumber(nfts[nft][1])
-        nfts[nft][2] = IconService.IconConverter.toNumber(nfts[nft][2] / 1e18)
+        nfts[nft][1] = IconService.IconConverter.toNumber(nfts[nft][1] / 1e18)
+        nfts[nft][2] = IconService.IconConverter.toNumber(nfts[nft][2])
         nfts[nft][3] = IconService.IconConverter.toNumber(nfts[nft][3])
     })
     return nfts;
+}
+
+export const sortedCollections = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('sortedCollections')
+        .params({})
+        .build()
+
+    const collections = await iconService.call(call).execute()
+    Object.keys(collections).forEach((collection) => {
+        collections[collection][0] = IconService.IconConverter.toNumber(collections[collection][0])
+        collections[collection][1] = IconService.IconConverter.toNumber(collections[collection][1])
+    })
+    return collections;
 }

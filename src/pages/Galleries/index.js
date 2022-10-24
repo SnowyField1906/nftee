@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
-import { getPublicCollections, getUserCollections } from "../../utils/ReadonlyContracts"
+import { getPublicCollections, sortedCollections } from "../../utils/ReadonlyContracts"
+
+import { collectionSortType, collectionFilterType } from "../../utils/constants"
 
 import SmallCollection from "../../containers/Collection/SmallCollection"
 import BigCollection from "../../containers/Collection/BigCollection"
@@ -14,25 +16,45 @@ function Galleries({ address }) {
   const [collection, setCollection] = useState('');
   const [collectionInfo, setCollectionInfo] = useState([]);
   const [nfts, setNFTs] = useState([])
+  const [collectionObject, setCollectionObject] = useState([])
+
+  const [rawSort, setRawSort] = useState([0, 0])
+  const [rawFilter, setRawFilter] = useState([['', ''], ['', '']])
+
+  const [loading, setLoading] = useState(false)
+
+  const [render, setRender] = useState(0)
+
+  const collectionObjectAwaits = async () => {
+    await sortedCollections().then((res) => {
+      setCollectionObject(res)
+    })
+  }
+  useEffect(() => {
+    collectionObjectAwaits();
+  }, [rawSort])
+
 
   useEffect(() => {
-    const collectionsAwait = async () => {
-      await getPublicCollections().then((res) => {
-        setCollections(res)
+    const keys = Object.keys(collectionObject)
+    setCollections(keys.sort((a, b) => collectionObject[b][rawSort[0]] - collectionObject[a][rawSort[0]]))
+    rawSort[1] && setCollections(collections.reverse())
+
+    setCollections(keys.filter((key) => {
+      let flag = true
+      rawFilter.forEach((filter, i) => {
+        if (filter[0] !== '') {
+          flag = flag && collectionObject[key][i] >= filter[0];
+          console.log("begin", collectionObject[key][i], filter[0], flag)
+        }
+        if (filter[1] !== '') {
+          flag = flag && collectionObject[key][i] <= filter[1];
+          console.log("end", collectionObject[key][i], filter[1], flag)
+        }
       })
-    }
-    collectionsAwait();
-  }, [bigCollection, collection])
-
-  const [sort, setSort] = useState('Newest')
-
-  const [filter, setFilter] = useState([])
-
-  const sortByTime = ['Newest', 'Oldest']
-  const sortByVolume = ['Most NFTs', 'Least NFTs'];
-
-  const filterByVolume = ["Less than 4", "4 - 10", "10 - 20", "More than 20"]
-  const filterByTime = ["Today", "This week", "This month", "This year"]
+      return flag
+    }))
+  }, [rawSort, collectionObject, render])
 
 
   return (
@@ -44,21 +66,39 @@ function Galleries({ address }) {
       <div className='page-bg h-screen'>
         <div className='flex justify-self-center justify-between w-11/12 h-20 z-20'>
           <div className='flex justify-between w-auto'>
-            <div className='w-40 h-full mx-3'>
-              <SortDropdown name="Time" array={sortByTime} sort={sort} setSort={setSort} />
-            </div>
-            <div className='w-40 h-full mx-3'>
-              <SortDropdown name="Volume" array={sortByVolume} sort={sort} setSort={setSort} />
-            </div>
+            {
+              collectionObject && Object.keys(collectionSortType).map((_, i) => {
+                return (
+                  <div className='w-40 h-full mx-3'>
+                    <SortDropdown
+                      index={i}
+                      sortType={collectionSortType}
+                      rawSort={rawSort}
+                      setRawSort={setRawSort}
+                    />
+                  </div>
+                )
+              })
+            }
           </div>
 
           <div className='flex justify-between w-auto'>
-            <div className='w-40 h-full mx-3'>
-              <FilterDropdown name="Time" array={filterByTime} filter={filter} setFilter={setFilter} />
-            </div>
-            <div className='w-40 h-full mx-3'>
-              <FilterDropdown name="Volume" array={filterByVolume} filter={filter} setFilter={setFilter} />
-            </div>
+            {
+              collectionObject && Object.keys(collectionFilterType).map((_, i) => {
+                return (
+                  <div className='w-40 h-full mx-3'>
+                    <FilterDropdown
+                      index={i}
+                      filterType={collectionFilterType}
+                      rawFilter={rawFilter}
+                      setRawFilter={setRawFilter}
+                      render={render}
+                      setRender={setRender}
+                    />
+                  </div>
+                )
+              })
+            }
           </div>
         </div>
 

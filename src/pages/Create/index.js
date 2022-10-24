@@ -112,12 +112,12 @@ function Create({ account }) {
             <p className="text-high text-left place-self-center">Price:</p>
             <input className="col-start-2 col-end-6 place-self-center w-4/5 h-14 px-4 transition input"
               type="number" placeholder="Price" defaultValue={params._price}
-              onChange={(e) => { if (+e.target.value !== 0) setParams({ ...params, _price: +e.target.value }) }} />
+              onInput={(e) => { if (+e.target.value !== 0) setParams({ ...params, _price: +e.target.value }) }} />
 
             <p className="text-high text-left w-full place-self-center">Description:</p>
             <textarea className="col-start-2 col-end-6 place-self-center w-4/5 h-28 px-4 transition input"
               type="text" placeholder="Description"
-              onChange={(e) => setParams({ ...params, _description: e.target.value })} />
+              onInput={(e) => setParams({ ...params, _description: e.target.value })} />
 
             <p className="text-high text-left place-self-center">Visibility:</p>
 

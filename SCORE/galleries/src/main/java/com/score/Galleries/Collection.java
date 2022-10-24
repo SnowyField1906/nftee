@@ -16,6 +16,7 @@
 
 package com.score.Galleries;
 
+import java.math.BigInteger;
 import score.ObjectReader;
 import score.ObjectWriter;
 
@@ -23,18 +24,26 @@ public class Collection {
   String name;
   String description;
   Boolean visibility;
+  BigInteger dateCreated;
 
-  public Collection(String _name, String _description, boolean _visibility) {
+  public Collection(
+    String _name,
+    String _description,
+    boolean _visibility,
+    BigInteger _dateCreated
+  ) {
     this.name = _name;
     this.description = _description;
     this.visibility = _visibility;
+    this.dateCreated = _dateCreated;
   }
 
   public static void writeObject(ObjectWriter w, Collection _collection) {
-    w.beginList(3);
+    w.beginList(4);
     w.write(_collection.name);
     w.write(_collection.description);
     w.write(_collection.visibility);
+    w.write(_collection.dateCreated);
     w.end();
   }
 
@@ -43,7 +52,8 @@ public class Collection {
     Collection c = new Collection(
       r.readString(),
       r.readString(),
-      r.readBoolean()
+      r.readBoolean(),
+      r.readBigInteger()
     );
     r.end();
     return c;

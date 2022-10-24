@@ -5,8 +5,6 @@ function SortDropdown({ index, sortType, rawSort, setRawSort }) {
         return index === rawSort[0]
     }
 
-    console.log(rawSort)
-
     return (
         <div className="flex items-center justify-center p-12">
             <div className="relative inline-block text-left">

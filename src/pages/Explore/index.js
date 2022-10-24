@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getNFTInfo, getNFTRequests, getPublicNFTs, sortedNFTs } from "../../utils/ReadonlyContracts"
+import { sortedNFTs } from "../../utils/ReadonlyContracts"
 import { nftSortType, nftFilterType } from "../../utils/constants"
 
 import SmallNFT from "../../containers/NFT/SmallNFT"
@@ -22,9 +22,11 @@ function Explore({ address }) {
   const [nftObject, setNFTObject] = useState([])
 
   const [rawSort, setRawSort] = useState([0, 0])
-  const [rawFilter, setRawFilter] = useState([-1, -1, -1, -1], [-1, -1, -1, -1])
+  const [rawFilter, setRawFilter] = useState([['', ''], ['', ''], ['', ''], ['', '']])
 
   const [loading, setLoading] = useState(false)
+
+  const [render, setRender] = useState(0)
 
   const nftObjectAwaits = async () => {
     await sortedNFTs().then((res) => {
@@ -35,13 +37,33 @@ function Explore({ address }) {
     nftObjectAwaits();
   }, [rawSort])
 
-  console.log(nftObject)
+
 
   useEffect(() => {
     const keys = Object.keys(nftObject)
     setNFTs(keys.sort((a, b) => nftObject[b][rawSort[0]] - nftObject[a][rawSort[0]]))
     rawSort[1] && setNFTs(nfts.reverse())
+    console.log(nfts)
+
   }, [rawSort, nftObject])
+
+  useEffect(() => {
+    const keys = nfts
+    setNFTs(keys.filter((key) => {
+      let flag = true
+      rawFilter.forEach((filter, i) => {
+        if (filter[0] !== '') {
+          flag = flag && nftObject[key][i] >= filter[0];
+          console.log("begin", nftObject[key][i], filter[0], flag)
+        }
+        if (filter[1] !== '') {
+          flag = flag && nftObject[key][i] <= filter[1];
+          console.log("end", nftObject[key][i], filter[1], flag)
+        }
+      })
+      return flag
+    }))
+  }, [rawFilter, render])
 
 
   return (
@@ -84,7 +106,7 @@ function Explore({ address }) {
             </div>
 
             <div className='flex justify-between w-auto'>
-              {/* {
+              {
                 nftObject && Object.keys(nftFilterType).map((_, i) => {
                   return (
                     <div className='w-40 h-full mx-3'>
@@ -93,11 +115,13 @@ function Explore({ address }) {
                         filterType={nftFilterType}
                         rawFilter={rawFilter}
                         setRawFilter={setRawFilter}
+                        render={render}
+                        setRender={setRender}
                       />
                     </div>
                   )
                 })
-              } */}
+              }
             </div>
           </div>
 

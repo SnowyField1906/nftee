@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 
-function FilterDropdown(props) {
-    const [filter, setFilter] = useState("")
-
+function FilterDropdown({ index, filterType, rawFilter, setRawFilter, render, setRender }) {
+    const [begin, setBegin] = useState(rawFilter[index][0])
+    const [end, setEnd] = useState(rawFilter[index][1])
     useEffect(() => {
-        props.setFilter(...props.filter, filter)
-    }, [filter])
+        let newRawFilter = rawFilter
+        newRawFilter[index] = [begin, end]
+        setRawFilter(newRawFilter)
+        console.log(begin, end)
+        setRender(render + 1)
+        console.log('render', render)
+    }, [begin, end])
+
+
 
     const isActive = () => {
-        return props.array.includes(filter)
+        return rawFilter[index][0] !== '' || rawFilter[index][1] !== ''
     }
     return (
         <div className="flex items-center justify-center p-12">
@@ -19,7 +26,7 @@ function FilterDropdown(props) {
                         <>
                             <span className="rounded-md shadow-sm">
                                 <Menu.Button className={`${isActive() ? "text-black dark:text-white" : "text-black/50 dark:text-white/50"} inline-flex justify-center w-[11rem] h-12 px-4 py-2 pt-3 text-md font-semibold leading-5 transition duration-150 ease-in-out button-medium rounded-md focus:outline-none focus:shadow-outline-blue border`}>
-                                    <span>{isActive() ? filter : props.name}</span>
+                                    <span>{isActive() ? (begin === '' ? "Begin" : begin) + " - " + (end === '' ? "End" : end) : Object.keys(filterType)[index]}</span>
                                     <svg
                                         className="w-5 h-5 ml-2 -mr-1"
                                         viewBox="0 0 20 20"
@@ -50,8 +57,8 @@ function FilterDropdown(props) {
                                     <div className="py-1">
                                         <Menu.Item>
                                             <button
-                                                onClick={() => setFilter("")}
-                                                className={`${filter === ""
+                                                onClick={() => { setBegin(''); setEnd('') }}
+                                                className={`${!isActive()
                                                     ? 'bg-black/50 text-white text-semibold'
                                                     : 'text-black/50 dark:text-white/50'
                                                     } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}
@@ -61,21 +68,24 @@ function FilterDropdown(props) {
                                         </Menu.Item>
                                     </div>
                                     <div className="py-1">
-                                        {
-                                            props.array.map((item, index) => (
-                                                <Menu.Item key={index}>
-                                                    <button
-                                                        onClick={() => setFilter(item)}
-                                                        className={`${item === filter
-                                                            ? 'bg-black/50 text-white text-semibold'
-                                                            : 'text-black/50 dark:text-white/50'
-                                                            } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}
-                                                    >
-                                                        {item}
-                                                    </button>
-                                                </Menu.Item>
-                                            ))
-                                        }
+
+                                        <div className={`${rawFilter[index][0] !== ''
+                                            ? 'bg-black/50 text-white text-semibold'
+                                            : 'text-black/50 dark:text-white/50'
+                                            } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}>
+                                            <input type="number" placeholder='Begin' onChange={(e) => setBegin(e.target.value)} defaultValue={begin}
+                                                className="w-full h-10 px-4 py-2 pt-3 text-md font-semibold leading-5 transition duration-150 ease-in-out button-medium rounded-md focus:outline-none focus:shadow-outline-blue border" />
+                                        </div>
+
+                                        <div className={`${rawFilter[index][1] !== ''
+                                            ? 'bg-black/50 text-white text-semibold'
+                                            : 'text-black/50 dark:text-white/50'
+                                            } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}
+                                        >
+                                            <input type="number" placeholder='End' onChange={(e) => setEnd(e.target.value)} defaultValue={end}
+                                                className="w-full h-10 px-4 py-2 pt-3 text-md font-semibold leading-5 transition duration-150 ease-in-out button-medium rounded-md focus:outline-none focus:shadow-outline-blue border" />
+                                        </div>
+
                                     </div>
                                 </Menu.Items>
                             </Transition>
@@ -83,7 +93,7 @@ function FilterDropdown(props) {
                     )}
                 </Menu>
             </div>
-        </div>
+        </div >
     )
 }
 

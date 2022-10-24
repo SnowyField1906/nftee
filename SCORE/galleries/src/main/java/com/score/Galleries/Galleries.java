@@ -158,7 +158,8 @@ public class Galleries {
       List.of(
         collection.name,
         collection.description,
-        String.valueOf(collection.visibility)
+        String.valueOf(collection.visibility),
+        String.valueOf(collection.dateCreated)
       )
     );
   }
@@ -174,7 +175,7 @@ public class Galleries {
         String.valueOf(nft.visibility),
         String.valueOf(nft.onSale),
         String.valueOf(nft.purchaseTimes),
-        String.valueOf(nft.createdDate)
+        String.valueOf(nft.dateCreated)
       )
     );
   }
@@ -198,9 +199,15 @@ public class Galleries {
     Address _user,
     String _name,
     String _description,
-    boolean _visibility
+    boolean _visibility,
+    BigInteger _dateCreated
   ) {
-    Collection newCollection = new Collection(_name, _description, _visibility);
+    Collection newCollection = new Collection(
+      _name,
+      _description,
+      _visibility,
+      _dateCreated
+    );
     ArrayList<String> collections = this.getUserCollections(_user);
 
     if (collections == null) {
@@ -296,7 +303,8 @@ public class Galleries {
           _user,
           "Owning",
           "NFTs owned by " + String.valueOf(_user),
-          true
+          true,
+          BigInteger.ZERO
         );
     }
     this.addNFT(_ipfs, collection);
@@ -317,7 +325,8 @@ public class Galleries {
           _user,
           "Cart",
           String.valueOf(_user) + "'s Cart",
-          true
+          true,
+          BigInteger.ZERO
         );
     }
     this.addNFT(_nft, collection);
@@ -565,13 +574,31 @@ public class Galleries {
       ArrayList<BigInteger> keys = new ArrayList<>();
       NFT nftInfo = this.nftInfo.get(nft);
 
-      keys.add(nftInfo.createdDate);
-      keys.add(BigInteger.valueOf(this.nftMapRequests.get(nft).size()));
+      keys.add(nftInfo.dateCreated);
       keys.add(nftInfo.price);
+      keys.add(BigInteger.valueOf(this.nftMapRequests.get(nft).size()));
       keys.add(BigInteger.valueOf(nftInfo.purchaseTimes));
 
       sortedNFTs.put(nft, keys);
     }
     return sortedNFTs;
+  }
+
+  @External(readonly = true)
+  public HashMap<String, ArrayList<BigInteger>> sortedCollections() {
+    ArrayList<String> collections = this.getPublicCollections();
+    HashMap<String, ArrayList<BigInteger>> sortedCollections = new HashMap<>();
+
+    for (String collection : collections) {
+      ArrayList<BigInteger> keys = new ArrayList<>();
+
+      keys.add(this.collectionInfo.get(collection).dateCreated);
+      keys.add(
+        BigInteger.valueOf(this.collectionMapNFTs.get(collection).size())
+      );
+
+      sortedCollections.put(collection, keys);
+    }
+    return sortedCollections;
   }
 }

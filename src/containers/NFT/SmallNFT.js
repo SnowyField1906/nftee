@@ -25,6 +25,7 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
         await getNFTInfo(nft).then((res) => setTemporaryNFTInfo(res))
     }
 
+
     useEffect(() => {
         infoAwait()
     }, [nft, setBigNFT, setEditNFT, setCollectionList])
