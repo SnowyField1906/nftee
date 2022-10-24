@@ -32,7 +32,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
     }
     useEffect(() => {
         nftsAwait();
-    }, [editCollection, setBigCollection])
+    }, [collection, editCollection, setBigCollection])
 
     const showQuality = () => {
         return `${nfts.length}/${realQuality} ${realQuality > 1 ? " NFTs" : " NFT"} (${realQuality - nfts.length} hidden)`

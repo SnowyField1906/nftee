@@ -34,13 +34,16 @@ function Galleries({ address }) {
     collectionObjectAwaits();
   }, [rawSort])
 
+  // console.log(collectionObject["hx9c0e83db1833ee9648e3e8f38bc32f65995ecd63/My-favourite"][rawSort[0]])
+  // console.log(collections)
+
 
   useEffect(() => {
     const keys = Object.keys(collectionObject)
-    setCollections(keys.sort((a, b) => collectionObject[b][rawSort[0]] - collectionObject[a][rawSort[0]]))
-    rawSort[1] && setCollections(collections.reverse())
+    keys.sort((a, b) => collectionObject[b][rawSort[0]] - collectionObject[a][rawSort[0]])
+    rawSort[1] && setCollections(keys.reverse())
 
-    setCollections(keys.filter((key) => {
+    setCollections(keys.filter(async (key) => {
       let flag = true
       rawFilter.forEach((filter, i) => {
         if (filter[0] !== '') {
@@ -54,7 +57,7 @@ function Galleries({ address }) {
       })
       return flag
     }))
-  }, [rawSort, collectionObject, render])
+  }, [rawSort, rawFilter, collectionObject, render])
 
 
   return (

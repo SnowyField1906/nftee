@@ -7,7 +7,7 @@ import Collection from "./components/Collection";
 import User from "../NFT/components/User";
 
 
-function SmallCollection({ collection, setCollection, setCollectionInfo, setNFTs, setBigCollection, isPublic }) {
+function SmallCollection({ collection, setCollection, setCollectionInfo, setNFTs, setBigCollection, isPublic, render }) {
     const [temporaryCollectionInfo, setTemporaryCollectionInfo] = useState([])
     const [temporaryNFTs, setTemporaryNFTs] = useState([])
 
@@ -35,7 +35,7 @@ function SmallCollection({ collection, setCollection, setCollectionInfo, setNFTs
             nftsAwait();
         }
         infoAwait();
-    }, [setCollection, setBigCollection])
+    }, [collection, setBigCollection, render])
 
     const openBigCollection = () => {
         setCollectionInfo(temporaryCollectionInfo)
