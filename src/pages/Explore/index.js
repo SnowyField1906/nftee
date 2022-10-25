@@ -42,7 +42,7 @@ function Explore({ address }) {
   useEffect(() => {
     const keys = Object.keys(nftObject)
     keys.sort((a, b) => nftObject[b][rawSort[0]] - nftObject[a][rawSort[0]])
-    rawSort[1] && setNFT(keys.reverse())
+    rawSort[1] && setNFTs(keys.reverse())
 
     console.log("filtered")
 

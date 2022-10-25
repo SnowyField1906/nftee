@@ -34,24 +34,27 @@ function Galleries({ address }) {
     collectionObjectAwaits();
   }, [rawSort])
 
+  console.log(collectionObject)
+
 
   useEffect(() => {
     const keys = Object.keys(collectionObject)
     keys.sort((a, b) => collectionObject[b][rawSort[0]] - collectionObject[a][rawSort[0]])
     rawSort[1] && setCollections(keys.reverse())
 
-    setCollections(keys.filter(async (key) => {
+    console.log("filtered")
+
+    setCollections(keys.filter((key) => {
       let flag = true
       rawFilter.forEach((filter, i) => {
         if (filter[0] !== '') {
           flag = flag && collectionObject[key][i] >= filter[0];
-          // console.log("begin", collectionObject[key][i], filter[0], flag)
         }
         if (filter[1] !== '') {
           flag = flag && collectionObject[key][i] <= filter[1];
-          // console.log("end", collectionObject[key][i], filter[1], flag)
         }
       })
+      console.log(key, flag)
       return flag
     }))
   }, [rawSort, rawFilter, collectionObject, render])
