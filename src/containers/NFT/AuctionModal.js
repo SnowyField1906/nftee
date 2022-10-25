@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { startAuction } from '../../utils/TransactionContracts';
+import { startAuction, sendBid } from '../../utils/TransactionContracts';
 
 import { timeConventer, dateConventer } from './../../utils/helpers';
 
 function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuctionModal }) {
     const [duration, setDuration] = useState(0);
+    const [bid, setBid] = useState(0);
 
     return (
         <div className='fixed mt-20 w-[60%] h-[70%] top-[10%] left-[20%] rounded-2xl z-50 backdrop-lg'>
@@ -116,17 +117,18 @@ function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuction
                                 <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
                                     <p className="text-high text-left place-self-center">Bid:</p>
                                     <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
-                                        type="number" placeholder="Price"
-                                    // onChange={(e) => { if (+e.target.value !== 0) setCreateNFTParams({ ...createNFTParams, _price: +e.target.value }) }}
-                                    />
-                                    <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Enter</button>
+                                        type="number" placeholder="Enter your bid"
+                                        defaultValue={auctionInfo[3] / 1e18}
+                                        onInput={(e) => { setBid(+e.target.value * 1e18) }} />
+                                    <button onClick={() => sendBid(address, nft, bid)}
+                                        className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Summit bid</button>
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

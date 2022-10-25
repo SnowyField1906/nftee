@@ -409,6 +409,42 @@ export const startAuction = (address, _nft, _duration) => {
 }
 
 
+export const sendBid = (_user, _nft, _bid) => {
+    var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
+    var callTransactionData = callTransactionBuilder
+        .from(_user)
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .nid(process.env.REACT_APP_NID)
+        .value(0x0)
+        .timestamp((new Date()).getTime() * 1000)
+        .stepLimit(IconService.IconConverter.toBigNumber(10000000))
+        .version(0x3)
+        .method('bid')
+        .params({
+            _user: _user,
+            _nft: _nft,
+            _timestamp: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000)),
+            _bid: IconService.IconConverter.toBigNumber(_bid),
+        })
+        .build();
+
+    var score_sdk = JSON.stringify({
+        jsonrpc: "2.0",
+        method: "icx_sendTransaction",
+        params: IconService.IconConverter.toRawTransaction(callTransactionData),
+        id: 0,
+    })
+
+    var parsed = JSON.parse(score_sdk)
+    window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+        detail: {
+            type: 'REQUEST_JSON-RPC',
+            payload: parsed,
+        }
+    }))
+}
+
+
 // export const approveRequest = (address, _user, _nft) => {
 //     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
 //     var callTransactionData = callTransactionBuilder

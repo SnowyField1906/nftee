@@ -168,7 +168,9 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 <p className='text-medium place-self-center'>Requests</p>
                                 <div className="flex place-items-center rounded-xl">
                                     {auctionInfo[0] && requests.length < 2 && <p className='pl-4 text-medium'>Pending: {+auctionInfo[0] + 86400 - now}</p>}
-                                    {requests.length >= 2 && <p className='pl-4 text-medium'>Start after: {auctionInfo[1] - now}</p>}
+                                    {requests.length >= 2 && auctionInfo[1] > now && <p className='pl-4 text-medium'>Start after: {auctionInfo[1] - now}</p>}
+                                    {requests.length >= 2 && auctionInfo[1] < now && Number(auctionInfo[2]) + Number(auctionInfo[1]) > now && <p className='pl-4 text-medium'>End after: {Number(auctionInfo[2]) + Number(auctionInfo[1]) - now}</p>}
+}
                                 </div>
                                 <div className="flex place-items-center button-medium rounded-xl">
                                     <Expand />
