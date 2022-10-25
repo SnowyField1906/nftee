@@ -1,6 +1,10 @@
+import { useState } from 'react';
+import { startAuction } from '../../utils/TransactionContracts';
+
 import { timeConventer, dateConventer } from './../../utils/helpers';
 
-function AuctionModal({ address, isOwner, auctionInfo, requests, setAuctionModal }) {
+function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuctionModal }) {
+    const [duration, setDuration] = useState(0);
 
     return (
         <div className='fixed mt-20 w-[60%] h-[70%] top-[10%] left-[20%] rounded-2xl z-50 backdrop-lg'>
@@ -98,12 +102,13 @@ function AuctionModal({ address, isOwner, auctionInfo, requests, setAuctionModal
                         {isOwner ?
                             <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
                                 <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
-                                    <p className="text-high text-left place-self-center">Bid:</p>
+                                    <p className="text-high text-left place-self-center">Duration:</p>
                                     <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
                                         type="number" placeholder="Duration in seconds"
-                                    // onChange={(e) => { if (+e.target.value !== 0) setCreateNFTParams({ ...createNFTParams, _price: +e.target.value }) }}
-                                    />
-                                    <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Start auction now</button>
+                                        defaultValue={auctionInfo[2]}
+                                        onInput={(e) => { setDuration(+e.target.value) }} />
+                                    <button onClick={() => startAuction(address, nft, duration)}
+                                        className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Start auction now</button>
                                 </div>
                             </div>
                             :
