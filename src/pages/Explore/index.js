@@ -42,26 +42,24 @@ function Explore({ address }) {
   useEffect(() => {
     const keys = Object.keys(nftObject)
     keys.sort((a, b) => nftObject[b][rawSort[0]] - nftObject[a][rawSort[0]])
-    rawSort[1] && setNFTs(keys.reverse())
+    rawSort[1] && setNFT(keys.reverse())
 
-    setNFTs(keys.filter(async (key) => {
+    console.log("filtered")
+
+    setNFTs(keys.filter((key) => {
       let flag = true
       rawFilter.forEach((filter, i) => {
         if (filter[0] !== '') {
           flag = flag && nftObject[key][i] >= filter[0];
-          console.log("begin", nftObject[key][i], filter[0], flag)
         }
         if (filter[1] !== '') {
           flag = flag && nftObject[key][i] <= filter[1];
-          console.log("end", nftObject[key][i], filter[1], flag)
         }
       })
+      console.log(key, flag)
       return flag
     }))
   }, [rawSort, rawFilter, nftObject, render])
-
-
-
 
 
   return (

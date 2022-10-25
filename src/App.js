@@ -7,7 +7,8 @@ import { pagesList } from "./utils/constants";
 import Header from "./containers/Navigators/Header";
 import * as Pages from "./pages";
 
-
+import Collection from "./containers/Collection/components/Collection";
+import Profile from "./pages/External/Profile";
 
 function App() {
 	const allPagesList = [pagesList.Special, ...pagesList.Main, ...pagesList.Sub];
@@ -29,6 +30,13 @@ function App() {
 		return <Tag address={account.address} account={account} setAccount={setAccount} />;
 	};
 
+	const externalProfile = (address) => {
+		return <Profile address={address} account={account} setAccount={setAccount} />;
+	}
+
+	const externalCollection = (collection) => {
+		return <Collection address={collection} account={account} setAccount={setAccount} />;
+	}
 
 	return (
 		<div className="h-screen overflow-x-hidden">

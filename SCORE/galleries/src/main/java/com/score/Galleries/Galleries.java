@@ -34,7 +34,7 @@ public class Galleries {
   public ArrayList<Address> users = new ArrayList<>();
 
   public HashMap<Address, ArrayList<String>> userMapAuctions = new HashMap<>();
-  public HashMap<Address, ArrayList<String>> userMapNotifications = new HashMap<>();
+  public HashMap<Address, ArrayList<BigInteger>> userMapNotifications = new HashMap<>();
 
   public HashMap<Address, ArrayList<String>> userMapCollections = new HashMap<>();
   public HashMap<String, ArrayList<String>> collectionMapNFTs = new HashMap<>();
@@ -43,6 +43,7 @@ public class Galleries {
   public HashMap<String, Collection> collectionInfo = new HashMap<>();
   public HashMap<String, NFT> nftInfo = new HashMap<>();
   public HashMap<String, Auction> auctionInfo = new HashMap<>();
+  public HashMap<BigInteger, Notification> notificationInfo = new HashMap<>();
 
   private String decodeTransactionHash(String _hash) {
     byte[] decode = Base64.getDecoder().decode(Context.getTransactionHash());
@@ -190,6 +191,18 @@ public class Galleries {
         String.valueOf(auction.duration),
         String.valueOf(auction.bid),
         String.valueOf(auction.bidder)
+      )
+    );
+  }
+
+  @External(readonly = true)
+  public ArrayList<String> getNotificationInfo(BigInteger _notification) {
+    Notification notification = this.notificationInfo.get(_notification);
+    return new ArrayList<>(
+      List.of(
+        String.valueOf(notification.title),
+        String.valueOf(notification.message),
+        String.valueOf(notification.read)
       )
     );
   }
@@ -385,13 +398,10 @@ public class Galleries {
   @External(readonly = true)
   public BigInteger payableBalance(Address _user) {
     BigInteger payable = Context.getBalance(_user);
-    if (
-      !this.userMapAuctions.containsKey(_user) ||
-      this.userMapAuctions.get(_user).size() == 0
-    ) {
+    if (!this.userMapAuctions.containsKey(_user)) {
       return payable;
     }
-    ArrayList<String> userAuctions = this.getUserAuctions(_user);
+    ArrayList<String> userAuctions = this.userMapAuctions.get(_user);
     for (String auction : userAuctions) {
       if (this.auctionInfo.containsKey(auction)) {
         if (this.auctionInfo.get(auction).bidder == _user) {
@@ -506,6 +516,10 @@ public class Galleries {
       "Not enough requests"
     );
     Context.require(
+      this.nftMapRequests.get(_nft).contains(_user),
+      "User is not allowed"
+    );
+    Context.require(
       this.startTime(_nft).compareTo(BigInteger.ZERO) != 0 &&
       this.endTime(_nft).compareTo(BigInteger.ZERO) != 0,
       "Auction does not exists"
@@ -515,20 +529,19 @@ public class Galleries {
       _timestamp.compareTo(this.endTime(_nft)) <= 0,
       "Auction does not exists"
     );
-    Context.require(
-      this.nftMapRequests.get(_nft).contains(_user),
-      "User is not allowed"
-    );
-    Context.require(
-      _bid.compareTo(this.auctionInfo.get(_nft).bid) > 0,
-      "Bid can't be lower than current bid"
-    );
+
     Context.require(
       this.payableBalance(_user).compareTo(_bid) >= 0,
       "Insufficient funds"
     );
 
     Auction auction = this.auctionInfo.get(_nft);
+
+    Context.require(
+      _bid.compareTo(auction.bid) > 0,
+      "Bid can't be lower than current bid"
+    );
+
     auction.bid = _bid;
     auction.bidder = _user;
     this.auctionInfo.put(_nft, auction);

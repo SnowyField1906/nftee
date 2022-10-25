@@ -4,6 +4,7 @@ import { Menu, Transition } from '@headlessui/react'
 function FilterDropdown({ index, filterType, rawFilter, setRawFilter, render, setRender }) {
     const [begin, setBegin] = useState(rawFilter[index][0])
     const [end, setEnd] = useState(rawFilter[index][1])
+
     useEffect(() => {
         let newRawFilter = rawFilter
         newRawFilter[index] = [begin, end]
@@ -13,11 +14,10 @@ function FilterDropdown({ index, filterType, rawFilter, setRawFilter, render, se
         console.log('render', render)
     }, [begin, end])
 
-
-
     const isActive = () => {
         return rawFilter[index][0] !== '' || rawFilter[index][1] !== ''
     }
+
     return (
         <div className="flex items-center justify-center p-12">
             <div className="relative inline-block text-left">

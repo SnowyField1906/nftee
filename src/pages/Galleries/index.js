@@ -34,9 +34,6 @@ function Galleries({ address }) {
     collectionObjectAwaits();
   }, [rawSort])
 
-  // console.log(collectionObject["hx9c0e83db1833ee9648e3e8f38bc32f65995ecd63/My-favourite"][rawSort[0]])
-  // console.log(collections)
-
 
   useEffect(() => {
     const keys = Object.keys(collectionObject)
@@ -48,11 +45,11 @@ function Galleries({ address }) {
       rawFilter.forEach((filter, i) => {
         if (filter[0] !== '') {
           flag = flag && collectionObject[key][i] >= filter[0];
-          console.log("begin", collectionObject[key][i], filter[0], flag)
+          // console.log("begin", collectionObject[key][i], filter[0], flag)
         }
         if (filter[1] !== '') {
           flag = flag && collectionObject[key][i] <= filter[1];
-          console.log("end", collectionObject[key][i], filter[1], flag)
+          // console.log("end", collectionObject[key][i], filter[1], flag)
         }
       })
       return flag
