@@ -398,19 +398,19 @@ public class Galleries {
   @External(readonly = true)
   public BigInteger payableBalance(Address _user) {
     BigInteger payable = Context.getBalance(_user);
-    if (!this.userMapAuctions.containsKey(_user)) {
-      return payable;
-    }
-    ArrayList<String> userAuctions = this.userMapAuctions.get(_user);
-    for (String auction : userAuctions) {
-      if (this.auctionInfo.containsKey(auction)) {
-        if (this.auctionInfo.get(auction).bidder == _user) {
-          payable = payable.subtract(this.auctionInfo.get(auction).bid);
-        } else {
-          continue;
+    if (this.getUserAuctions(_user).size() != 0) {
+      ArrayList<String> userAuctions = this.getUserAuctions(_user);
+      for (String auction : userAuctions) {
+        if (this.auctionInfo.containsKey(auction)) {
+          if (this.auctionInfo.get(auction).bidder.equals(_user)) {
+            payable = payable.subtract(this.auctionInfo.get(auction).bid);
+            continue;
+          } else {
+            continue;
+          }
         }
+        payable = payable.subtract(this.nftInfo.get(auction).price);
       }
-      payable = payable.subtract(this.nftInfo.get(auction).price);
     }
     return payable;
   }

@@ -40,10 +40,7 @@ function Galleries({ address }) {
   useEffect(() => {
     const keys = Object.keys(collectionObject)
     keys.sort((a, b) => collectionObject[b][rawSort[0]] - collectionObject[a][rawSort[0]])
-    rawSort[1] && setCollections(keys.reverse())
-
-    console.log("filtered")
-
+    rawSort[1] && keys.reverse()
     setCollections(keys.filter((key) => {
       let flag = true
       rawFilter.forEach((filter, i) => {
@@ -54,7 +51,6 @@ function Galleries({ address }) {
           flag = flag && collectionObject[key][i] <= filter[1];
         }
       })
-      console.log(key, flag)
       return flag
     }))
   }, [rawSort, rawFilter, collectionObject, render])

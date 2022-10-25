@@ -42,10 +42,7 @@ function Explore({ address }) {
   useEffect(() => {
     const keys = Object.keys(nftObject)
     keys.sort((a, b) => nftObject[b][rawSort[0]] - nftObject[a][rawSort[0]])
-    rawSort[1] && setNFTs(keys.reverse())
-
-    console.log("filtered")
-
+    rawSort[1] && keys.reverse()
     setNFTs(keys.filter((key) => {
       let flag = true
       rawFilter.forEach((filter, i) => {
@@ -56,7 +53,6 @@ function Explore({ address }) {
           flag = flag && nftObject[key][i] <= filter[1];
         }
       })
-      console.log(key, flag)
       return flag
     }))
   }, [rawSort, rawFilter, nftObject, render])

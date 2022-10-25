@@ -1,6 +1,6 @@
 import { timeConventer, dateConventer } from './../../utils/helpers';
 
-function AuctionModal({ address, nft, auctionInfo, requests, setAuctionModal }) {
+function AuctionModal({ address, isOwner, auctionInfo, requests, setAuctionModal }) {
 
     return (
         <div className='fixed mt-20 w-[60%] h-[70%] top-[10%] left-[20%] rounded-2xl z-50 backdrop-lg'>
@@ -95,16 +95,29 @@ function AuctionModal({ address, nft, auctionInfo, requests, setAuctionModal }) 
                             </div>
                         </div>
 
-                        <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
-                            <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
-                                <p className="text-high text-left place-self-center">Bid:</p>
-                                <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
-                                    type="number" placeholder="Price"
-                                // onChange={(e) => { if (+e.target.value !== 0) setCreateNFTParams({ ...createNFTParams, _price: +e.target.value }) }}
-                                />
-                                <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Enter</button>
+                        {isOwner ?
+                            <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
+                                <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
+                                    <p className="text-high text-left place-self-center">Bid:</p>
+                                    <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
+                                        type="number" placeholder="Duration in seconds"
+                                    // onChange={(e) => { if (+e.target.value !== 0) setCreateNFTParams({ ...createNFTParams, _price: +e.target.value }) }}
+                                    />
+                                    <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Start auction now</button>
+                                </div>
                             </div>
-                        </div>
+                            :
+                            <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
+                                <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
+                                    <p className="text-high text-left place-self-center">Bid:</p>
+                                    <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
+                                        type="number" placeholder="Price"
+                                    // onChange={(e) => { if (+e.target.value !== 0) setCreateNFTParams({ ...createNFTParams, _price: +e.target.value }) }}
+                                    />
+                                    <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Enter</button>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

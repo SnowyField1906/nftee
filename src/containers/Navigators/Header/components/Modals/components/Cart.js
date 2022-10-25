@@ -30,7 +30,7 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
         collectionsAwait();
         balanceAwait();
         payableAwait();
-    }, [setOpen, setNFT, setBigNFT])
+    }, [active, setOpen, setNFT, setBigNFT])
 
     return (
         <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14

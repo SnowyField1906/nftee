@@ -25,14 +25,9 @@ public class Notification {
   String message;
   BigInteger read;
 
-  public Notification(
-    String _title;
-    String _message;
-    BigInteger _timestamp;
-  ) {
+  public Notification(String _title, String _message) {
     this.title = _title;
     this.message = _message;
-    this.timestamp = _timestamp;
     this.read = BigInteger.ZERO;
   }
 
@@ -40,19 +35,14 @@ public class Notification {
     w.beginList(4);
     w.write(_notification.title);
     w.write(_notification.message);
-    w.write(_notification.timestamp);
     w.write(_notification.read);
     w.end();
   }
 
   public static Notification readObject(ObjectReader r) {
     r.beginList();
-    Notification n = new Notification(
-      r.readString(),
-      r.readString(),
-      r.readBigInteger()
-    );
+    Notification n = new Notification(r.readString(), r.readString());
     r.end();
-    return c;
+    return n;
   }
 }

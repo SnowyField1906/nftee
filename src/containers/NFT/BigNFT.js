@@ -224,14 +224,14 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                     <div className="self-center mx-1">
                                         <Auction />
                                     </div>
-                                    <p className="text-medium w-5/6 text-center justify-self-center self-center">{address === nftInfo[0] ? "Start auction" : "View auction detail"}</p>
+                                    <p className="text-medium w-5/6 text-center justify-self-center self-center">View auction detail</p>
                                 </div>
                                 :
                                 <div className='flex h-12 w-11/12 button-medium-disabled rounded-xl  '>
                                     <div className="self-center mx-1">
                                         <Auction />
                                     </div>
-                                    <p className="text-medium w-5/6 text-center justify-self-center self-center">{address === nftInfo[0] ? "Start auction" : "View auction detail"}</p>
+                                    <p className="text-medium w-5/6 text-center justify-self-center self-center">View auction detail</p>
                                 </div>
                             }
                             {address === nftInfo[0] ?
