@@ -170,7 +170,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                     {auctionInfo[0] && requests.length < 2 && <p className='pl-4 text-medium'>Pending: {+auctionInfo[0] + 86400 - now}</p>}
                                     {requests.length >= 2 && auctionInfo[1] > now && <p className='pl-4 text-medium'>Start after: {auctionInfo[1] - now}</p>}
                                     {requests.length >= 2 && auctionInfo[1] < now && Number(auctionInfo[2]) + Number(auctionInfo[1]) > now && <p className='pl-4 text-medium'>End after: {Number(auctionInfo[2]) + Number(auctionInfo[1]) - now}</p>}
-}
+                                    {requests.length >= 2 && Number(auctionInfo[2]) + Number(auctionInfo[1]) < now && <p className='pl-4 text-medium'>Waiting winner to claim</p>}
                                 </div>
                                 <div className="flex place-items-center button-medium rounded-xl">
                                     <Expand />
@@ -181,13 +181,13 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 {requests.slice(0, 2).map((request) => {
                                     return (
                                         <div className="flex justify-between place-items-center mt-2 w-full ">
-                                            <p className='pl-8 cursor-pointer hover:underline text-black dark:text-white'>{request}</p>
-                                            {address === nftInfo[0] &&
+                                            <p className='text-center w-full ursor-pointer hover:underline text-black dark:text-white'>{request}</p>
+                                            {/* {address === nftInfo[0] &&
                                                 <div className="flex justify-around place-items-center w-1/4 ">
                                                     <Approve />
                                                     <Reject />
                                                 </div>
-                                            }
+                                            } */}
                                         </div>
                                     )
                                 })}

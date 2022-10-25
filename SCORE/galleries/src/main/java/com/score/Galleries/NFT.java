@@ -22,40 +22,39 @@ import score.ObjectReader;
 import score.ObjectWriter;
 
 public class NFT {
-  Address owner;
   BigInteger price;
   String description;
   boolean visibility;
   boolean onSale;
-  int purchaseTimes;
-  BigInteger dateCreated;
+  Address firstOwner;
+  Address previousOwner;
+  Address currentOwner;
 
   public NFT(
-    Address _owner,
+    Address _user,
     BigInteger _price,
     String _description,
     boolean _visibility,
-    boolean _onSale,
-    BigInteger dateCreated
+    boolean _onSale
   ) {
-    this.owner = _owner;
+    this.firstOwner = _user;
+    this.previousOwner = _user;
+    this.currentOwner = _user;
     this.price = _price;
     this.description = _description;
     this.visibility = _visibility;
     this.onSale = _onSale;
-    this.purchaseTimes = 0;
-    this.dateCreated = dateCreated;
   }
 
   public static void writeObject(ObjectWriter w, NFT _nft) {
     w.beginList(7);
-    w.write(_nft.owner);
-    w.write(_nft.description);
     w.write(_nft.price);
+    w.write(_nft.description);
     w.write(_nft.visibility);
     w.write(_nft.onSale);
-    w.write(_nft.purchaseTimes);
-    w.write(_nft.dateCreated);
+    w.write(_nft.firstOwner);
+    w.write(_nft.previousOwner);
+    w.write(_nft.currentOwner);
     w.end();
   }
 
@@ -66,8 +65,7 @@ public class NFT {
       r.readBigInteger(),
       r.readString(),
       r.readBoolean(),
-      r.readBoolean(),
-      r.readBigInteger()
+      r.readBoolean()
     );
     r.end();
     return n;

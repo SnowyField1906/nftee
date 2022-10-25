@@ -7,10 +7,14 @@ const iconService = new IconService(httpProvider);
 const { IconBuilder } = IconService
 const { CallBuilder } = IconBuilder
 
-export const users = async () => {
+
+//======================================//
+
+
+export const getUsers = async () => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
-        .method('users')
+        .method('getUsers')
         .build()
 
     const users = await iconService.call(call).execute()
@@ -35,9 +39,11 @@ export const getPublicNFTs = async () => {
         .params({})
         .build()
 
-    const collections = await iconService.call(call).execute()
-    return collections;
+    const nfts = await iconService.call(call).execute()
+    return nfts;
 }
+
+//==================//
 
 export const getUserCollections = async (_user) => {
     const call = new CallBuilder()
@@ -65,6 +71,8 @@ export const getUserCustomCollections = async (_user) => {
     return collections;
 }
 
+//==================//
+
 export const getCollectionNFTs = async (_collection) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
@@ -91,6 +99,7 @@ export const getCollectionPublicNFTs = async (_collection) => {
     return nfts;
 }
 
+//==================//
 
 export const getNFTRequests = async (_nft) => {
     const call = new CallBuilder()
@@ -104,6 +113,60 @@ export const getNFTRequests = async (_nft) => {
     const requests = await iconService.call(call).execute()
     return requests;
 }
+
+export const getNFTOwners = async (_nft) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getNFTOwners')
+        .params({
+            _nft: _nft
+        })
+        .build()
+
+    const owners = await iconService.call(call).execute()
+    return owners;
+}
+
+export const getNFTCurrentOwner = async (_nft) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getNFTCurrentOwner')
+        .params({
+            _nft: _nft
+        })
+        .build()
+
+    const owner = await iconService.call(call).execute()
+    return owner;
+}
+
+export const getNFTPrevioustOwner = async (_nft) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getNFTPrevioustOwner')
+        .params({
+            _nft: _nft
+        })
+        .build()
+
+    const owner = await iconService.call(call).execute()
+    return owner;
+}
+
+export const getNFTFirstOwner = async (_nft) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getNFTFirstOwner')
+        .params({
+            _nft: _nft
+        })
+        .build()
+
+    const owner = await iconService.call(call).execute()
+    return owner;
+}
+
+//==================//
 
 export const getCollectionInfo = async (_collection) => {
     const call = new CallBuilder()
@@ -140,9 +203,25 @@ export const getAuctionInfo = async (_auction) => {
         })
         .build()
 
-    const nftInfo = await iconService.call(call).execute()
-    return nftInfo;
+    const auctionInfo = await iconService.call(call).execute()
+    return auctionInfo;
 }
+
+export const getNotificationInfo = async (_notification) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getNotificationInfo')
+        .params({
+            _notification: _notification
+        })
+        .build()
+
+    const notificationInfo = await iconService.call(call).execute()
+    return notificationInfo;
+}
+
+//======================================//
+
 
 export const balance = async (_user) => {
     const call = new CallBuilder()
@@ -157,18 +236,21 @@ export const balance = async (_user) => {
     return IconService.IconConverter.toNumber(balance);
 }
 
-export const payableBalance = async (_user) => {
+export const value = async (_user) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
-        .method('payableBalance')
+        .method('value')
         .params({
             _user: _user
         })
         .build()
 
-    const balance = await iconService.call(call).execute()
-    return IconService.IconConverter.toNumber(balance);
+    const value = await iconService.call(call).execute()
+    return IconService.IconConverter.toNumber(value);
 }
+
+
+//======================================//
 
 
 export const sortedNFTs = async (_user) => {

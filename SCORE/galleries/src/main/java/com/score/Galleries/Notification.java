@@ -23,19 +23,16 @@ import score.ObjectWriter;
 public class Notification {
   String title;
   String message;
-  BigInteger read;
 
   public Notification(String _title, String _message) {
     this.title = _title;
     this.message = _message;
-    this.read = BigInteger.ZERO;
   }
 
   public static void writeObject(ObjectWriter w, Notification _notification) {
-    w.beginList(4);
+    w.beginList(2);
     w.write(_notification.title);
     w.write(_notification.message);
-    w.write(_notification.read);
     w.end();
   }
 

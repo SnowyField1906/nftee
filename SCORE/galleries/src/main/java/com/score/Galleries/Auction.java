@@ -25,34 +25,24 @@ public class Auction {
   BigInteger timestamp;
   BigInteger startTime;
   BigInteger duration;
-  BigInteger bid;
-  Address bidder;
 
-  public Auction(BigInteger _timestamp, BigInteger _bid, Address _bidder) {
+  public Auction(BigInteger _timestamp) {
     this.timestamp = _timestamp;
     this.startTime = _timestamp.add(BigInteger.valueOf(86400));
     this.duration = BigInteger.valueOf(86400);
-    this.bid = _bid;
-    this.bidder = _bidder;
   }
 
   public static void writeObject(ObjectWriter w, Auction _auction) {
-    w.beginList(5);
+    w.beginList(3);
     w.write(_auction.timestamp);
     w.write(_auction.startTime);
     w.write(_auction.duration);
-    w.write(_auction.bid);
-    w.write(_auction.bidder);
     w.end();
   }
 
   public static Auction readObject(ObjectReader r) {
     r.beginList();
-    Auction a = new Auction(
-      r.readBigInteger(),
-      r.readBigInteger(),
-      r.readAddress()
-    );
+    Auction a = new Auction(r.readBigInteger());
     r.end();
     return a;
   }
