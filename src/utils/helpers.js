@@ -1,5 +1,5 @@
 export const dateConventer = (d) => {
-    var a = new Date(d * 1000);
+    var a = new Date(d / 1000);
     var today = new Date();
     var yesterday = new Date(Date.now() - 86400000);
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

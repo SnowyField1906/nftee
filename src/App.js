@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { endAuction } from "./utils/TransactionContracts";
 import { getAuctionInfo } from "./utils/ReadonlyContracts";
 
 import { pagesList, findPublicGateWay } from "./utils/constants";
@@ -51,12 +50,6 @@ function App() {
 		claimAwait();
 	}, [account.address]);
 
-	const claim = async () => {
-		await endAuction(account.address, claimNFT, bid).then(() => {
-			setClaimNFT('');
-			setBid(0);
-		});
-	};
 
 
 	const pageTag = (i) => {
@@ -87,7 +80,7 @@ function App() {
 					<div className="w-full h-full flex flex-col justify-center items-center">
 						<p className="text-huge">You have won the auction!</p>
 						<p className="text-huge mt-2">Please claim your NFT</p>
-						<button className="button-medium text-black dark:text-white text-xl py-4 px-6 font-semibold mt-5 rounded-lg" onClick={claim}>Claim</button>
+						<button className="button-medium text-black dark:text-white text-xl py-4 px-6 font-semibold mt-5 rounded-lg" >Claim</button>
 					</div>
 				</div>
 			}

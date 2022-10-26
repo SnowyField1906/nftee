@@ -26,9 +26,11 @@ public class NFT {
   String description;
   boolean visibility;
   boolean onSale;
-  Address firstOwner;
-  Address previousOwner;
   Address currentOwner;
+  Address previousOwner;
+  Address firstOwner;
+  BigInteger startTime;
+  BigInteger endTime;
 
   public NFT(
     Address _user,
@@ -37,24 +39,28 @@ public class NFT {
     boolean _visibility,
     boolean _onSale
   ) {
-    this.firstOwner = _user;
-    this.previousOwner = _user;
-    this.currentOwner = _user;
     this.price = _price;
     this.description = _description;
     this.visibility = _visibility;
     this.onSale = _onSale;
+    this.currentOwner = _user;
+    this.previousOwner = _user;
+    this.firstOwner = _user;
+    this.startTime = BigInteger.ZERO;
+    this.endTime = BigInteger.ZERO;
   }
 
   public static void writeObject(ObjectWriter w, NFT _nft) {
-    w.beginList(7);
+    w.beginList(9);
     w.write(_nft.price);
     w.write(_nft.description);
     w.write(_nft.visibility);
     w.write(_nft.onSale);
-    w.write(_nft.firstOwner);
-    w.write(_nft.previousOwner);
     w.write(_nft.currentOwner);
+    w.write(_nft.previousOwner);
+    w.write(_nft.firstOwner);
+    w.write(_nft.startTime);
+    w.write(_nft.endTime);
     w.end();
   }
 

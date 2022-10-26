@@ -106,7 +106,8 @@ export const getNFTRequests = async (_nft) => {
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getNFTRequests')
         .params({
-            _nft: _nft
+            _nft: _nft,
+            _timestamp: IconService.IconConverter.toBigNumber(Date.now() * 1000)
         })
         .build()
 
@@ -118,6 +119,19 @@ export const getNFTOwners = async (_nft) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getNFTOwners')
+        .params({
+            _nft: _nft
+        })
+        .build()
+
+    const owners = await iconService.call(call).execute()
+    return owners;
+}
+
+export const getNFTFirstRequest = async (_nft) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getNFTFirstRequest')
         .params({
             _nft: _nft
         })
@@ -156,11 +170,13 @@ export const getCollectionInfo = async (_collection) => {
 }
 
 export const getNFTInfo = async (_nft) => {
+    console.log(Date.now() * 1000)
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getNFTInfo')
         .params({
-            _nft: _nft
+            _nft: _nft,
+            _timestamp: IconService.IconConverter.toBigNumber(Date.now() * 1000)
         })
         .build()
 
@@ -221,6 +237,19 @@ export const value = async () => {
     return IconService.IconConverter.toNumber(value);
 }
 
+export const auctionStatus = async (_nft) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('auctionStatus')
+        .params({
+            _nft: _nft,
+            _timestamp: IconService.IconConverter.toBigNumber(Date.now() * 1000)
+        })
+        .build()
+
+    const status = await iconService.call(call).execute()
+    return IconService.IconConverter.toNumber(status);
+}
 //==================//
 
 export const startTime = async (_nft) => {
