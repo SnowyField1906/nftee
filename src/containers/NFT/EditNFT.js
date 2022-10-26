@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { editNFTInfo } from './../../utils/TransactionContracts'
+import { editNFT } from './../../utils/TransactionContracts'
 
 
 function EditNFT({ address, nft, nftInfo, setEditNFT }) {
@@ -82,7 +82,7 @@ function EditNFT({ address, nft, nftInfo, setEditNFT }) {
                             </label>
                         </div>
                         <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border"
-                            onClick={() => editNFTInfo(address, nft, editNFTParams._price, editNFTParams._description, editNFTParams._visibility, editNFTParams._onSale)}>Summit change</button>
+                            onClick={() => editNFT(address, nft, editNFTParams._price, editNFTParams._description, editNFTParams._visibility, editNFTParams._onSale)}>Summit change</button>
                     </div>
                 </div>
             </div>

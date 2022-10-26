@@ -10,14 +10,16 @@ export const nftSortType = {
     "Date": ["Newest", "Oldest"],
     "Price": ["Highest Price", "Lowest Price"],
     "Requests": ["Most Requests", "Least Requests"],
-    "Purchase times": ["Best selling", "Flop"]
+    "Purchase times": ["Best selling", "Flop"],
+    "Last purchase": ["Most recent", "Longest ago"],
 }
 
 export const nftFilterType = {
     "Date": ["Begin", "End"],
     "Price": ["Begin", "End"],
     "Requests": ["Begin", "End"],
-    "Purchase times": ["Begin", "End"]
+    "Purchase times": ["Begin", "End"],
+    "Last purchase": ["Begin", "End"],
 }
 
 export const collectionSortType = {

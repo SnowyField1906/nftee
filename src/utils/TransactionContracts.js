@@ -152,7 +152,6 @@ export const createNFT = (_user, _ipfs, _price, _description, _visibility, _onSa
             _description: _description,
             _visibility: IconService.IconConverter.toBigNumber(+_visibility),
             _onSale: IconService.IconConverter.toBigNumber(+_onSale),
-            _timestamp: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000)),
         })
         .build();
 
@@ -344,8 +343,11 @@ export const editNFT = (address, _nft, _price, _description, _visibility, _onSal
 //======================================//
 
 
-export const sendRequest = (_user, _nft, price) => {
-    const value = price ?? 0
+export const sendRequest = (_user, _nft, price, requests) => {
+    console.log(requests)
+    let value = requests ? 0 : price
+    console.log(value)
+    console.log(IconService.IconConverter.toNumber(0x5ebef58c34080))
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
@@ -358,7 +360,6 @@ export const sendRequest = (_user, _nft, price) => {
         .method('sendRequest')
         .params({
             _user: _user,
-            _timestamp: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000)),
             _nft: _nft,
         })
         .build();
@@ -394,7 +395,6 @@ export const startAuction = (_user, _nft, _duration) => {
         .params({
             _user: _user,
             _nft: _nft,
-            _timestamp: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000)),
             _duration: IconService.IconConverter.toBigNumber(_duration),
         })
         .build();
@@ -415,13 +415,13 @@ export const startAuction = (_user, _nft, _duration) => {
     }))
 }
 
-export const sendBid = (_user, _nft, _bid, price) => {
+export const sendBid = (_user, _nft, _bid) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .nid(process.env.REACT_APP_NID)
-        .value(IconService.IconConverter.toBigNumber((price)))
+        .value(IconService.IconConverter.toBigNumber((_bid)))
         .timestamp((new Date()).getTime() * 1000)
         .stepLimit(IconService.IconConverter.toBigNumber(10000000))
         .version(0x3)
@@ -430,40 +430,6 @@ export const sendBid = (_user, _nft, _bid, price) => {
             _user: _user,
             _nft: _nft,
             _bid: IconService.IconConverter.toBigNumber(_bid),
-            _timestamp: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000)),
-        })
-        .build();
-
-    var score_sdk = JSON.stringify({
-        jsonrpc: "2.0",
-        method: "icx_sendTransaction",
-        params: IconService.IconConverter.toRawTransaction(callTransactionData),
-        id: 0,
-    })
-
-    var parsed = JSON.parse(score_sdk)
-    window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
-        detail: {
-            type: 'REQUEST_JSON-RPC',
-            payload: parsed,
-        }
-    }))
-}
-
-export const endAuction = (address, _nft) => {
-    var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
-    var callTransactionData = callTransactionBuilder
-        .from(address)
-        .to(process.env.REACT_APP_SCORE_ADDRESS)
-        .nid(process.env.REACT_APP_NID)
-        .value(0x0)
-        .timestamp((new Date()).getTime() * 1000)
-        .stepLimit(IconService.IconConverter.toBigNumber(10000000))
-        .version(0x3)
-        .method('endAuction')
-        .params({
-            _nft: _nft,
-            _timestamp: IconService.IconConverter.toBigNumber(Math.floor((new Date()).getTime() / 1000)),
         })
         .build();
 

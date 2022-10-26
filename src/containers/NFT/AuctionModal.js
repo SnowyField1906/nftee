@@ -1,11 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { startAuction, sendBid } from '../../utils/TransactionContracts';
-
+import { getNotificationInfo, getNFTNotifications } from '../../utils/ReadonlyContracts';
 import { timeConventer, dateConventer } from './../../utils/helpers';
 
-function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuctionModal }) {
+function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, requests, setAuctionModal, now }) {
     const [duration, setDuration] = useState(0);
     const [bid, setBid] = useState(0);
+    const [notifications, setNotifications] = useState([]);
+
+    const notificationsAwait = async () => {
+        await getNFTNotifications(nft).then((res) => {
+            const notifications = [];
+            res.forEach(async (notification) => {
+                await getNotificationInfo(notification).then((res) => {
+                    notifications.push([+notification.slice(-10), res[1]]);
+                    console.log(res[1]);
+                })
+            })
+            setNotifications(notifications.sort((a, b) => {
+                console.log(a[0], b[0])
+                return a[0] > b[0]
+            }));
+            console.log(notifications)
+        })
+    };
+
+    console.log(notifications);
+
+    useEffect(() => {
+        notificationsAwait();
+    }, [nft]);
 
     return (
         <div className='fixed mt-20 w-[60%] h-[70%] top-[10%] left-[20%] rounded-2xl z-50 backdrop-lg'>
@@ -30,11 +54,9 @@ function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuction
                     <p className='grid place-content-center text-huge h-[10%] w-full place-self-center border-b-2 border-black/50 dark:border-white/50'>History</p>
                     <div className='flex-col h-[35%]'>
                         {
-                            requests.map((request, i) => {
+                            notifications.length && notifications.filter(notification => notification[0] <= now).map((notification) => {
                                 return (
-                                    <p className='ml-8 mt-5 text-black dark:text-white'>{i + 1}.&nbsp;
-                                        <span className='cursor-pointer hover:underline '>{request.slice(0, 15)}...{request.slice(-10)}</span>&nbsp;bidded 10 ICX
-                                    </p>
+                                    <p className='ml-8 mt-5 select-none text-black dark:text-white'>{dateConventer(notification[0])} | &nbsp;{notification[1]}</p>
                                 )
                             })
                         }
@@ -80,7 +102,7 @@ function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuction
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="text-black dark:text-white">
-                                        {auctionInfo[3] / 1e18} ICX
+                                        {nftInfo[1] / 1e18} ICX
                                     </p>
                                 </div>
                             </div>
@@ -90,7 +112,7 @@ function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuction
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light rounded-br-xl border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="cursor-pointer text-black dark:text-white hover:underline">
-                                        {auctionInfo[4]}
+                                        {nftInfo[0]}
                                     </p>
                                     <svg className="w-7 h-7 cursor-pointer fill-black/30 dark:fill-white/30 hover:fill-black/50 dark:hover:fill-white/50"
                                         onClick={() => { navigator.clipboard.writeText(auctionInfo[4]) }}
@@ -100,7 +122,7 @@ function AuctionModal({ address, isOwner, nft, auctionInfo, requests, setAuction
                             </div>
                         </div>
 
-                        {isOwner ?
+                        {previousOwner ?
                             <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
                                 <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
                                     <p className="text-high text-left place-self-center">Duration:</p>

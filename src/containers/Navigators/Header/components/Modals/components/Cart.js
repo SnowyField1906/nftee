@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
 
-import { getCollectionPublicNFTs, balance, payableBalance } from '../../../../../../utils/ReadonlyContracts'
+import { getCollectionPublicNFTs, balance } from '../../../../../../utils/ReadonlyContracts'
 
 import NFTCard from '../../../../../NFT/NFTCard'
 
 
 function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     const [nfts, setNFTs] = useState([])
-    const [total, setTotal] = useState(0)
-    const [payable, setPayable] = useState(0)
+    const [balance, setBalance] = useState(0)
 
 
     const collectionsAwait = async () => {
@@ -16,20 +15,14 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
             setNFTs(res)
         })
     }
-    const payableAwait = async () => {
-        await payableBalance(address).then((res) => {
-            setPayable(res)
-        })
-    }
     const balanceAwait = async () => {
         await balance(address).then((res) => {
-            setTotal(res)
+            setBalance(res)
         })
     }
     useEffect(() => {
         collectionsAwait();
         balanceAwait();
-        payableAwait();
     }, [active, setOpen, setNFT, setBigNFT])
 
     return (
@@ -40,12 +33,7 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
 
                 <div className='flex justify-between w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto place-items-center'>
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Cart</p>
-                    <div className='w-fit grid grid-cols-2 grid-rows-2 mr-3'>
-                        <p className='font-semibold text-slate-900 dark:text-slate-100'>Total:&nbsp;</p>
-                        <p className='font-semibold text-slate-900 dark:text-slate-100'>{(total / 1e18).toFixed(2)}</p>
-                        <p className='font-semibold text-slate-900 dark:text-slate-100'>Payable:&nbsp;</p>
-                        <p className='font-semibold text-slate-900 dark:text-slate-100'>{(payable / 1e18).toFixed(2)}</p>
-                    </div>
+                    <p className='font-semibold text-slate-900 dark:text-slate-100 mr-5'>Balance: {balance}</p>
                 </div>
                 <div className='flex-initial gap-2 w-full h-full'>
                     {

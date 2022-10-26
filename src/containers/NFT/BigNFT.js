@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { findPublicGateWay } from "../../utils/constants"
 import { dateConventer } from "../../utils/helpers"
-import { addToCart, sendRequest, deleteNFT, startAuction } from "../../utils/TransactionContracts"
-import { getAuctionInfo, getNFTRequests } from "../../utils/ReadonlyContracts"
+import { addToCart, sendRequest, deleteNFT } from "../../utils/TransactionContracts"
+import { getAuctionInfo, getNFTRequests, startTime, endTime } from "../../utils/ReadonlyContracts"
 
 import CollectionList from "../Collection/CollectionList"
 import AuctionModal from "./AuctionModal"
@@ -10,14 +10,13 @@ import AuctionModal from "./AuctionModal"
 import AddToCart from "./components/AddToCart"
 import AddToCollection from "./components/AddToCollection"
 import SendRequest from "./components/SendRequest"
-import Approve from "./components/Approve"
-import Reject from "./components/Reject"
+// import Approve from "./components/Approve"
+// import Reject from "./components/Reject"
 import Auction from "./components/Auction"
 import Delete from "../Collection/components/Delete"
 import Edit from "../Collection/components/Edit"
 import EditNFT from "./EditNFT"
 import Expand from "./components/Expand"
-
 
 
 function BigNFT({ address, nft, nftInfo, setBigNFT }) {
@@ -28,27 +27,35 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
     const [auctionInfo, setAuctionInfo] = useState([])
     const [auctionModal, setAuctionModal] = useState(false)
 
+
+    const requestsAwait = async () => {
+        await getNFTRequests(nft).then((res) => {
+            setRequests(res)
+        })
+    }
+    const auctionAwait = async () => {
+        await getAuctionInfo(nft).then((res) => {
+            setAuctionInfo(res)
+        })
+    }
+
     useEffect(() => {
-        const requestsAwait = async () => {
-            await getNFTRequests(nft).then((res) => {
-                setRequests(res)
-            })
-        }
         requestsAwait()
-
-        const auctionAwait = async () => {
-            await getAuctionInfo(nft).then((res) => {
-                setAuctionInfo(res)
-            })
-        }
         auctionAwait()
-
     }, [collectionList, auctionModal, editNFT, nft, setBigNFT])
+
 
     const [now, setNow] = useState(Math.floor(Date.now() / 1000))
     setTimeout(() => {
         setNow(now + 1)
     }, 1000);
+
+    const noAuction = auctionInfo[1] === 0 && (auctionInfo[1] + auctionInfo[2]) === 0;
+    const pendingAuction = auctionInfo[1] > now && requests.length === 1;
+    const beforeAuction = auctionInfo[1] > now && requests.length > 1;
+    const duringAuction = auctionInfo[1] < now && now < (+auctionInfo[1] + (+auctionInfo[2])) && requests.length > 1;
+
+    console.log(noAuction, pendingAuction, beforeAuction, duringAuction)
 
     return (
         <>
@@ -64,7 +71,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
 
             {auctionModal &&
                 <div className="fixed w-screen h-screen z-50">
-                    <AuctionModal address={address} isOwner={address === nftInfo[0]} nft={nft} auctionInfo={auctionInfo} requests={requests} setAuctionModal={setAuctionModal} />
+                    <AuctionModal address={address} previousOwner={address === nftInfo[7]} nft={nft} nftInfo={nftInfo} auctionInfo={auctionInfo} requests={requests} setAuctionModal={setAuctionModal} now={now} />
                 </div>}
 
             <div className='fixed mt-20 w-[80vw] h-[80vh] top-[5vh] left-[10vw] rounded-2xl z-30 backdrop-lg'>
@@ -84,11 +91,12 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                         <div className="h-50 self-center w-5/6 grid">
                             <div className='flex h-12 rounded-xl '>
                                 <div className="w-1/4 h-12 flex place-items-center rounded-tl-xl border-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
-                                    <p className='pl-6 font-semibold text-black dark:text-white'>Owner</p>
+                                    <p className='pl-6 font-semibold text-black dark:text-white'>Current owner</p>
                                 </div>
                                 <div className="flex justify-between place-items-center w-3/4 h-12 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="pl-4 cursor-pointer text-black dark:text-white hover:underline">
-                                        {nftInfo[0]}
+                                        {(pendingAuction || beforeAuction) && nftInfo[7]}
+                                        {(noAuction || duringAuction) && nftInfo[0]}
                                     </p>
                                     <svg className="w-7 h-7 mr-4 cursor-pointer fill-black/30 dark:fill-white/30 hover:fill-black/50 dark:hover:fill-white/50"
                                         onClick={() => { navigator.clipboard.writeText(nftInfo[0]) }}
@@ -133,8 +141,8 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                                 <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
-                                        {nftInfo[5]}
-
+                                        {(pendingAuction || beforeAuction) && nftInfo[6] - 1}
+                                        {(noAuction || duringAuction) && nftInfo[6]}
                                     </p>
                                 </div>
                             </div>
@@ -144,8 +152,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                                 <div className="flex w-3/4 h-12 justify-between place-items-center button-light rounded-br-xl border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
-                                        {dateConventer(nftInfo[6])}
-
+                                        {dateConventer(nftInfo[5])}
                                     </p>
                                 </div>
                             </div>
@@ -167,10 +174,11 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                             <div className="pl-4 border-b-2 pb-2 border-black/30 dark:border-white/30 flex justify-between">
                                 <p className='text-medium place-self-center'>Requests</p>
                                 <div className="flex place-items-center rounded-xl">
-                                    {auctionInfo[0] && requests.length < 2 && <p className='pl-4 text-medium'>Pending: {+auctionInfo[0] + 86400 - now}</p>}
-                                    {requests.length >= 2 && auctionInfo[1] > now && <p className='pl-4 text-medium'>Start after: {auctionInfo[1] - now}</p>}
-                                    {requests.length >= 2 && auctionInfo[1] < now && Number(auctionInfo[2]) + Number(auctionInfo[1]) > now && <p className='pl-4 text-medium'>End after: {Number(auctionInfo[2]) + Number(auctionInfo[1]) - now}</p>}
-                                    {requests.length >= 2 && Number(auctionInfo[2]) + Number(auctionInfo[1]) < now && <p className='pl-4 text-medium'>Waiting winner to claim</p>}
+                                    {noAuction && <p className='pl-4 text-medium'>No one requests now</p>}
+                                    {pendingAuction && <p className='pl-4 text-medium'>Pending: {+auctionInfo[0] + 86400 - now}</p>}
+                                    {beforeAuction && <p className='pl-4 text-medium'>Start after: {+auctionInfo[1] - now}</p>}
+                                    {duringAuction && <p className='pl-4 text-medium'>End after: {+auctionInfo[1] + (+auctionInfo[2]) - now}</p>}
+                                    {/* {afterAuction && <p className='pl-4 text-medium'>Waiting to claim: {now - +auctionInfo[1] + auctionInfo[2]}</p>} */}
                                 </div>
                                 <div className="flex place-items-center button-medium rounded-xl">
                                     <Expand />
@@ -191,7 +199,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                         </div>
                                     )
                                 })}
-                                {requests.length > 2 && <p className='pl-8 mt-2 text-center w-3/4 text-black dark:text-white'>+{requests.length - 2} more</p>}
+                                {requests.length > 2 && <p className='mt-2 text-center w-full text-black dark:text-white'>+{requests.length - 2} more</p>}
                             </div>
                         </div>
                         <div className=" h-28 w-3/4 grid grid-rows-2 grid-cols-2 place-items-center">
@@ -203,7 +211,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 <p className=" text-medium w-5/6 text-center justify-self-center self-center">Add to collection</p>
                             </div>
                             {address === nftInfo[0] ?
-                                (requests.length === 0 ?
+                                (noAuction ?
                                     <div className='flex h-12 w-11/12 button-medium rounded-xl cursor-pointer '
                                         onClick={() => setEditNFT(true)}>
                                         <div className="self-center mx-1">
@@ -229,7 +237,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
 
                             }
-                            {requests.length >= 2 ?
+                            {beforeAuction || duringAuction ?
                                 <div className='flex h-12 w-11/12 button-medium rounded-xl cursor-pointer '
                                     onClick={() => setAuctionModal(true)}>
                                     <div className="self-center mx-1">
@@ -246,7 +254,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                             }
                             {address === nftInfo[0] ?
-                                (requests.length === 0 ?
+                                (noAuction ?
                                     <div className='flex h-12 w-11/12 button-medium rounded-xl cursor-pointer '
                                         onClick={() => deleteNFT(address, nft)}>
                                         <div className="self-center mx-1">
@@ -265,7 +273,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 :
                                 nftInfo[4] === 'true' && !requests.includes(address) ?
                                     <div className='flex h-12 w-11/12 button-medium rounded-xl cursor-pointer '
-                                        onClick={() => sendRequest(address, nft)}>
+                                        onClick={() => sendRequest(address, nft, +nftInfo[1], requests.length)}>
                                         <div className="self-center mx-1">
                                             <SendRequest />
                                         </div>

@@ -1,34 +1,58 @@
-import React from 'react'
-import NotificationCard from './NotificationCard'
+import { useState, useEffect } from 'react'
 
-function Notification({ active }) {
+import { getCollectionPublicNFTs, getUserAuction } from '../../../../../../utils/ReadonlyContracts'
+
+import NFTCard from '../../../../../NFT/NFTCard'
+
+
+function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
+    const [nfts, setNFTs] = useState([])
+    const [requests, setRequests] = useState([])
+    const [balance, setBalance] = useState(0)
+
+
+    const collectionsAwait = async () => {
+        await getCollectionPublicNFTs(address + "/Owning").then((res) => {
+            setNFTs(res)
+        })
+    }
+    const balanceAwait = async () => {
+        await balance(address).then((res) => {
+            setBalance(res)
+        })
+    }
+    useEffect(() => {
+        collectionsAwait();
+        balanceAwait();
+    }, [active, setOpen, setNFT, setBigNFT])
+
     return (
-        <div className={`${active ? "h-[40rem]" : "h-0"} w-[20%] fixed right-5 mt-14 
-            transform duration-300 ease-in-out select-none
-            rounded-2xl bg-white/50 dark:bg-black/50 backdrop-blur-md`} >
+        <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14
+        transform duration-300 ease-in-out select-none
+        rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md`} >
             <div className={active ? "h-full" : "hidden"}>
-                <div className='w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto'>
-                    <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your notification</p>
+
+                <div className='flex justify-between w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto place-items-center'>
+                    <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Cart</p>
+                    <p className='font-semibold text-slate-900 dark:text-slate-100 mr-5'>Balance: {balance}</p>
                 </div>
                 <div className='flex-initial gap-2 w-full h-full'>
                     {
-                        [...Array(5)].map((_, i) => {
+                        nfts ? nfts.map((nft) => {
                             return (
-                                <div className='w-[90%] h-[10%] mx-[5%] mt-3 rounded-xl transform ease-in-out duration-100
-        border-2 border-slate-700 dark:border-slate-300 hover:border-none
-        bg-slate-100 dark:bg-slate-800 hover:bg-gradient-to-r
-        hover:from-blue-400 dark:hover:from-blue-700
-        hover:to-violet-400 dark:hover:to-violet-700'>
-                                    <NotificationCard name="Product Name" price="100" />
+                                <div className='w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global'>
+                                    <NFTCard address={address} setOpen={setOpen} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} />
                                 </div>
-
                             )
                         })
+                            : null
                     }
+
                 </div>
+
             </div>
         </div>
     )
 }
 
-export default Notification
+export default Cart

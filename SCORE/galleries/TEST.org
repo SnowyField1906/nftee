@@ -9,7 +9,7 @@ goloop rpc sendtx deploy ./galleries/build/libs/galleries-0.1.0-optimized.jar \
     --content_type application/java
 
 
-goloop rpc --uri https://sejong.net.solidwallet.io/api/v3 txresult 0xd1af8354b4a9e0efc59c91d42c40ba06796028c18d0d6194f71a82c19593eb07
+goloop rpc --uri https://sejong.net.solidwallet.io/api/v3 txresult 0x1933ff4ba45a217783998bfb3ef69a1d58dd1a90108a56cd7a929cd04c22be5a
 
 
 goloop rpc \
@@ -18,19 +18,13 @@ goloop rpc \
     --method getUsers
 
 goloop rpc sendtx call \
-    --to cxeb5f13fa1dfbb0bad284e4ac2b89c2b30dbf0880 \
+    --to cxa1f026a45f50630cfb23fd153e2213b0b386cb33 \
     --uri https://sejong.net.solidwallet.io/api/v3 \
     --key_store /$HOME/gochain-local/data/godWallet.json \
     --key_password gochain \
     --nid 0x53 --step_limit 10000000 \
-    --method createNFT \
-    --param _user=hxf9bfff62e92b621dfd823439c822d73c7df8e698 \
-    --param _ipfs=QmU7yX6TuwLbtm5rumB5oxBc6d4NGNdFgL6cEnwjVBBNJQ \
-    --param _price=1000000000000000000 \
-    --param _description="This is a test NFT" \
-    --param _visibility=1 \
-    --param _onSale=1 \
-    --param _timestamp=1666729292
+    --method onSale \
+    --param _nft=1
 
 
 goloop rpc sendtx call \

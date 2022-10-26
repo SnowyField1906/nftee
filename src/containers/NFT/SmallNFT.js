@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 
 import { findPublicGateWay } from "../../utils/constants"
-import { addNFT, addToCart, sendRequest, deleteNFT, editNFTInfo } from "../../utils/TransactionContracts"
-import { getNFTInfo } from "../../utils/ReadonlyContracts"
+import { addToCart, sendRequest, deleteNFT, editNFT } from "../../utils/TransactionContracts"
+import { getNFTInfo, getNFTRequests } from "../../utils/ReadonlyContracts"
 
 import BigNFT from "./BigNFT"
 import CollectionList from "../Collection/CollectionList"
@@ -19,15 +19,20 @@ import Edit from "../Collection/components/Edit"
 
 function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, setCollectionList }) {
     const [temporaryNFTInfo, setTemporaryNFTInfo] = useState([])
+    const [requests, setRequests] = useState(0)
     const [add, setAdd] = useState(false)
 
     const infoAwait = async () => {
         await getNFTInfo(nft).then((res) => setTemporaryNFTInfo(res))
     }
 
+    const requestsAwait = async () => {
+        await getNFTRequests(nft).then((res) => setRequests(res.length))
+    }
 
     useEffect(() => {
         infoAwait()
+        requestsAwait()
     }, [nft, setBigNFT, setEditNFT, setCollectionList])
 
     const openBigNFT = () => {
@@ -46,7 +51,6 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
         setNFT(nft)
         setEditNFT(true)
     }
-
 
     if (!temporaryNFTInfo || temporaryNFTInfo.length === 0) {
         return (
@@ -125,7 +129,7 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
                                     <DeleteBig />
                                 </div>
                                 :
-                                <div className="flex h-1/3" onClick={() => sendRequest(address, nft)}>
+                                <div className="flex h-1/3" onClick={() => sendRequest(address, nft, +temporaryNFTInfo[1], requests)}>
                                     <SendRequestBig />
                                 </div>
                             }

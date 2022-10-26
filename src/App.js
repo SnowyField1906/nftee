@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { endAuction } from "./utils/TransactionContracts";
-import { getUserAuctions, getAuctionInfo, getNFTInfo } from "./utils/ReadonlyContracts";
+import { getAuctionInfo } from "./utils/ReadonlyContracts";
 
 import { pagesList, findPublicGateWay } from "./utils/constants";
 
@@ -11,6 +11,7 @@ import * as Pages from "./pages";
 
 import Collection from "./containers/Collection/components/Collection";
 import Profile from "./pages/External/Profile";
+
 
 function App() {
 	const allPagesList = [pagesList.Special, ...pagesList.Main, ...pagesList.Sub];
@@ -24,17 +25,19 @@ function App() {
 
 
 	const claimAwait = async () => {
-		await getUserAuctions(account.address).then((res) => {
-			res.forEach((auction) => {
-				getAuctionInfo(auction).then((res) => {
-					if (res[4] === account.address && new Date().getTime() / 1000 > Number(res[1]) + Number(res[2])) {
-						setClaimNFT(auction);
-						setBid(Number(res[3]));
-					}
-				});
-			});
-		});
+		// await getUserAuctions(account.address).then((res) => {
+		// 	res.forEach((auction) => {
+		// 		getAuctionInfo(auction).then((res) => {
+		// 			if (res[4] === account.address && new Date().getTime() / 1000 > Number(res[1]) + Number(res[2])) {
+		// 				setClaimNFT(auction);
+		// 				setBid(Number(res[3]));
+		// 			}
+		// 		});
+		// 	});
+		// });
 	};
+
+
 
 
 

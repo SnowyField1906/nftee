@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { editCollectionInfo } from './../../utils/TransactionContracts'
+import { editCollection } from './../../utils/TransactionContracts'
 
 
 function EditCollection({ address, collection, collectionInfo, setEditCollection }) {
@@ -57,7 +57,7 @@ function EditCollection({ address, collection, collectionInfo, setEditCollection
 
 
                         <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer"
-                            onClick={() => editCollectionInfo(address, collection, editCollectionParams._name, editCollectionParams._description, editCollectionParams._visibility)}>Summit change</button>
+                            onClick={() => editCollection(address, collection, editCollectionParams._name, editCollectionParams._description, editCollectionParams._visibility)}>Summit change</button>
                     </div>
                 </div>
             </div>

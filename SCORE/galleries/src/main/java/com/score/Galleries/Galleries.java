@@ -35,7 +35,7 @@ import scorex.util.HashMap;
 public class Galleries {
   public ArrayList<Address> users = new ArrayList<>();
 
-  public HashMap<Address, String> userMapAuction = new HashMap<>();
+  public HashMap<Address, String> userMapAuctions = new HashMap<>();
   public HashMap<Address, ArrayList<String>> userMapCollections = new HashMap<>();
   public HashMap<String, ArrayList<String>> collectionMapNFTs = new HashMap<>();
   public HashMap<String, ArrayList<Address>> nftMapRequests = new HashMap<>();
@@ -47,12 +47,9 @@ public class Galleries {
   public HashMap<String, Auction> auctionInfo = new HashMap<>();
   public HashMap<String, Notification> notificationInfo = new HashMap<>();
 
-  //======================================//
+  public ArrayList<BigInteger> timestamps = new ArrayList<>();
 
-  private String decodeTransactionHash(String _hash) {
-    byte[] decode = Base64.getDecoder().decode(Context.getTransactionHash());
-    return new String(decode, StandardCharsets.UTF_8);
-  }
+  //======================================//
 
   private String generateCollectionID(Address _user, String _name) {
     return String.valueOf(_user) + "/" + _name.replace(" ", "-");
@@ -121,6 +118,17 @@ public class Galleries {
     return customCollections;
   }
 
+  @External(readonly = true)
+  public ArrayList<String> getUserAuctions(Address _user) {
+    ArrayList<String> auctions = new ArrayList<>();
+    for (String nft : this.getPublicNFTs()) {
+      if (this.getNFTRequests(nft).contains(_user)) {
+        auctions.add(nft);
+      }
+    }
+    return auctions;
+  }
+
   //==================//
 
   @External(readonly = true)
@@ -160,7 +168,20 @@ public class Galleries {
 
   @External(readonly = true)
   public HashMap<Address, BigInteger> getNFTOwners(String _nft) {
-    return this.nftMapOwners.get(_nft);
+    HashMap<Address, BigInteger> owners = this.nftMapOwners.get(_nft);
+    if (owners == null) {
+      return new HashMap<>();
+    }
+    return owners;
+  }
+
+  @External(readonly = true)
+  public ArrayList<String> getNFTNotifications(String _nft) {
+    ArrayList<String> notifications = this.nftMapNotifications.get(_nft);
+    if (notifications == null) {
+      return new ArrayList<>();
+    }
+    return notifications;
   }
 
   //==================//
@@ -178,8 +199,14 @@ public class Galleries {
     );
   }
 
+  @External
+  public void onSale(String _nft, BigInteger _timestamp) {
+    BigInteger time = BigInteger.valueOf(Context.getTransactionTimestamp());
+    timestamps.add(time);
+  }
+
   @External(readonly = true)
-  public ArrayList<String> getNFTInfo(String _nft) {
+  public ArrayList<String> getNFTInfo(String _nft, BigInteger _timestamp) {
     NFT nft = this.nftInfo.get(_nft);
     return new ArrayList<>(
       List.of(
@@ -187,9 +214,10 @@ public class Galleries {
         String.valueOf(nft.price),
         String.valueOf(nft.description),
         String.valueOf(nft.visibility),
-        String.valueOf(nft.onSale),
-        String.valueOf(this.nftMapOwners.get(_nft).get(nft.currentOwner)),
-        String.valueOf(this.nftMapOwners.get(_nft).size())
+        String.valueOf(this.onSale(_nft, _timestamp)),
+        String.valueOf(this.getNFTOwners(_nft).get(nft.currentOwner)),
+        String.valueOf(this.getNFTOwners(_nft).size() - 1),
+        String.valueOf(nft.previousOwner)
       )
     );
   }
@@ -298,8 +326,7 @@ public class Galleries {
     BigInteger _price,
     String _description,
     boolean _visibility,
-    boolean _onSale,
-    BigInteger _timestamp
+    boolean _onSale
   ) {
     Context.require(
       _price.compareTo(BigInteger.ZERO) > 0,
@@ -319,7 +346,7 @@ public class Galleries {
           "Owning",
           "NFTs owned by " + String.valueOf(_user),
           true,
-          BigInteger.ZERO
+          Context.getTransactionTimestamp()
         );
     }
     this.addNFT(_ipfs, collection);
@@ -327,7 +354,7 @@ public class Galleries {
     this.nftInfo.put(_ipfs, nft);
 
     HashMap<Address, BigInteger> owners = new HashMap<>();
-    owners.put(_user, _timestamp);
+    owners.put(_user, Context.getTransactionTimestamp());
     this.nftMapOwners.put(_ipfs, owners);
 
     if (!this.users.contains(_user)) {
@@ -344,7 +371,7 @@ public class Galleries {
           "Cart",
           String.valueOf(_user) + "'s Cart",
           true,
-          BigInteger.ZERO
+          Context.getTransactionTimestamp()
         );
     }
     this.addNFT(_nft, collection);
@@ -391,6 +418,11 @@ public class Galleries {
     boolean _onSale
   ) {
     NFT nft = this.nftInfo.get(_nft);
+    if (_onSale != nft.onSale) {
+      this.nftMapRequests.put(_nft, new ArrayList<>());
+      this.auctionInfo.remove(_nft);
+    }
+
     nft.description = _description;
     nft.price = _price;
     nft.visibility = _visibility;
@@ -414,7 +446,7 @@ public class Galleries {
 
   @External
   @Payable
-  public void sendRequest(Address _user, BigInteger _timestamp, String _nft) {
+  public void sendRequest(Address _user, String _nft) {
     Context.require(this.nftInfo.containsKey(_nft), "NFT does not exist");
     Context.require(this.nftInfo.get(_nft).onSale, "NFT is not on sale");
     Context.require(
@@ -423,25 +455,32 @@ public class Galleries {
     );
     if (this.auctionInfo.containsKey(_nft)) {
       Context.require(
-        _timestamp.compareTo(this.auctionInfo.get(_nft).startTime) < 0,
+        Context
+          .getTransactionTimestamp()
+          .compareTo(this.auctionInfo.get(_nft).startTime) <
+        0,
         "Can't send request during auction"
       );
     }
 
-    ArrayList<String> notifications = this.nftMapNotifications.get(_nft);
+    ArrayList<String> notifications = this.getNFTNotifications(_nft);
     Notification request = new Notification(
       "Request",
       String.valueOf(_user) + " sent a purchase request."
     );
 
-    String requestID = this.generateNotificationID(_nft, _timestamp);
+    String requestID =
+      this.generateNotificationID(_nft, Context.getTransactionTimestamp());
     notifications.add(requestID);
     this.notificationInfo.put(requestID, request);
 
     ArrayList<Address> requests = this.getNFTRequests(_nft);
 
     if (requests.size() == 1) {
-      Notification start = new Notification("Auction", "Auction has started.");
+      Notification start = new Notification(
+        "Auction",
+        "Auction has started automatically."
+      );
       Notification end = new Notification("Auction", "Auction has ended.");
 
       String startID = this.generateNotificationID(_nft, this.startTime(_nft));
@@ -452,15 +491,15 @@ public class Galleries {
       this.notificationInfo.put(endID, end);
     }
     if (requests.size() == 0) {
-      Auction auction = new Auction(_timestamp);
+      Auction auction = new Auction(Context.getTransactionTimestamp());
       this.auctionInfo.put(_nft, auction);
 
       NFT nft = this.nftInfo.get(_nft);
       nft.previousOwner = nft.currentOwner;
       nft.currentOwner = _user;
 
-      HashMap<Address, BigInteger> owners = this.nftMapOwners.get(_nft);
-      owners.put(_user, _timestamp);
+      HashMap<Address, BigInteger> owners = this.getNFTOwners(_nft);
+      owners.put(_user, Context.getTransactionTimestamp());
       this.nftMapOwners.put(_nft, owners);
     }
 
@@ -475,12 +514,7 @@ public class Galleries {
   }
 
   @External
-  public void startAuction(
-    Address _user,
-    String _nft,
-    BigInteger _timestamp,
-    BigInteger _duration
-  ) {
+  public void startAuction(Address _user, String _nft, BigInteger _duration) {
     Context.require(
       this.nftMapRequests.get(_nft).size() >= 2,
       "Not enough requests"
@@ -490,11 +524,11 @@ public class Galleries {
       "Duration must be less than 3 days"
     );
     Context.require(
-      _user == this.nftInfo.get(_nft).previousOwner,
+      this.nftInfo.get(_nft).previousOwner.equals(_user),
       "You don't have permission"
     );
 
-    ArrayList<String> notifications = this.nftMapNotifications.get(_nft);
+    ArrayList<String> notifications = this.getNFTNotifications(_nft);
 
     String oldStartID = this.generateNotificationID(_nft, this.startTime(_nft));
     String oldEndID = this.generateNotificationID(_nft, this.endTime(_nft));
@@ -504,11 +538,14 @@ public class Galleries {
     this.notificationInfo.remove(oldEndID);
 
     Auction auction = this.auctionInfo.get(_nft);
-    auction.startTime = _timestamp;
+    auction.startTime = Context.getTransactionTimestamp();
     auction.duration = _duration;
     this.auctionInfo.put(_nft, auction);
 
-    Notification start = new Notification("Auction", "Auction has started.");
+    Notification start = new Notification(
+      "Auction",
+      _user + " started the auction"
+    );
     Notification end = new Notification("Auction", "Auction has ended.");
 
     String startID = this.generateNotificationID(_nft, this.startTime(_nft));
@@ -523,28 +560,24 @@ public class Galleries {
 
   @External(readonly = true)
   public BigInteger startTime(String _nft) {
-    if (this.nftMapRequests.get(_nft).size() < 2) {
-      return BigInteger.ZERO;
-    }
     return this.auctionInfo.get(_nft).startTime;
   }
 
   @External(readonly = true)
   public BigInteger endTime(String _nft) {
-    if (this.nftMapRequests.get(_nft).size() < 2) {
-      return BigInteger.ZERO;
-    }
     return this.startTime(_nft).add(this.auctionInfo.get(_nft).duration);
+  }
+
+  @External(readonly = true)
+  public boolean duringAuction(String _nft, BigInteger _timestamp) {
+    return (
+      this.startTime(_nft) <= _timestamp && _timestamp < this.endTime(_nft)
+    );
   }
 
   @External
   @Payable
-  public void sendBid(
-    Address _user,
-    String _nft,
-    BigInteger _bid,
-    BigInteger _timestamp
-  ) {
+  public void sendBid(Address _user, String _nft, BigInteger _bid) {
     Context.require(
       this.nftMapRequests.get(_nft).size() >= 2,
       "Not enough requests"
@@ -559,8 +592,8 @@ public class Galleries {
       "Auction does not exists"
     );
     Context.require(
-      _timestamp.compareTo(this.startTime(_nft)) >= 0 &&
-      _timestamp.compareTo(this.endTime(_nft)) <= 0,
+      Context.getTransactionTimestamp().compareTo(this.startTime(_nft)) >= 0 &&
+      Context.getTransactionTimestamp().compareTo(this.endTime(_nft)) <= 0,
       "Auction does not exists"
     );
     Context.require(
@@ -582,48 +615,32 @@ public class Galleries {
     NFT nft = this.nftInfo.get(_nft);
 
     owners.remove(this.nftInfo.get(_nft).currentOwner);
-    owners.put(_user, _timestamp);
+    owners.put(_user, Context.getTransactionTimestamp());
     nft.price = _bid;
     nft.previousOwner = nft.currentOwner;
     nft.currentOwner = _user;
     this.nftInfo.put(_nft, nft);
 
-    Notification notification = new Notification(
+    String oldOnwer =
+      this.generateCollectionID(this.nftInfo.get(_nft).previousOwner, _nft);
+    String newOwner = this.generateCollectionID(_user, _nft);
+    this.removeNFT(_nft, oldOnwer);
+    this.addNFT(_nft, newOwner);
+
+    ArrayList<String> notifications = this.getNFTNotifications(_nft);
+
+    Notification bid = new Notification(
       "Auction",
       String.valueOf(_user) +
       " bidded. NFT's owner & price now have changed and previous bidder has been refunded."
     );
 
-    String bidID = this.generateNotificationID(_nft, _timestamp);
-    this.notificationInfo.put(bidID, notification);
+    String bidID =
+      this.generateNotificationID(_nft, Context.getTransactionTimestamp());
+    this.notificationInfo.put(bidID, bid);
 
-    ArrayList<String> notifications = this.nftMapNotifications.get(_nft);
     notifications.add(bidID);
     this.nftMapNotifications.put(_nft, notifications);
-  }
-
-  @External
-  public void endAuction(String _nft, BigInteger _timestamp) {
-    Context.require(
-      this.nftMapRequests.get(_nft).size() >= 2,
-      "Not enough requests"
-    );
-    Context.require(
-      _timestamp.compareTo(this.endTime(_nft)) >= 0,
-      "Auction has not ended yet"
-    );
-
-    String pre =
-      this.generateCollectionID(this.nftInfo.get(_nft).previousOwner, "Owning");
-    String cur =
-      this.generateCollectionID(this.nftInfo.get(_nft).currentOwner, "Owning");
-
-    this.removeNFT(_nft, pre);
-    this.addNFT(_nft, cur);
-
-    this.nftMapRequests.put(_nft, new ArrayList<>());
-
-    this.auctionInfo.remove(_nft);
   }
 
   //======================================//
@@ -635,14 +652,12 @@ public class Galleries {
 
     for (String nft : nfts) {
       ArrayList<BigInteger> keys = new ArrayList<>();
-      NFT nftInfo = this.nftInfo.get(nft);
-      HashMap<Address, BigInteger> owners = this.getNFTOwners(nft);
 
-      keys.add(owners.get(nftInfo.firstOwner));
-      keys.add(nftInfo.price);
-      keys.add(BigInteger.valueOf(this.nftMapRequests.get(nft).size()));
-      keys.add(BigInteger.valueOf(owners.size()));
-      keys.add(owners.get(nftInfo.currentOwner));
+      keys.add(this.getNFTOwners(nft).get(this.nftInfo.get(nft).firstOwner));
+      keys.add(this.nftInfo.get(nft).price);
+      keys.add(BigInteger.valueOf(this.getNFTRequests(nft).size()));
+      keys.add(BigInteger.valueOf(this.getNFTOwners(nft).size() - 1));
+      keys.add(this.getNFTOwners(nft).get(this.nftInfo.get(nft).currentOwner));
 
       sortedNFTs.put(nft, keys);
     }
