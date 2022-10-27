@@ -282,11 +282,13 @@ export const endTime = async (_nft) => {
 //======================================//
 
 
-export const sortedNFTs = async (_user) => {
+export const sortedNFTs = async () => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('sortedNFTs')
-        .params({})
+        .params({
+            _timestamp: IconService.IconConverter.toBigNumber(Date.now() * 1000),
+        })
         .build()
 
     const nfts = await iconService.call(call).execute()
@@ -295,11 +297,12 @@ export const sortedNFTs = async (_user) => {
         nfts[nft][1] = IconService.IconConverter.toNumber(nfts[nft][1] / 1e18)
         nfts[nft][2] = IconService.IconConverter.toNumber(nfts[nft][2])
         nfts[nft][3] = IconService.IconConverter.toNumber(nfts[nft][3])
+        nfts[nft][4] = IconService.IconConverter.toNumber(nfts[nft][4])
     })
     return nfts;
 }
 
-export const sortedCollections = async (_user) => {
+export const sortedCollections = async () => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('sortedCollections')

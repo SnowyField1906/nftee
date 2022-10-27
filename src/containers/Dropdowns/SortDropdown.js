@@ -12,7 +12,7 @@ function SortDropdown({ index, sortType, rawSort, setRawSort }) {
                     {({ open }) => (
                         <>
                             <span className="rounded-md shadow-sm">
-                                <Menu.Button className={`${isActive() ? "text-black dark:text-white" : "text-black/50 dark:text-white/50"} inline-flex justify-center w-[11rem] h-12 px-4 py-2 pt-3 text-md font-semibold leading-5 transition duration-150 ease-in-out button-medium rounded-md focus:outline-none focus:shadow-outline-blue border`}>
+                                <Menu.Button className={`${isActive() ? "text-black dark:text-white" : "text-black/50 dark:text-white/50"} inline-flex justify-center w-[10rem] h-12 px-4 py-2 pt-3 text-sm font-semibold leading-5 transition duration-150 ease-in-out button-medium rounded-md focus:outline-none focus:shadow-outline-blue border`}>
                                     <span>{isActive() ? Object.values(sortType)[index][rawSort[1]] : Object.keys(sortType)[index]}</span>
                                     <svg
                                         className="w-5 h-5 ml-2 -mr-1"
@@ -39,7 +39,7 @@ function SortDropdown({ index, sortType, rawSort, setRawSort }) {
                             >
                                 <Menu.Items
                                     static
-                                    className="absolute right-0 w-[11rem] mt-2 origin-top-right button-medium-no-hover divide-black/50 dark:divide-white/50 rounded-md shadow-lg outline-none"
+                                    className="absolute right-0 w-[10rem] mt-2 origin-top-right button-medium-no-hover divide-black/50 dark:divide-white/50 rounded-md shadow-lg outline-none"
                                 >
                                     <div className="py-1">
                                         {
@@ -50,7 +50,7 @@ function SortDropdown({ index, sortType, rawSort, setRawSort }) {
                                                         className={`${isActive() && i === rawSort[1]
                                                             ? 'bg-black/50 text-white text-semibold'
                                                             : 'text-black/50 dark:text-white/50'
-                                                            } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-md`}
+                                                            } hover:bg-black/50 hover:text-white flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                                     >
                                                         {Object.values(sortType)[index][i]}
                                                     </button>

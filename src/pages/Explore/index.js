@@ -22,7 +22,7 @@ function Explore({ address }) {
   const [nftObject, setNFTObject] = useState([])
 
   const [rawSort, setRawSort] = useState([0, 0])
-  const [rawFilter, setRawFilter] = useState([['', ''], ['', ''], ['', ''], ['', '']])
+  const [rawFilter, setRawFilter] = useState([['', ''], ['', ''], ['', ''], ['', ''], ['', '']])
 
   const [loading, setLoading] = useState(false)
 
@@ -35,8 +35,7 @@ function Explore({ address }) {
   }
   useEffect(() => {
     nftObjectAwaits();
-  }, [rawSort])
-
+  }, [rawSort, rawFilter])
 
 
   useEffect(() => {
@@ -79,12 +78,12 @@ function Explore({ address }) {
         :
 
         <div className='page-bg h-screen'>
-          <div className='flex justify-self-center justify-between w-11/12 h-20 z-10'>
+          <div className='flex justify-self-center justify-between w-full px-5 h-20 z-10'>
             <div className='flex justify-between w-auto'>
               {
                 nftObject && Object.keys(nftSortType).map((_, i) => {
                   return (
-                    <div className='w-40 h-full mx-3'>
+                    <div className='w-40 h-full mx-1'>
                       <SortDropdown
                         index={i}
                         sortType={nftSortType}
@@ -101,7 +100,7 @@ function Explore({ address }) {
               {
                 nftObject && Object.keys(nftFilterType).map((_, i) => {
                   return (
-                    <div className='w-40 h-full mx-3'>
+                    <div className='w-40 h-full mx-1'>
                       <FilterDropdown
                         index={i}
                         filterType={nftFilterType}

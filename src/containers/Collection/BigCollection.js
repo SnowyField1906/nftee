@@ -100,7 +100,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                 loop={true}
                                 spaceBetween={10}
                                 // slidesPerView={nfts.length}
-                                slidesPerView={nfts.length > 3 ? Math.ceil(nfts.length / 3) : nfts.length}
+                                slidesPerView={nfts.length > 5 ? 5 : nfts.length}
                                 freeMode={true}
                                 watchSlidesProgress={true}
                                 modules={[FreeMode, Navigation, Thumbs]}
