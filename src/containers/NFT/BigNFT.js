@@ -33,8 +33,6 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
         })
     }
 
-    console.log(nftInfo)
-
     useEffect(() => {
         requestsAwait()
     }, [collectionList, auctionModal, editNFT, setBigNFT])

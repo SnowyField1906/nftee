@@ -1,30 +1,25 @@
+import { computeHeadingLevel } from '@testing-library/react'
 import { useState, useEffect } from 'react'
 
-import { getCollectionPublicNFTs, getUserAuction } from '../../../../../../utils/ReadonlyContracts'
+import { getUserNotifications, getNotificationInfo } from '../../../../../../utils/ReadonlyContracts'
 
-import NFTCard from '../../../../../NFT/NFTCard'
+import NotificationCard from '../../../../../NFT/NotificationCard'
 
 
-function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
+function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     const [nfts, setNFTs] = useState([])
-    const [requests, setRequests] = useState([])
-    const [balance, setBalance] = useState(0)
+    const [notifications, setNotifications] = useState([])
 
 
-    const collectionsAwait = async () => {
-        await getCollectionPublicNFTs(address + "/Owning").then((res) => {
-            setNFTs(res)
+    const notificationAwaits = async () => {
+        await getUserNotifications(address).then((res) => {
+            setNotifications(res)
         })
     }
-    const balanceAwait = async () => {
-        await balance(address).then((res) => {
-            setBalance(res)
-        })
-    }
+
     useEffect(() => {
-        collectionsAwait();
-        balanceAwait();
-    }, [active, setOpen, setNFT, setBigNFT])
+        notificationAwaits();
+    }, [active, setOpen])
 
     return (
         <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14
@@ -33,19 +28,17 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
             <div className={active ? "h-full" : "hidden"}>
 
                 <div className='flex justify-between w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto place-items-center'>
-                    <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Cart</p>
-                    <p className='font-semibold text-slate-900 dark:text-slate-100 mr-5'>Balance: {balance}</p>
+                    <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Notification</p>
                 </div>
                 <div className='flex-initial gap-2 w-full h-full'>
                     {
-                        nfts ? nfts.map((nft) => {
+                        notifications.map((notification) => {
                             return (
                                 <div className='w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global'>
-                                    <NFTCard address={address} setOpen={setOpen} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} />
+                                    <NotificationCard address={address} notification={notification} setOpen={setOpen} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} />
                                 </div>
                             )
                         })
-                            : null
                     }
 
                 </div>
@@ -55,4 +48,4 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     )
 }
 
-export default Cart
+export default Notification

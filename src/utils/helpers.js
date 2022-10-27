@@ -8,14 +8,15 @@ export const dateConventer = (d) => {
     var date = a.getDate();
     var hour = a.getHours();
     var min = a.getMinutes();
+    var sec = a.getSeconds();
     if (a.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0))
-        return 'Today, ' + hour + ':' + min;
+        return 'Today, ' + hour + ':' + min + ':' + sec;
     else if (a.setHours(0, 0, 0, 0) === yesterday.setHours(0, 0, 0, 0))
-        return 'Yesterday, ' + hour + ':' + min;
+        return 'Yesterday, ' + hour + ':' + min + ':' + sec;
     else if (year === today.getFullYear())
-        return date + ' ' + month + ', ' + hour + ':' + min;
+        return date + ' ' + month + ', ' + hour + ':' + min + ':' + sec;
     else
-        return date + ' ' + month + ' ' + year + ', ' + hour + ':' + min;
+        return date + ' ' + month + ' ' + year + ', ' + hour + ':' + min + ':' + sec;
 }
 
 

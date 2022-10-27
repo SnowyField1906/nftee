@@ -128,6 +128,32 @@ public class Galleries {
     return auctions;
   }
 
+  @External(readonly = true)
+  public ArrayList<String> getUserNotifications(
+    Address _user,
+    BigInteger _timestamp
+  ) {
+    ArrayList<String> notifications = new ArrayList<>();
+    for (String nft : this.getPublicNFTs()) {
+      if (
+        this.getNFTRequests(nft, _timestamp).contains(_user) ||
+        this.getNFTCurrentOwner(nft, _timestamp).equals(_user)
+      ) {
+        for (String notification : this.getNFTNotifications(nft)) {
+          if (
+            (new BigInteger(notification.substring(0, 16))).compareTo(
+                _timestamp
+              ) <=
+            0
+          ) {
+            notifications.add(notification);
+          }
+        }
+      }
+    }
+    return notifications;
+  }
+
   //==================//
 
   @External(readonly = true)
@@ -405,7 +431,6 @@ public class Galleries {
     ArrayList<String> nfts = this.getCollectionNFTs(_collection);
     nfts.add(_nft);
     this.collectionMapNFTs.put(_collection, nfts);
-
     // Notification notification = new Notification(
     //   "Collection",
     //   "NFT " + _nft + " has been added to collection " + _collection
@@ -689,8 +714,9 @@ public class Galleries {
     } else {
       bid =
         new Notification(
-          "Auction",
-          String.valueOf(_user) + " first bidded. NFT's owner now has changed."
+          "Request",
+          String.valueOf(_user) +
+          " sent first request. NFT's owner now has changed."
         );
     }
 

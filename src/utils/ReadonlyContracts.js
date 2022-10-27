@@ -45,6 +45,37 @@ export const getPublicNFTs = async () => {
 
 //==================//
 
+
+export const getUserAuctions = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getUserAuctions')
+        .params({
+            _user: _user,
+            _timestamp: IconService.IconConverter.toBigNumber(Date.now() * 1000)
+        })
+        .build()
+
+    const auctions = await iconService.call(call).execute()
+    return auctions;
+}
+
+
+export const getUserNotifications = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getUserNotifications')
+        .params({
+            _user: _user,
+            _timestamp: IconService.IconConverter.toBigNumber(Date.now() * 1000)
+        })
+        .build()
+
+    const notifications = await iconService.call(call).execute().sort((a, b) => +a.slice(0, 16) - +b.slice(0, 16))
+    return notifications;
+}
+
+
 export const getUserCollections = async (_user) => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
