@@ -20,7 +20,6 @@ export const dateConventer = (d) => {
 
 
 export const timeConventer = (t) => {
-    t = Number(t);
     var h = Math.floor(t / 3600);
     var m = Math.floor(t % 3600 / 60);
     var s = Math.floor(t % 3600 % 60);

@@ -38,6 +38,8 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
         return `${nfts.length}/${realQuality} ${realQuality > 1 ? " NFTs" : " NFT"} (${realQuality - nfts.length} hidden)`
     }
 
+    console.log(collectionInfo)
+
     return (
         <>
             {/* {bigNFT &&

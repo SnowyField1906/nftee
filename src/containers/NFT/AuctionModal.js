@@ -3,7 +3,7 @@ import { startAuction, sendBid } from '../../utils/TransactionContracts';
 import { getNotificationInfo, getNFTNotifications } from '../../utils/ReadonlyContracts';
 import { timeConventer, dateConventer } from './../../utils/helpers';
 
-function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, requests, setAuctionModal, now }) {
+function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now }) {
     const [duration, setDuration] = useState(0);
     const [bid, setBid] = useState(0);
     const [notifications, setNotifications] = useState([]);
@@ -13,7 +13,7 @@ function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, reque
             const notifications = [];
             res.forEach(async (notification) => {
                 await getNotificationInfo(notification).then((res) => {
-                    notifications.push([+notification.slice(-10), res[1]]);
+                    notifications.push([+notification.slice(0, 16), res[1]]);
                     console.log(res[1]);
                 })
             })
@@ -52,11 +52,14 @@ function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, reque
                         }
                     </div>
                     <p className='grid place-content-center text-huge h-[10%] w-full place-self-center border-b-2 border-black/50 dark:border-white/50'>History</p>
-                    <div className='flex-col h-[35%]'>
+                    <div className='grid h-[35%]'>
                         {
                             notifications.length && notifications.filter(notification => notification[0] <= now).map((notification) => {
                                 return (
-                                    <p className='ml-8 mt-5 select-none text-black dark:text-white'>{dateConventer(notification[0])} | &nbsp;{notification[1]}</p>
+                                    <div className='justify-self-center grid w-4/5 mt-3 border-b'>
+                                        <p className='text-center select-none text-black dark:text-white'>{dateConventer(notification[0])}</p>
+                                        <p className='text-center mt-1 select-none text-black dark:text-white'>{notification[1]}</p>
+                                    </div>
                                 )
                             })
                         }
@@ -72,7 +75,7 @@ function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, reque
                                 </div>
                                 <div className="flex justify-between place-items-center w-4/5 h-14 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="text-black dark:text-white">
-                                        {dateConventer(auctionInfo[0])}
+                                        {dateConventer(nftInfo[10])}
                                     </p>
                                 </div>
                             </div>
@@ -82,7 +85,7 @@ function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, reque
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="text-black dark:text-white">
-                                        {dateConventer(auctionInfo[1])}
+                                        {dateConventer(nftInfo[7])}
                                     </p>
                                 </div>
                             </div>
@@ -92,7 +95,7 @@ function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, reque
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="text-black dark:text-white">
-                                        {timeConventer(auctionInfo[2])}
+                                        {timeConventer(Math.floor((+nftInfo[8] - nftInfo[7]) / 1000000))}
                                     </p>
                                 </div>
                             </div>
@@ -115,21 +118,21 @@ function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, reque
                                         {nftInfo[0]}
                                     </p>
                                     <svg className="w-7 h-7 cursor-pointer fill-black/30 dark:fill-white/30 hover:fill-black/50 dark:hover:fill-white/50"
-                                        onClick={() => { navigator.clipboard.writeText(auctionInfo[4]) }}
+                                        onClick={() => { navigator.clipboard.writeText(nftInfo[0]) }}
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ><path d="m13 20a5.006 5.006 0 0 0 5-5v-8.757a3.972 3.972 0 0 0 -1.172-2.829l-2.242-2.242a3.972 3.972 0 0 0 -2.829-1.172h-4.757a5.006 5.006 0 0 0 -5 5v10a5.006 5.006 0 0 0 5 5zm-9-5v-10a3 3 0 0 1 3-3s4.919.014 5 .024v1.976a2 2 0 0 0 2 2h1.976c.01.081.024 9 .024 9a3 3 0 0 1 -3 3h-6a3 3 0 0 1 -3-3zm18-7v11a5.006 5.006 0 0 1 -5 5h-9a1 1 0 0 1 0-2h9a3 3 0 0 0 3-3v-11a1 1 0 0 1 2 0z" />
                                     </svg>
                                 </div>
                             </div>
                         </div>
 
-                        {previousOwner ?
+                        {address === nftInfo[0] ?
                             <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
                                 <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
                                     <p className="text-high text-left place-self-center">Duration:</p>
                                     <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
                                         type="number" placeholder="Duration in seconds"
-                                        defaultValue={auctionInfo[2]}
-                                        onInput={(e) => { setDuration(+e.target.value) }} />
+                                        defaultValue={Math.floor((+nftInfo[8] - nftInfo[7]) / 1000000)}
+                                        onInput={(e) => { setDuration(+e.target.value * 1000000) }} />
                                     <button onClick={() => startAuction(address, nft, duration)}
                                         className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Start auction now</button>
                                 </div>
@@ -140,7 +143,7 @@ function AuctionModal({ address, previousOwner, nft, nftInfo, auctionInfo, reque
                                     <p className="text-high text-left place-self-center">Bid:</p>
                                     <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
                                         type="number" placeholder="Enter your bid"
-                                        defaultValue={auctionInfo[3] / 1e18}
+                                        defaultValue={nftInfo[1] / 1e18}
                                         onInput={(e) => { setBid(+e.target.value * 1e18) }} />
                                     <button onClick={() => sendBid(address, nft, bid)}
                                         className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Summit bid</button>
