@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 
-import { getPublicNFTs } from '../../utils/ReadonlyContracts';
+import { getPublicNFTs, sortedNFTs } from '../../utils/ReadonlyContracts';
 
 import SmallNFT from '../../containers/NFT/SmallNFT'
 import BigNFT from '../../containers/NFT/BigNFT';
@@ -15,11 +15,13 @@ function Home({ address }) {
   const [nft, setNFT] = useState('');
   const [nftInfo, setNFTInfo] = useState([]);
   const [nfts, setNFTs] = useState([])
+  const [nftObject, setNFTObject] = useState([])
+
 
   useEffect(() => {
     const nftsAwait = async () => {
-      await getPublicNFTs().then((res) => {
-        setNFTs(res)
+      await sortedNFTs().then((res) => {
+        setNFTObject(res)
       })
     }
     nftsAwait();
@@ -53,29 +55,40 @@ function Home({ address }) {
         </div>
 
         <div className='grid w-screen mt-36'>
-          <p className='text-huge'>Just released NFTs</p>
+          <p className='text-huge mb-2'>Just released NFTs</p>
           <div className='content-list-view bg-white/50 dark:bg-black/50 rounded-xl'>
             {
-              nfts.map((_, i) => {
-                return (
-                  <SmallNFT address={address} nft={nfts[nfts.length - 1 - i]} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
-                )
-              })
-            }
-          </div>
-        </div>
-        <div className='grid w-screen'>
-          <p className='text-huge'>Best selling NFTs</p>
-          <div className='content-list-view bg-white/50 dark:bg-black/50 rounded-xl'>
-            {
-              nfts.map((nft) => {
+              nftObject.length !== 0 && Object.keys(nftObject).sort((a, b) => nftObject[b][0] - nftObject[a][0]).slice(0, 5).map((nft) => {
                 return (
                   <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
                 )
               })
             }
           </div>
-
+        </div>
+        <div className='grid w-screen mt-10'>
+          <p className='text-huge mb-2'>Best selling NFTs</p>
+          <div className='content-list-view bg-white/50 dark:bg-black/50 rounded-xl'>
+            {
+              nftObject.length !== 0 && Object.keys(nftObject).sort((a, b) => nftObject[b][3] - nftObject[a][3]).slice(0, 5).map((nft) => {
+                return (
+                  <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
+                )
+              })
+            }
+          </div>
+        </div>
+        <div className='grid w-screen mt-10'>
+          <p className='text-huge mb-2'>Hot NFTs</p>
+          <div className='content-list-view bg-white/50 dark:bg-black/50 rounded-xl'>
+            {
+              nftObject.length !== 0 && Object.keys(nftObject).sort((a, b) => nftObject[b][2] - nftObject[a][2]).slice(0, 5).map((nft) => {
+                return (
+                  <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
+                )
+              })
+            }
+          </div>
         </div>
       </div>
     </>
