@@ -4,7 +4,7 @@
 
 @layer components {
   .page-bg {
-    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-gray-200/80 dark:bg-gray-900/80 select-none no-scrollbar;
+    @apply grid h-max w-screen justify-items-center overflow-x-hidden   min-h-screen;
   }
 
   .content-board-view {
@@ -25,6 +25,22 @@
 
   .text-medium {
     @apply font-medium select-none text-black dark:text-white;
+  }
+
+  .text-light {
+    @apply font-light select-none text-black dark:text-white;
+  }
+
+  .para-1 {
+    @apply mt-7 select-none text-black dark:text-white text-center text-lg;
+  }
+
+  .para-2 {
+    @apply mt-3 font-light select-none text-black dark:text-white indent-8 text-sm;
+  }
+
+  .para-3 {
+    @apply text-black/70 dark:text-white/70 font-light text-right italic text-sm;
   }
 
   .button-global {
@@ -65,15 +81,19 @@
   }
 
   .radio-positive {
-    @apply select-none cursor-pointer inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-green-300/10 dark:hover:bg-green-700/10 peer-checked:border-green-500 peer-checked:text-green-700 dark:peer-checked:text-green-300 peer-checked:bg-green-500/20;
+    @apply select-none cursor-pointer inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50  rounded-lg border button-medium hover:bg-green-300/10 dark:hover:bg-green-700/10 peer-checked:border-green-500 peer-checked:text-green-700 dark:peer-checked:text-green-300 peer-checked:bg-green-500/20;
   }
 
   .radio-negative {
-    @apply select-none cursor-pointer inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50 bg-white rounded-lg border button-medium hover:bg-red-300/10 dark:hover:bg-red-700/10 peer-checked:border-red-500 peer-checked:text-red-700 dark:peer-checked:text-red-300 peer-checked:bg-red-500/20;
+    @apply select-none cursor-pointer inline-flex justify-between items-center p-5 w-full h-full text-black/50 dark:text-white/50  rounded-lg border button-medium hover:bg-red-300/10 dark:hover:bg-red-700/10 peer-checked:border-red-500 peer-checked:text-red-700 dark:peer-checked:text-red-300 peer-checked:bg-red-500/20;
   }
 
   .input {
     @apply button-light rounded-md appearance-none cursor-pointer hover:border-gray-500 focus:outline-none text-black dark:text-white font-medium;
+  }
+
+  .main-overflow {
+    @apply overflow-y-auto overflow-x-hidden no-scrollbar scroll-smooth;
   }
 }
 

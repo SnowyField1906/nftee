@@ -9,10 +9,12 @@ import CollectionList from "../../containers/Collection/CollectionList"
 
 import SortDropdown from "./../../containers/Dropdowns/SortDropdown"
 import FilterDropdown from "./../../containers/Dropdowns/FilterDropdown"
+import Footer from "../../containers/Navigators/Footer"
 
 
+function Explore({ account }) {
+  const address = account.wallet ? account.getAddress() : account.address;
 
-function Explore({ address }) {
   const [bigNFT, setBigNFT] = useState(false)
   const [editNFT, setEditNFT] = useState(false)
   const [collectionList, setCollectionList] = useState(false)
@@ -77,8 +79,12 @@ function Explore({ address }) {
         </div>
         :
 
-        <div className='page-bg h-screen'>
-          <div className='flex justify-self-center justify-between w-full px-5 h-20 z-10'>
+        <div className='page-bg '>
+          <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
+          </div>
+          <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
+          </div>
+          <div className='flex justify-self-center justify-between w-full px-5 h-20 z-10 mt-20'>
             <div className='flex justify-between w-auto'>
               {
                 nftObject && Object.keys(nftSortType).map((_, i) => {
@@ -127,6 +133,7 @@ function Explore({ address }) {
           </div>
         </div>
       }
+      <Footer />
     </>
   )
 }

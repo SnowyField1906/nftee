@@ -17,6 +17,7 @@ import SmallNFT from '../../containers/NFT/SmallNFT';
 import BigNFT from '../../containers/NFT/BigNFT';
 import CollectionList from '../../containers/Collection/CollectionList';
 import EditNFT from '../../containers/NFT/EditNFT';
+import Footer from '../../containers/Navigators/Footer';
 
 const httpProvider = new IconService.HttpProvider('https://sejong.net.solidwallet.io/api/v3')
 const iconService = new IconService(httpProvider);
@@ -25,7 +26,9 @@ const iconService = new IconService(httpProvider);
 SwiperCore.use([Navigation, Pagination]);
 
 
-function Profile({ address }) {
+function Profile({ account }) {
+  const address = account.wallet ? account.getAddress() : account.address;
+
   const [editNFT, setEditNFT] = useState(false)
   const [collectionList, setCollectionList] = useState(false)
 
@@ -100,17 +103,32 @@ function Profile({ address }) {
           <BigCollection address={address} setBigCollection={setBigCollection} collection={collection} collectionInfo={collectionInfo} nfts={nfts} isPublic={false} />
         </div>}
 
-      <div className='page-bg h-screen place-items-center'>
-        <div className="grid px-10 py-32 w-full">
-          <p className="text-huge">{address}</p>
-          <p className="text-huge">{balance}</p>
+      <div className='page-bg h-screen  main-overflow select-none'>
+        <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
         </div>
-        <div className="">
+        <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
+        </div>
+        <div className="grid px-10 w-[96%] pt-32">
+          <div className='flex bg-white/30 dark:bg-black/30 rounded-2xl'>
+            <div className="grid w-[60%] h-full">
+              <p className=" text-huge place-self-center py-5">{address}</p>
+            </div>
+            <div className='grid grid-cols-2 grid-rows-3 w-[40%]'>
+              <p className="text-huge text-xl py-5">Account balance</p>
+              <p className="text-huge font-medium text-xl py-5">{balance} ICX</p>
+              <p className="text-huge text-xl py-5">Number of NFTs</p>
+              <p className="text-huge font-medium text-xl py-5">{owningNFTs.length} NFT(s)</p>
+              <p className="text-huge text-xl py-5">Number of collections</p>
+              <p className="text-huge font-medium text-xl py-5">{customCollections.length} collection(s)</p>
+            </div>
+
+          </div>
+        </div>
+        <div className="py-2">
           {!owningNFTs || !owningNFTs.length ?
             <p className="text-huge">Create your first NFTs</p>
             :
             <div className="grid w-full justify-items-center place-items-center">
-              <p className="text-huge mb-5">Your owning NFTs</p>
               <Swiper
                 slidesPerView={owningNFTs.length > 5 ? 5 : owningNFTs.length}
                 slidesPerGroup={1}
@@ -141,12 +159,11 @@ function Profile({ address }) {
             </div>
           }
         </div>
-        <div className="mt-20">
+        <div className="grid w-full justify-items-center place-items-center">
           {!customCollections || !customCollections.length ?
             <p className="text-huge ">Create your first custom collection</p>
             :
             <div className="grid w-full justify-items-center place-items-center">
-              <p className="text-huge mb-5">Your custom collections</p>
               <Swiper
                 slidesPerView={customCollections.length > 5 ? 5 : customCollections.length}
                 slidesPerGroup={1}
@@ -176,6 +193,7 @@ function Profile({ address }) {
           }
         </div>
       </div>
+      <Footer />
     </>
 
   )

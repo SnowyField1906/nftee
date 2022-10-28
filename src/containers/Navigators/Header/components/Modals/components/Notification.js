@@ -36,7 +36,7 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
                 <div className='flex justify-between w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto place-items-center'>
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Notification</p>
                 </div>
-                <div className='overflow-hidden relative grid gap-2 w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar'>
+                <div className='overflow-hidden relative gap-2 w-full h-[85vh] main-overflow'>
                     {/* <Swiper
                         direction={"vertical"}
                         slidesPerView={"auto"}

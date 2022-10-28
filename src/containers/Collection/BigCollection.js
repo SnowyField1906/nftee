@@ -86,7 +86,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                                     }}
                                                 // onClick={() => setBigNFT(true)}
                                                 >
-                                                    {address === collection.split('/')[0] && <div className="absolute right-0 top-1 hidden group-hover:block fill-red-500 hover:scale-110 cursor-pointer"
+                                                    {address === collection.split('/')[0] && <div className="absolute right-0 top-1 hidden group-hover:block hover:scale-110 cursor-pointer fill-red-500"
                                                         onClick={() => removeNFT(nft, collection)}>
                                                         <DeleteBigRed />
                                                     </div>}

@@ -12,7 +12,8 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
 
 
     const collectionsAwait = async () => {
-        await getCollectionPublicNFTs(address + "/Owning").then((res) => {
+        await getCollectionPublicNFTs(address + "/Cart").then((res) => {
+            console.log("object")
             setNFTs(res)
         })
     }
@@ -36,7 +37,7 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Cart</p>
                     <p className='font-semibold text-slate-900 dark:text-slate-100 mr-5'>Balance: {(userBalance / 1e18).toFixed(2)}</p>
                 </div>
-                <div className='flex-initial gap-2 w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar'>
+                <div className='flex-initial gap-2 w-full h-full main-overflow'>
                     {
                         nfts ? nfts.map((nft) => {
                             return (

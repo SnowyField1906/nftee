@@ -22,7 +22,7 @@ function CreateWallet({ wallet, setTag, account, setAccount }) {
             setAccount({
                 ...account,
                 address: wallet.getAddress(),
-                login: true
+                wallet: wallet
             })
         return (
             <Navigate to="/NFTee/Home" />
@@ -32,7 +32,7 @@ function CreateWallet({ wallet, setTag, account, setAccount }) {
 
     const [view, setView] = useState(false)
 
-    if (account.login) {
+    if (account.address) {
         return <Navigate to="/NFTee/Home" />
     }
 

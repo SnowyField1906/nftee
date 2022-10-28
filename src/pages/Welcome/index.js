@@ -33,15 +33,14 @@ function Welcome({ account, setAccount }) {
       if (type === 'RESPONSE_ADDRESS') {
         setAccount({
           ...account,
-          address: payload,
-          login: true,
+          address: payload
         })
       }
     }
     window.addEventListener('ICONEX_RELAY_RESPONSE', responseAccount);
   }
 
-  if (account.login) {
+  if (account.address) {
     return <Navigate to="/NFTee/Home" />
   }
 

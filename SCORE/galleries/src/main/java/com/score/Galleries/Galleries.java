@@ -661,7 +661,10 @@ public class Galleries {
       this.balance(_user).compareTo(_bid) >= 0,
       "Insufficient funds"
     );
-    Context.require(this.onSale(_nft, timestamp), "This NFT is not on sale");
+    Context.require(
+      status || this.onSale(_nft, timestamp),
+      "This NFT is not on sale"
+    );
 
     HashMap<Address, BigInteger> owners = this.getNFTOwners(_nft);
     if (status == 3) {
@@ -742,7 +745,7 @@ public class Galleries {
       keys.add(this.getNFTOwners(nft).get(this.nftInfo.get(nft).firstOwner));
       keys.add(this.nftInfo.get(nft).price);
       keys.add(BigInteger.valueOf(this.getNFTRequests(nft, _timestamp).size()));
-      keys.add(BigInteger.valueOf(this.getNFTOwners(nft).size() - 1));
+      keys.add(BigInteger.valueOf(this.getNFTPurchaseTimes(nft, _timestamp)));
       keys.add(this.getNFTOwners(nft).get(this.nftInfo.get(nft).currentOwner));
 
       sortedNFTs.put(nft, keys);

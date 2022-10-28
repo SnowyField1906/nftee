@@ -7,8 +7,11 @@ import SmallNFT from '../../containers/NFT/SmallNFT'
 import BigNFT from '../../containers/NFT/BigNFT';
 import EditNFT from '../../containers/NFT/EditNFT';
 import CollectionList from '../../containers/Collection/CollectionList';
+import Footer from '../../containers/Navigators/Footer';
 
-function Home({ address }) {
+function Home({ account }) {
+  const address = account.wallet ? account.getAddress() : account.address;
+
   const [collectionList, setCollectionList] = useState(false)
   const [editNFT, setEditNFT] = useState(false)
   const [bigNFT, setBigNFT] = useState(false)
@@ -42,7 +45,7 @@ function Home({ address }) {
         <div className="fixed w-screen h-screen z-40">
           <CollectionList address={address} nft={nft} setCollectionList={setCollectionList} />
         </div>}
-      <div className='grid h-max w-screen justify-items-center overflow-x-hidden'>
+      <div className='grid h-max w-screen justify-items-center overflow-x-hidden main-overflow'>
         <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
         </div>
         <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
@@ -91,6 +94,7 @@ function Home({ address }) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

@@ -5,7 +5,6 @@ import { editNFT } from './../../utils/TransactionContracts'
 
 function EditNFT({ address, nft, nftInfo, setEditNFT }) {
     const [editNFTParams, setEditNFTParams] = useState({
-        _price: nftInfo[1] / 1e18,
         _description: nftInfo[2],
         _visibility: nftInfo[3] === 'true',
         _onSale: nftInfo[4] === 'true',
@@ -21,12 +20,7 @@ function EditNFT({ address, nft, nftInfo, setEditNFT }) {
 
 
                 <div className='place-items-center grid h-full w-full'>
-                    <div className="grid overflow-hidden grid-cols-5 grid-rows-4 gap-2 w-4/5">
-                        <p className="text-high text-left place-self-center">Price:</p>
-                        <input className="col-start-2 col-end-6 place-self-center w-4/5 h-14 px-4 transition input"
-                            type="number" placeholder="Price" defaultValue={editNFTParams._price}
-                            onChange={(e) => setEditNFTParams({ ...editNFTParams, _price: +e.target.value })} />
-
+                    <div className="grid overflow-hidden grid-cols-5 grid-rows-3 gap-2 w-4/5">
                         <p className="text-high text-left w-full place-self-center">Description:</p>
                         <textarea className="col-start-2 col-end-6 place-self-center w-4/5 h-28 px-4 transition input"
                             type="text" placeholder="Description" defaultValue={editNFTParams._description}

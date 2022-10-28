@@ -39,7 +39,7 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
 
                 <div className='flex-col h-full w-5/12 border-r-2 border-black/50 dark:border-white/50'>
                     <p className='grid place-content-center text-huge h-[10%] w-full place-self-center border-b-2 border-black/50 dark:border-white/50'>Requests</p>
-                    <div className='flex-col h-[40%] overflow-y-auto overflow-x-hidden no-scrollbar'>
+                    <div className='flex-col h-[40%] overflow-y-auto main-overflow'>
                         {
                             requests.map((request, i) => {
                                 return (
@@ -51,11 +51,11 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
                         }
                     </div>
                     <p className='grid place-content-center text-huge h-[10%] w-full place-self-center border-b-2 border-black/50 dark:border-white/50'>History</p>
-                    <div className='grid h-[40%] overflow-y-auto overflow-x-hidden no-scrollbar'>
+                    <div className='grid h-[40%] overflow-y-auto main-overflow'>
                         {
                             notifications.length && notifications.filter(notification => notification[0] <= now).sort((a, b) => a[0] - b[0]).map((notification) => {
                                 return (
-                                    <div className='justify-self-center grid w-4/5 mt-3 border-b border-black/30 dark:border-white/30'>
+                                    <div className='justify-self-center grid w-4/5 mt-3 pb-3 border-b border-black/30 dark:border-white/30'>
                                         <p className='text-center select-none text-black dark:text-white font-medium'>{dateConventer(notification[0])}</p>
                                         <p className='text-center mt-1 select-none text-black dark:text-white font-light'>{notification[1]}</p>
                                     </div>
@@ -124,7 +124,7 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
                             </div>
                         </div>
 
-                        {address === nftInfo[0] ?
+                        {+nftInfo[7] > now && requests.length > 1 && address === nftInfo[0] ?
                             <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
                                 <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
                                     <p className="text-high text-left place-self-center">Duration:</p>

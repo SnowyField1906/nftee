@@ -7,9 +7,12 @@ import SmallCollection from "../../containers/Collection/SmallCollection"
 import BigCollection from "../../containers/Collection/BigCollection"
 import SortDropdown from "./../../containers/Dropdowns/SortDropdown"
 import FilterDropdown from "./../../containers/Dropdowns/FilterDropdown"
+import Footer from "../../containers/Navigators/Footer"
 
 
-function Galleries({ address }) {
+function Galleries({ account }) {
+  const address = account.wallet ? account.getAddress() : account.address;
+
   const [collections, setCollections] = useState([])
 
   const [bigCollection, setBigCollection] = useState(false)
@@ -59,11 +62,16 @@ function Galleries({ address }) {
   return (
     <>
       {bigCollection &&
-        <div className="fixed w-screen h-screen z-30">
+        <div className="fixed w-screen h-screen z-30 ">
           <BigCollection address={address} setBigCollection={setBigCollection} collection={collection} collectionInfo={collectionInfo} nfts={nfts} isPublic={true} />
         </div>}
       <div className='page-bg h-screen'>
-        <div className='flex justify-self-center justify-between w-11/12 h-20 z-20'>
+
+        <div className='w-screen h-full fixed -z-10 bg-home-picture-1 bg-center bg-no-repeat bg-cover overflow-x-hidden'>
+        </div>
+        <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
+        </div>
+        <div className='flex justify-self-center justify-between w-11/12 h-20 z-20 mt-20'>
           <div className='flex justify-between w-auto'>
             {
               collectionObject && Object.keys(collectionSortType).map((_, i) => {
@@ -113,6 +121,7 @@ function Galleries({ address }) {
           }
         </div>
       </div>
+      <Footer />
     </>
   )
 }

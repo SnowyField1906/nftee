@@ -8,16 +8,14 @@ function LoadWallet({ setTag, account, setAccount }) {
     const [view, setView] = useState(false);
     const [keyInput, setKeyInput] = useState('');
     const [password, setPassword] = useState("")
-    const [loadAccount, setLoadAccount] = useState({
-        address: null,
-        privateKey: null,
-    })
+    const [loadAccount, setLoadAccount] = useState({})
 
     const loadWalletByFile = (keystoreFile, password) => {
         const keystore = IconService.IconWallet.loadKeystore(keystoreFile, password);
         setLoadAccount({
             address: keystore.getAddress(),
-            privateKey: keystore.getPrivateKey()
+            privateKey: keystore.getPrivateKey(),
+            wallet: keystore
         })
     }
 
@@ -29,20 +27,12 @@ function LoadWallet({ setTag, account, setAccount }) {
         };
     };
 
-    const handleLoadFile = () => {
-        if (loadWalletByFile(keystoreFile, password)) {
-            setLoadAccount({
-                address: keystoreFile.address,
-                privateKey: keystoreFile.privateKey
-            })
-        }
-    }
-
     const handleLoadKey = () => {
         const key = IconService.IconWallet.loadPrivateKey(keyInput);
         setLoadAccount({
             address: key.getAddress(),
-            privateKey: key.getPrivateKey()
+            privateKey: key.getPrivateKey(),
+            wallet: key,
         })
     }
 
@@ -50,14 +40,14 @@ function LoadWallet({ setTag, account, setAccount }) {
     const redirect = () => {
         if (loadAccount.address) {
             setAccount({
-                ...account,
                 address: loadAccount.address,
-                login: true
+                privateKey: loadAccount.privateKey,
+                wallet: loadAccount.wallet
             })
         }
     }
 
-    if (account.login) {
+    if (account.address) {
         return <Navigate to="/NFTee/Home" />
     }
 
@@ -108,7 +98,7 @@ function LoadWallet({ setTag, account, setAccount }) {
                             type="password" placeholder="Password" required={password >= 8}
                             onChange={(e) => setPassword(e.target.value)} />
                     </div>
-                    <button className='text-black dark:text-white text-xl font-semibold w-min justify-self-center' onClick={handleLoadFile}>Load</button>
+                    <button className='text-black dark:text-white text-xl font-semibold w-min justify-self-center' onClick={() => loadWalletByFile(keystoreFile, password)}>Load</button>
 
                 </div>
             </div>

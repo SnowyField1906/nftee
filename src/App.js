@@ -19,7 +19,7 @@ function App() {
 	const [account, setAccount] = useState({
 		address: '',
 		privateKey: '',
-		login: false,
+		wallet: null,
 	});
 
 
@@ -36,15 +36,11 @@ function App() {
 		// });
 	};
 
-
-
-
-
-	useEffect(() => {
-		if (!account.address) {
-			setAccount({ address: '', privateKey: '', login: false })
-		}
-	}, [])
+	// useEffect(() => {
+	// 	if (!account.address) {
+	// 		setAccount({ address: '', privateKey: '', wallet: null })
+	// 	}
+	// }, [])
 
 	useEffect(() => {
 		claimAwait();
@@ -54,21 +50,21 @@ function App() {
 
 	const pageTag = (i) => {
 		const Tag = Pages[allPagesList[i]];
-		return <Tag address={account.address} account={account} setAccount={setAccount} />;
+		return <Tag account={account} setAccount={setAccount} />;
 	};
 
 	const externalProfile = (address) => {
-		return <Profile address={address} account={account} setAccount={setAccount} />;
+		return <Profile address={address} setAccount={setAccount} />;
 	}
 
 	const externalCollection = (collection) => {
-		return <Collection address={collection} account={account} setAccount={setAccount} />;
+		return <Collection address={collection} setAccount={setAccount} />;
 	}
 
 	console.log(bid)
 
 	return (
-		<div className="h-screen overflow-x-hidden">
+		<div className="h-screen main-overflow">
 			{
 				claimNFT && <div className="fixed top-0 left-0 w-screen h-screen z-[100] grid justify-center items-center backdrop-lg select-none">
 					<div className="w-[60vw] h-[30vh] bg- bg-cover bg-center overflow-hidde rounded-xl justify-self-center"
