@@ -27,7 +27,7 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     }, [active, setOpen, setNFT, setBigNFT])
 
     return (
-        <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14
+        <div className={`${active ? "h-[85vh]" : "h-0"} w-[27rem] fixed right-8 mt-14
         transform duration-300 ease-in-out select-none
         rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md`} >
             <div className={active ? "h-full" : "hidden"}>
@@ -36,7 +36,7 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Cart</p>
                     <p className='font-semibold text-slate-900 dark:text-slate-100 mr-5'>Balance: {(userBalance / 1e18).toFixed(2)}</p>
                 </div>
-                <div className='flex-initial gap-2 w-full h-full'>
+                <div className='flex-initial gap-2 w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar'>
                     {
                         nfts ? nfts.map((nft) => {
                             return (

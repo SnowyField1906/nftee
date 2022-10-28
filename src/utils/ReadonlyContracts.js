@@ -71,8 +71,8 @@ export const getUserNotifications = async (_user) => {
         })
         .build()
 
-    const notifications = await iconService.call(call).execute().sort((a, b) => +a.slice(0, 16) - +b.slice(0, 16))
-    return notifications;
+    const notifications = await iconService.call(call).execute()
+    return notifications.sort((a, b) => +b.slice(0, 16) - +a.slice(0, 16));
 }
 
 

@@ -18,7 +18,7 @@ import BigNFT from "../NFT/BigNFT";
 import Edit from "./components/Edit";
 import Delete from "./components/Delete";
 import EditCollection from "./EditCollection";
-
+import DeleteBigRed from "./components/DeleteBigRed";
 
 function BigCollection({ address, collection, collectionInfo, nfts, setBigCollection }) {
     const [editCollection, setEditCollection] = useState(false);
@@ -80,12 +80,16 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                         <>
                                             <SwiperSlide>
                                                 <div
-                                                    className="relative w-full h-full bg- bg-contain bg-no-repeat bg-center overflow-hidden rounded-lg"
+                                                    className="group relative w-full h-full bg- bg-contain bg-no-repeat bg-center overflow-hidden rounded-lg"
                                                     style={{
                                                         backgroundImage: `url(${findPublicGateWay(nft)})`,
                                                     }}
                                                 // onClick={() => setBigNFT(true)}
                                                 >
+                                                    {address === collection.split('/')[0] && <div className="absolute right-0 top-1 hidden group-hover:block fill-red-500 hover:scale-110 cursor-pointer"
+                                                        onClick={() => removeNFT(nft, collection)}>
+                                                        <DeleteBigRed />
+                                                    </div>}
                                                 </div>
                                             </SwiperSlide>
                                         </>
@@ -100,7 +104,7 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                 loop={true}
                                 spaceBetween={10}
                                 // slidesPerView={nfts.length}
-                                slidesPerView={nfts.length > 5 ? 5 : nfts.length}
+                                slidesPerView={nfts.length > 4 ? 4 : nfts.length}
                                 freeMode={true}
                                 watchSlidesProgress={true}
                                 modules={[FreeMode, Navigation, Thumbs]}

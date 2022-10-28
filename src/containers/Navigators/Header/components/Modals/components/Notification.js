@@ -5,6 +5,12 @@ import { getUserNotifications, getNotificationInfo } from '../../../../../../uti
 
 import NotificationCard from '../../../../../NFT/NotificationCard'
 
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import "swiper/css";
+// import "swiper/css/free-mode";
+// import "swiper/css/scrollbar";
+// import { FreeMode, Scrollbar, Mousewheel } from "swiper";
+
 
 function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     const [nfts, setNFTs] = useState([])
@@ -22,7 +28,7 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
     }, [active, setOpen])
 
     return (
-        <div className={`${active ? "h-screen" : "h-0"} w-[27rem] fixed right-8 mt-14
+        <div className={`${active ? "h-[85vh]" : "h-0"} w-[27rem] fixed right-8 mt-14
         transform duration-300 ease-in-out select-none
         rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md`} >
             <div className={active ? "h-full" : "hidden"}>
@@ -30,7 +36,16 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
                 <div className='flex justify-between w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto place-items-center'>
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Notification</p>
                 </div>
-                <div className='flex-initial gap-2 w-full h-full'>
+                <div className='overflow-hidden relative grid gap-2 w-full h-full overflow-y-auto overflow-x-hidden no-scrollbar'>
+                    {/* <Swiper
+                        direction={"vertical"}
+                        slidesPerView={"auto"}
+                        freeMode={true}
+                        scrollbar={true}
+                        mousewheel={true}
+                        modules={[FreeMode, Scrollbar, Mousewheel]}
+                    >
+                        <SwiperSlide> */}
                     {
                         notifications.map((notification) => {
                             return (
@@ -40,6 +55,8 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
                             )
                         })
                     }
+                    {/* </SwiperSlide>
+                    </Swiper> */}
 
                 </div>
 

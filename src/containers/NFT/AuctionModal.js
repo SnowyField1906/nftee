@@ -10,22 +10,19 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
 
     const notificationsAwait = async () => {
         await getNFTNotifications(nft).then((res) => {
-            const notifications = [];
+            const noti = [];
             res.forEach(async (notification) => {
                 await getNotificationInfo(notification).then((res) => {
-                    notifications.push([+notification.slice(0, 16), res[1]]);
-                    console.log(res[1]);
+                    noti.push([+notification.slice(0, 16), res[1]]);
                 })
             })
-            setNotifications(notifications.sort((a, b) => {
-                console.log(a[0], b[0])
-                return a[0] > b[0]
-            }));
-            console.log(notifications)
+            noti.sort((a, b) => {
+                console.log(+a[0], +b[0])
+                return +b[0] - +a[0]
+            });
+            setNotifications(noti);
         })
     };
-
-    console.log(notifications);
 
     useEffect(() => {
         notificationsAwait();
@@ -40,25 +37,27 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
 
             <div className="flex h-full">
 
-                <div className='flex-col h-full w-5/12 border-r border-black dark:border-white'>
+                <div className='flex-col h-full w-5/12 border-r-2 border-black/50 dark:border-white/50'>
                     <p className='grid place-content-center text-huge h-[10%] w-full place-self-center border-b-2 border-black/50 dark:border-white/50'>Requests</p>
-                    <div className='flex-col h-[35%]'>
+                    <div className='flex-col h-[40%] overflow-y-auto overflow-x-hidden no-scrollbar'>
                         {
                             requests.map((request, i) => {
                                 return (
-                                    <p className='ml-8 mt-5 cursor-pointer hover:underline text-black dark:text-white'>{i + 1}. &nbsp;{request}</p>
+                                    <p className='ml-8 mt-5 text-black dark:text-white'>{i + 1}. &nbsp;
+                                        <span className='cursor-pointer hover:underline'>{request}</span>
+                                    </p>
                                 )
                             })
                         }
                     </div>
                     <p className='grid place-content-center text-huge h-[10%] w-full place-self-center border-b-2 border-black/50 dark:border-white/50'>History</p>
-                    <div className='grid h-[35%]'>
+                    <div className='grid h-[40%] overflow-y-auto overflow-x-hidden no-scrollbar'>
                         {
-                            notifications.length && notifications.filter(notification => notification[0] <= now).map((notification) => {
+                            notifications.length && notifications.filter(notification => notification[0] <= now).sort((a, b) => a[0] - b[0]).map((notification) => {
                                 return (
-                                    <div className='justify-self-center grid w-4/5 mt-3 border-b'>
-                                        <p className='text-center select-none text-black dark:text-white'>{dateConventer(notification[0])}</p>
-                                        <p className='text-center mt-1 select-none text-black dark:text-white'>{notification[1]}</p>
+                                    <div className='justify-self-center grid w-4/5 mt-3 border-b border-black/30 dark:border-white/30'>
+                                        <p className='text-center select-none text-black dark:text-white font-medium'>{dateConventer(notification[0])}</p>
+                                        <p className='text-center mt-1 select-none text-black dark:text-white font-light'>{notification[1]}</p>
                                     </div>
                                 )
                             })

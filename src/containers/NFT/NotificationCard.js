@@ -3,6 +3,7 @@ import { findPublicGateWay } from "../../utils/constants";
 import { dateConventer } from "../../utils/helpers";
 import { getNFTInfo, getNotificationInfo } from "../../utils/ReadonlyContracts";
 
+
 function NotificationCard({ address, notification, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     const [temporaryNFTInfo, setTemporaryNFTInfo] = useState([])
     const [notificationInfo, setNotificationInfo] = useState([])
@@ -60,8 +61,8 @@ function NotificationCard({ address, notification, setOpen, setNFT, setNFTInfo, 
 
 
                     <div className='flex justify-between absolute bottom-0 w-[25rem] h-[2.5rem] place-items-center place-content-center'>
-                        <p className="ml-4 font-bold text-lg text-black dark:text-white">{notificationInfo[0]}</p>
-                        <p className="mr-4 font-bold text-lg text-black dark:text-white">{dateConventer(notification.slice(0, 16))}</p>
+                        <p className="ml-4 font-bold shadow-xl text-lg text-black dark:text-white">{notificationInfo[0]}</p>
+                        <p className="mr-4 font-bold shadow-xl text-lg text-black dark:text-white">{dateConventer(notification.slice(0, 16))}</p>
                     </div>
                 </div>
             </div>

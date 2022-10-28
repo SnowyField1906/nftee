@@ -4,7 +4,7 @@
 
 @layer components {
   .page-bg {
-    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-gray-200/80 dark:bg-gray-900/80 select-none;
+    @apply grid pt-32 h-max w-screen overflow-x-hidden bg-gray-200/80 dark:bg-gray-900/80 select-none no-scrollbar;
   }
 
   .content-board-view {
@@ -78,6 +78,19 @@
 }
 
 @layer components {
+  @layer utilities {
+    @variants responsive {
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+  }
+
   .swiper {
     width: 92%;
     height: 100%;
