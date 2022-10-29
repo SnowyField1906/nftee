@@ -72,16 +72,13 @@ function About() {
                             When coding this web application, I used an operating system that everything is shrunk. I was startle when opening it on other devices. I sincerely apologize for this unfortunate accident.
                         </p>
                         <p className='para-1'>
-                            Everything is all automatic.
-                        </p>
-                        <p className='para-2'>
-                            The smart contracts were written in a special way to keep everything launching in automaticity.
-                        </p>
-                        <p className='para-1'>
                             The code is a bit messy and the performance is stil not good.
                         </p>
                         <p className='para-2'>
                             I did this project in a rush, that's why everything is still not good and the source code looks a bit messy.
+                        </p>
+                        <p className='para-2'>
+                            Besides, there are still some essential features missing and a lot of things unfinished, it will be perfected someday in the future.
                         </p>
                     </div>
                 </div>
@@ -111,7 +108,7 @@ function About() {
                             This project has been finished at November 1th, 2022. And I'm just a early-second year student.
                         </p>
                         <p className='para-2'>
-                            When I was just a freshman, I was enchanted by Blockchain. Very soon, there was some full-stack decentralized applications on Ethereum with Solidity, Truffle, Hardhat, Ethers.js Web3.js, useDApp,... I created at that time.
+                            When I was just a freshman, I was enchanted by Blockchain. Very soon, there was some full-stack decentralized applications on Ethereum. I created at that time.
                         </p>
                         <p className='para-1'>
                             Kindly thanks for DEVERA Academy's support.
