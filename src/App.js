@@ -12,6 +12,7 @@ import Collection from "./containers/Collection/components/Collection";
 import Profile from "./pages/External/Profile";
 
 
+
 function App() {
 	const allPagesList = [pagesList.Special, ...pagesList.Main, ...pagesList.Sub];
 	const [claimNFT, setClaimNFT] = useState('');
@@ -21,31 +22,6 @@ function App() {
 		privateKey: '',
 		wallet: null,
 	});
-
-
-	const claimAwait = async () => {
-		// await getUserAuctions(account.address).then((res) => {
-		// 	res.forEach((auction) => {
-		// 		getAuctionInfo(auction).then((res) => {
-		// 			if (res[4] === account.address && new Date().getTime() / 1000 > Number(res[1]) + Number(res[2])) {
-		// 				setClaimNFT(auction);
-		// 				setBid(Number(res[3]));
-		// 			}
-		// 		});
-		// 	});
-		// });
-	};
-
-	// useEffect(() => {
-	// 	if (!account.address) {
-	// 		setAccount({ address: '', privateKey: '', wallet: null })
-	// 	}
-	// }, [])
-
-	useEffect(() => {
-		claimAwait();
-	}, [account.address]);
-
 
 
 	const pageTag = (i) => {
@@ -92,7 +68,7 @@ function App() {
 			</Router>
 			<div class="fixed h-14 w-14 flex left-8 bottom-8 ml-[-0.5rem] z-20 rounded-full backdrop-blur-sm bg-white/50 dark:bg-black/50">
 			</div>
-		</div>
+		</div >
 	);
 }
 

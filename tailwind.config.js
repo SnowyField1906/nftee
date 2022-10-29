@@ -23,7 +23,6 @@ module.exports = {
 	plugins: [
 		require("flowbite/plugin"),
 		require("daisyui"),
-		require('tailwind-scrollbar'),
 	],
 	variants: {
 		scrollbar: ['rounded']

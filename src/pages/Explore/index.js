@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
+
 import { sortedNFTs } from "../../utils/ReadonlyContracts"
 import { nftSortType, nftFilterType } from "../../utils/constants"
-
 import SmallNFT from "../../containers/NFT/SmallNFT"
 import BigNFT from "../../containers/NFT/BigNFT"
 import EditNFT from "../../containers/NFT/EditNFT"
@@ -59,6 +59,9 @@ function Explore({ account }) {
   }, [rawSort, rawFilter, nftObject, render])
 
 
+
+
+
   return (
     <>
       {bigNFT &&
@@ -114,6 +117,7 @@ function Explore({ account }) {
                         setRawFilter={setRawFilter}
                         render={render}
                         setRender={setRender}
+                        dateInput={i === 0 || i === 4}
                       />
                     </div>
                   )

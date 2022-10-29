@@ -147,7 +147,7 @@ function Nagivator({ account, setAccount }) {
 							>
 								LOGIN
 							</Link>
-							to access all functions.</p>
+							to have fully access to the service.</p>
 					}
 				</div>
 			</nav>

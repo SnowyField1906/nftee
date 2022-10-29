@@ -1,9 +1,12 @@
 import { Menu, Transition } from '@headlessui/react'
 
+
+
 function SortDropdown({ index, sortType, rawSort, setRawSort }) {
     const isActive = () => {
         return index === rawSort[0]
     }
+
 
     return (
         <div className="flex items-center justify-center p-12">

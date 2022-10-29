@@ -507,7 +507,16 @@ public class Galleries {
       request = this.nftMapRequests.get(_nft).size();
     }
     if (request == 1) {
-      return 1; // pending auction
+      if (
+        this.getFirstRequest(_nft)
+          .add(BigInteger.valueOf(100000000L))
+          .compareTo(_timestamp) >
+        0
+      ) {
+        return 1; // pending auction
+      } else {
+        return 4; // after auction
+      }
     }
     if (request > 1) {
       if (nft.startTime.compareTo(_timestamp) > 0) {
@@ -556,10 +565,8 @@ public class Galleries {
     if (requests.size() == 1) {
       NFT nft = this.nftInfo.get(_nft);
       nft.startTime =
-        this.getNFTOwners(_nft)
-          .get(nft.currentOwner)
-          .add(BigInteger.valueOf(86400000000L));
-      nft.endTime = nft.startTime.add(BigInteger.valueOf(86400000000L));
+        this.getFirstRequest(_nft).add(BigInteger.valueOf(100000000L));
+      nft.endTime = nft.startTime.add(BigInteger.valueOf(100000000L));
       this.nftInfo.put(_nft, nft);
 
       Notification start = new Notification(
@@ -662,7 +669,7 @@ public class Galleries {
       "Insufficient funds"
     );
     Context.require(
-      status || this.onSale(_nft, timestamp),
+      status == 3 || this.onSale(_nft, timestamp),
       "This NFT is not on sale"
     );
 

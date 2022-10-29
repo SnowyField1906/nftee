@@ -5,8 +5,26 @@ import Github from "./components/Github"
 import Linkedin from "./components/Linkedin"
 import Wakatime from "./components/Wakatime"
 
-
+import DatePicker from "tailwind-datepicker-react"
+import { useState } from "react"
 function Footer() {
+  const [show, setShow] = useState(false)
+  const options = {
+    autoHide: true,
+    todayBtn: true,
+    clearBtn: true,
+    theme: {
+      background: "",
+      todayBtn: "",
+      clearBtn: "",
+      icons: "",
+      text: "",
+      disabledText: "",
+      input: "",
+      inputIcon: "",
+      selected: "",
+    },
+  }
   return (
     <div className='flex h-52 bg-white/40 dark:bg-black/40 mt-20 border-t-2 border-black/30 dark:border-white/30'>
       <div className="relative grid place-content-center place-items-center h-full w-[20%]">

@@ -32,6 +32,56 @@ export const collectionFilterType = {
     "Volume": ["Begin", "End"],
 }
 
+export const dateStart = {
+    title: "Choose the start date",
+    autoHide: true,
+    todayBtn: true,
+    clearBtn: true,
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date("1950-01-01"),
+    theme: {
+        background: "bg-white/50 dark:bg-black/50 backdrop-lg",
+        todayBtn: "",
+        clearBtn: "",
+        icons: "",
+        text: "",
+        disabledText: "",
+        input: "",
+        inputIcon: "",
+        selected: "",
+    },
+    datepickerClassNames: "top-12",
+    defaultDate: new Date(),
+    language: "en",
+}
+
+export const dateEnd = {
+    title: "Choose the end date",
+    autoHide: true,
+    todayBtn: false,
+    clearBtn: true,
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date("1950-01-01"),
+    theme: {
+        background: "bg-white/50 dark:bg-black/50 backdrop-lg w-72",
+        todayBtn: "",
+        clearBtn: "",
+        icons: "",
+        text: "",
+        disabledText: "",
+        input: "",
+        inputIcon: "",
+        selected: "",
+    },
+    icons: {
+        prev: () => <span>Previous</span>,
+        next: () => <span>Next</span>,
+    },
+    datepickerClassNames: "top-12",
+    defaultDate: new Date("2022-01-01"),
+    language: "en",
+}
+
 
 const publicGateway = [
     // "https://via0.com/ipfs/",
