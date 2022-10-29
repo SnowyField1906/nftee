@@ -53,7 +53,7 @@ function Welcome({ account, setAccount }) {
             <div className='w-[60%] h-11/12 grid self-center ml-20 justify-center items-center'>
               <p className='font-semibold text-4xl text-black dark:text-white'>Welcome to NFTee</p>
               <p className='mt-7 font-light text-black dark:text-white'>You are about to enter the busiest and the most massive art museum on the planet.</p>
-              <p className='mt-7 font-light text-black dark:text-white'>Embrace the moment when the era of traditional digital transformation gives way to blockchain's.</p>
+              <p className='mt-7 font-light text-black dark:text-white'>Embrace the moment of transformation when the era of traditional digital gives way to blockchain's.</p>
               <p className='text-center mt-10 font-semibold text-2xl text-black dark:text-white'>The greatest awaits you.</p>
               <Arrow />
 

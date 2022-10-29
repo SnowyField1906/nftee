@@ -15,7 +15,7 @@ function About() {
                             Combinated from NFT and ICONee, this web application is a platform for trading a special type of token.
                         </p>
                         <p className='para-2'>
-                            Unlike NFT - ICR3, which cannot be minted into multiple copies, this token represents something particularly unique in the world (such as  artworks, limited items, or even houses, etc.). And the price can never be changed except for deletion or auction.
+                            Unlike NFT - ICR3, which can be minted into multiple copies, this token represents something particularly unique in the world (such as  artworks, limited items, or even houses, etc.). And the price can never be changed except for deletion or auction.
                         </p>
                         <p className='para-1'>
                             Due to have high competitiveness, this token is also purchased in a special way.
