@@ -1,4 +1,4 @@
-import { useLocation, NavLink, Link } from "react-router-dom";
+import { useLocation, NavLink, Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { pagesList } from "./../../../utils/constants";
@@ -23,7 +23,11 @@ function Nagivator({ account, setAccount }) {
 	const [nfts, setNFTs] = useState([])
 	const [owningNFTs, setOwningNFTs] = useState([])
 
-	console.log(collectionInfo)
+	const navigate = useNavigate();
+	const logout = () => {
+		setAccount({ address: '', wallet: null })
+		navigate('NFTee/')
+	}
 
 
 	const location = useLocation();
@@ -134,7 +138,7 @@ function Nagivator({ account, setAccount }) {
 								})}
 							</div>
 							<div className="w-[6rem] h-[2.75rem] grid place-content-center">
-								<svg onClick={() => setAccount({ address: '', wallet: null })} className="w-8 h-8 cursor-pointer fill-slate-700 dark:fill-slate-300 hover:fill-violet-700 dark:hover:fill-violet-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+								<svg onClick={() => logout()} className="w-8 h-8 cursor-pointer fill-slate-700 dark:fill-slate-300 hover:fill-violet-700 dark:hover:fill-violet-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
 									<path d="M11.476,15a1,1,0,0,0-1,1v3a3,3,0,0,1-3,3H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2H7.476a3,3,0,0,1,3,3V8a1,1,0,0,0,2,0V5a5.006,5.006,0,0,0-5-5H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H7.476a5.006,5.006,0,0,0,5-5V16A1,1,0,0,0,11.476,15Z" /><path d="M22.867,9.879,18.281,5.293a1,1,0,1,0-1.414,1.414l4.262,4.263L6,11a1,1,0,0,0,0,2H6l15.188-.031-4.323,4.324a1,1,0,1,0,1.414,1.414l4.586-4.586A3,3,0,0,0,22.867,9.879Z" />
 								</svg>
 							</div>

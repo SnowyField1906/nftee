@@ -178,7 +178,7 @@ function Create({ account }) {
               </div>
               <button className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border"
                 disabled={params._ipfs === '' || params._price === 0}
-                onClick={() => createNFT(params._user, params._ipfs, params._price, params._description, params._visibility, params._onSale)}>Create</button>
+                onClick={() => createNFT(params._user, params._ipfs, params._price, params._description, params._visibility, params._onSale, account.wallet)}>Create</button>
             </div>
 
 

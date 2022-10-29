@@ -1,4 +1,5 @@
 import IconService from 'icon-sdk-js'
+import { iconService } from '../provider/IconService';
 
 export const sign = (tx, address) => {
     let signature;
@@ -133,7 +134,8 @@ export const editCollection = (address, _collection, _name, _description, _visib
 
 //==================//
 
-export const createNFT = (_user, _ipfs, _price, _description, _visibility, _onSale) => {
+export const createNFT = (_user, _ipfs, _price, _description, _visibility, _onSale, wallet) => {
+    console.log(wallet)
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
@@ -154,20 +156,28 @@ export const createNFT = (_user, _ipfs, _price, _description, _visibility, _onSa
         })
         .build();
 
-    var score_sdk = JSON.stringify({
-        jsonrpc: "2.0",
-        method: "icx_sendTransaction",
-        params: IconService.IconConverter.toRawTransaction(callTransactionData),
-        id: 0,
-    })
+    if (wallet) {
+        // var signedTransaction = new IconService.SignedTransaction(callTransactionData, wallet)
+        const signedTransaction = new IconService.SignedTransaction(callTransactionData, wallet)
+        iconService.sendTransaction(signedTransaction).execute()
+    }
+    else {
+        var score_sdk = JSON.stringify({
+            jsonrpc: "2.0",
+            method: "icx_sendTransaction",
+            params: IconService.IconConverter.toRawTransaction(callTransactionData),
+            id: 0,
+        })
 
-    var parsed = JSON.parse(score_sdk)
-    window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
-        detail: {
-            type: 'REQUEST_JSON-RPC',
-            payload: parsed,
-        }
-    }))
+        var parsed = JSON.parse(score_sdk)
+        window.dispatchEvent(new CustomEvent('ICONEX_RELAY_REQUEST', {
+            detail: {
+                type: 'REQUEST_JSON-RPC',
+                payload: parsed,
+            }
+        }))
+    }
+
 }
 
 export const addNFT = (_nft, _collection) => {
