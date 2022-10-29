@@ -17,6 +17,7 @@ import Delete from "../Collection/components/Delete"
 import Edit from "../Collection/components/Edit"
 import EditNFT from "./EditNFT"
 import Expand from "./components/Expand"
+import { Link } from "react-router-dom"
 
 
 function BigNFT({ address, nft, nftInfo, setBigNFT }) {
@@ -46,11 +47,13 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
 
     let fixedNow = Math.floor(Date.now() * 1000)
 
+    console.log('a', requests)
+
     const noAuction = (+nftInfo[7] === 0 && +nftInfo[8] === 0 && requests.length === 0);
-    const pendingAuction = +nftInfo[10] + 86400000000 > fixedNow && requests.length === 1;
+    const pendingAuction = +nftInfo[10] + 120000000 > fixedNow && requests.length === 1;
     const beforeAuction = +nftInfo[7] > fixedNow && requests.length > 1;
     const duringAuction = +nftInfo[7] < fixedNow && fixedNow < +nftInfo[8] && requests.length > 1;
-    const afterAuction = (+nftInfo[8] < fixedNow && requests.length > 1) || (+nftInfo[10] + 86400000000 < fixedNow && requests.length === 1);
+    const afterAuction = (+nftInfo[8] < fixedNow && requests.length > 1) || (+nftInfo[10] + 120000000 < fixedNow && requests.length === 1);
 
     console.log(nftInfo)
     console.log(noAuction, pendingAuction, beforeAuction, duringAuction, afterAuction)
@@ -92,9 +95,10 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Current owner</p>
                                 </div>
                                 <div className="flex justify-between place-items-center w-3/4 h-12 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
-                                    <p className="pl-4 cursor-pointer text-black dark:text-white hover:underline">
+                                    <Link className="pl-4 cursor-pointer text-black dark:text-white hover:underline"
+                                        to={"/NFTee/p/" + nftInfo[0]} >
                                         {nftInfo[0]}
-                                    </p>
+                                    </Link>
                                     <svg className="w-7 h-7 mr-4 cursor-pointer fill-black/30 dark:fill-white/30 hover:fill-black/50 dark:hover:fill-white/50"
                                         onClick={() => { navigator.clipboard.writeText(nftInfo[0]) }}
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ><path d="m13 20a5.006 5.006 0 0 0 5-5v-8.757a3.972 3.972 0 0 0 -1.172-2.829l-2.242-2.242a3.972 3.972 0 0 0 -2.829-1.172h-4.757a5.006 5.006 0 0 0 -5 5v10a5.006 5.006 0 0 0 5 5zm-9-5v-10a3 3 0 0 1 3-3s4.919.014 5 .024v1.976a2 2 0 0 0 2 2h1.976c.01.081.024 9 .024 9a3 3 0 0 1 -3 3h-6a3 3 0 0 1 -3-3zm18-7v11a5.006 5.006 0 0 1 -5 5h-9a1 1 0 0 1 0-2h9a3 3 0 0 0 3-3v-11a1 1 0 0 1 2 0z" />
@@ -171,7 +175,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 <p className='text-medium place-self-center'>Requests</p>
                                 <div className="flex place-items-center rounded-xl">
                                     {noAuction && nftInfo[3] === 'true' && <p className='pl-4 text-medium'>No one requests now</p>}
-                                    {pendingAuction && <p className='pl-4 text-medium'>Pending: {Math.floor((+nftInfo[10] + 86400000000 - now) / 1000000)}</p>}
+                                    {pendingAuction && <p className='pl-4 text-medium'>Pending: {Math.floor((+nftInfo[10] + 120000000 - now) / 1000000)}</p>}
                                     {beforeAuction && <p className='pl-4 text-medium'>Start after: {Math.floor((+nftInfo[7] - now) / 1000000)}</p>}
                                     {duringAuction && <p className='pl-4 text-medium'>End after: {Math.floor((+nftInfo[8] - now) / 1000000)}</p>}
                                     {(afterAuction || nftInfo[3] !== 'true') && <p className='pl-4 text-medium'>Not on sale</p>}
@@ -185,11 +189,11 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 {requests.slice(0, 2).map((request) => {
                                     return (
                                         <div className="flex justify-between place-items-center mt-2 w-full ">
-                                            <p className='text-center w-full ursor-pointer hover:underline text-black dark:text-white'>{request}</p>
+                                            <Link className='text-center w-full ursor-pointer hover:underline text-black dark:text-white'
+                                                to={"/NFTee/p/" + request}>{request}</Link>
                                             {/* {address === nftInfo[0] &&
                                                 <div className="flex justify-around place-items-center w-1/4 ">
                                                     <Approve />
-                                                    <Reject />
                                                 </div>
                                             } */}
                                         </div>

@@ -54,8 +54,10 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
 
     if (!temporaryNFTInfo || temporaryNFTInfo.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center w-full h-full">
-                <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-500">
+            <div className='inline-block my-10 rounded-lg hover:scale-105 transform duration-300 ease-in-out select-none'>
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                    <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-500">
+                    </div>
                 </div>
             </div>
         )

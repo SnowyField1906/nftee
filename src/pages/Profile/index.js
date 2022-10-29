@@ -27,7 +27,7 @@ SwiperCore.use([Navigation, Pagination]);
 
 
 function Profile({ account }) {
-  const address = account.wallet ? account.getAddress() : account.address;
+  const address = account.wallet ? account.wallet.getAddress() : account.address;
 
   const [editNFT, setEditNFT] = useState(false)
   const [collectionList, setCollectionList] = useState(false)

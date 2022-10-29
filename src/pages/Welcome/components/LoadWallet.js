@@ -48,7 +48,7 @@ function LoadWallet({ setTag, account, setAccount }) {
     }
 
     if (account.address) {
-        return <Navigate to="/NFTee/Home" />
+        return <Navigate to="/NFTee/h/" />
     }
 
 

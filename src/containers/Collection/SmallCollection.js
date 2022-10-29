@@ -46,6 +46,7 @@ function SmallCollection({ collection, setCollection, setCollectionInfo, setNFTs
 
     if (!temporaryCollectionInfo || temporaryCollectionInfo.length === 0) {
         return (
+
             <div className="flex flex-col items-center justify-center w-full h-full">
                 <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-500">
                 </div>

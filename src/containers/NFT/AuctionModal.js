@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { startAuction, sendBid } from '../../utils/TransactionContracts';
 import { getNotificationInfo, getNFTNotifications } from '../../utils/ReadonlyContracts';
 import { timeConventer, dateConventer } from './../../utils/helpers';
+import { Link } from 'react-router-dom';
 
 function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now }) {
     const [duration, setDuration] = useState(0);
@@ -44,7 +45,8 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
                             requests.map((request, i) => {
                                 return (
                                     <p className='ml-8 mt-5 text-black dark:text-white'>{i + 1}. &nbsp;
-                                        <span className='cursor-pointer hover:underline'>{request}</span>
+                                        <Link className='cursor-pointer hover:underline'
+                                            to={"/NFTee/p/" + request}>{request}</Link>
                                     </p>
                                 )
                             })

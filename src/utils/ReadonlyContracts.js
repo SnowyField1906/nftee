@@ -72,7 +72,7 @@ export const getUserNotifications = async (_user) => {
         .build()
 
     const notifications = await iconService.call(call).execute()
-    return notifications.sort((a, b) => +b.slice(0, 16) - +a.slice(0, 16));
+    return notifications.sort((a, b) => +b.slice(0, 16) - +a.slice(0, 16)).filter((notification) => +notification.slice(0, 16) < Date.now() * 1000);
 }
 
 

@@ -7,7 +7,7 @@ import { createNFT } from "../../utils/TransactionContracts";
 import Footer from "../../containers/Navigators/Footer";
 
 function Create({ account }) {
-  const address = account.wallet ? account.getAddress() : account.address;
+  const address = account.wallet ? account.wallet.getAddress() : account.address;
 
   const [params, setParams] = useState({
     _user: address,

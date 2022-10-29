@@ -13,7 +13,7 @@ import Footer from "../../containers/Navigators/Footer"
 
 
 function Explore({ account }) {
-  const address = account.wallet ? account.getAddress() : account.address;
+  const address = account.wallet ? account.wallet.getAddress() : account.address;
 
   const [bigNFT, setBigNFT] = useState(false)
   const [editNFT, setEditNFT] = useState(false)

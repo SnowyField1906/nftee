@@ -11,7 +11,7 @@ import Footer from "../../containers/Navigators/Footer"
 
 
 function Galleries({ account }) {
-  const address = account.wallet ? account.getAddress() : account.address;
+  const address = account.wallet ? account.wallet.getAddress() : account.address;
 
   const [collections, setCollections] = useState([])
 

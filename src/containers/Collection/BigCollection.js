@@ -19,6 +19,9 @@ import Edit from "./components/Edit";
 import Delete from "./components/Delete";
 import EditCollection from "./EditCollection";
 import DeleteBigRed from "./components/DeleteBigRed";
+import ExternalProfile from "../../pages/External/Profile/ExternalProfile";
+import { Link, Navigate } from "react-router-dom";
+import Expand from "../NFT/components/Expand";
 
 function BigCollection({ address, collection, collectionInfo, nfts, setBigCollection }) {
     const [editCollection, setEditCollection] = useState(false);
@@ -39,6 +42,8 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
     }
 
     console.log(collectionInfo)
+
+
 
     return (
         <>
@@ -134,9 +139,10 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Owner</p>
                                 </div>
                                 <div className="flex justify-between place-items-center w-3/4 h-14 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
-                                    <p className="pl-4 cursor-pointer text-black dark:text-white hover:underline">
+                                    <Link className="pl-4 cursor-pointer text-black dark:text-white hover:underline"
+                                        to={"/NFTee/p/" + collection.split('/')[0]} >
                                         {collection.split('/')[0]}
-                                    </p>
+                                    </Link>
                                     <svg className="w-7 h-7 mr-4 cursor-pointer fill-black/30 dark:fill-white/30 hover:fill-black/50 dark:hover:fill-white/50"
                                         onClick={() => { navigator.clipboard.writeText(collection.split('/')[0]) }}
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ><path d="m13 20a5.006 5.006 0 0 0 5-5v-8.757a3.972 3.972 0 0 0 -1.172-2.829l-2.242-2.242a3.972 3.972 0 0 0 -2.829-1.172h-4.757a5.006 5.006 0 0 0 -5 5v10a5.006 5.006 0 0 0 5 5zm-9-5v-10a3 3 0 0 1 3-3s4.919.014 5 .024v1.976a2 2 0 0 0 2 2h1.976c.01.081.024 9 .024 9a3 3 0 0 1 -3 3h-6a3 3 0 0 1 -3-3zm18-7v11a5.006 5.006 0 0 1 -5 5h-9a1 1 0 0 1 0-2h9a3 3 0 0 0 3-3v-11a1 1 0 0 1 2 0z" />
@@ -193,24 +199,33 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                 {collectionInfo[1]}
                             </div>
                         </div>
-                        {address === collection.split('/')[0] && <div className="h-36 w-3/4 grid grid-rows-2 grid-cols-2 place-items-center">
-                            <div className='flex h-14 w-11/12 button-medium rounded-xl'
-                                onClick={() => setEditCollection(true)}>
-                                <div className="self-center mx-1">
-                                    <Edit />
+                        <div className="h-36 w-3/4 grid grid-rows-2 grid-cols-2 place-items-center">
+                            {address === collection.split('/')[0] && <>
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                    onClick={() => setEditCollection(true)}>
+                                    <div className="self-center mx-1">
+                                        <Edit />
+                                    </div>
+                                    <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Edit Information</p>
                                 </div>
-                                <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Edit Information</p>
-                            </div>
-                            <div className='flex h-14 w-11/12 button-medium rounded-xl'
-                                onClick={() => deleteCollection(address, collection)}>
-                                <div className="self-center mx-1">
-                                    <Delete />
+                                <div className='flex h-14 w-11/12 button-medium rounded-xl'
+                                    onClick={() => deleteCollection(address, collection)}>
+                                    <div className="self-center mx-1">
+                                        <Delete />
+                                    </div>
+                                    <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Delete collection</p>
                                 </div>
-                                <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">Delete collection</p>
-                            </div>
-
+                            </>
+                            }
+                            <Link className='col-start-1 col-end-3 flex h-14 w-11/12 button-medium rounded-xl'
+                                to={"/NFTee/p/" + collection} >
+                                <div className="self-center mx-1">
+                                    <Expand />
+                                </div>
+                                <p className="text-medium w-5/6 text-center justify-self-center self-center cursor-pointer">View as full</p>
+                            </Link>
                         </div>
-                        }
+
                     </div>
                 </div >
             </div >

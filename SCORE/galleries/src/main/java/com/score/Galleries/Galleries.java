@@ -472,7 +472,8 @@ public class Galleries {
     NFT nft = this.nftInfo.get(_nft);
     if (
       !nft.startTime.equals(BigInteger.ZERO) ||
-      !nft.endTime.equals(BigInteger.ZERO)
+      !nft.endTime.equals(BigInteger.ZERO) ||
+      this.nftMapRequests.get(_nft).size() > 0
     ) {
       this.nftMapRequests.put(_nft, new ArrayList<>());
       nft.startTime = BigInteger.ZERO;
@@ -509,7 +510,7 @@ public class Galleries {
     if (request == 1) {
       if (
         this.getFirstRequest(_nft)
-          .add(BigInteger.valueOf(100000000L))
+          .add(BigInteger.valueOf(120000000L))
           .compareTo(_timestamp) >
         0
       ) {
@@ -565,8 +566,8 @@ public class Galleries {
     if (requests.size() == 1) {
       NFT nft = this.nftInfo.get(_nft);
       nft.startTime =
-        this.getFirstRequest(_nft).add(BigInteger.valueOf(100000000L));
-      nft.endTime = nft.startTime.add(BigInteger.valueOf(100000000L));
+        this.getFirstRequest(_nft).add(BigInteger.valueOf(120000000L));
+      nft.endTime = nft.startTime.add(BigInteger.valueOf(120000000L));
       this.nftInfo.put(_nft, nft);
 
       Notification start = new Notification(
@@ -587,8 +588,29 @@ public class Galleries {
       notifications.add(endID);
       this.notificationInfo.put(startID, start);
       this.notificationInfo.put(endID, end);
+
+      String pendingID =
+        this.generateNotificationID(
+            _nft,
+            this.getFirstRequest(_nft).add(BigInteger.valueOf(120000000L))
+          );
+      notifications.remove(pendingID);
     }
     if (requests.size() == 0) {
+      Notification pending = new Notification(
+        "Request",
+        "No second request, the owner now has changed."
+      );
+
+      String pendingID =
+        this.generateNotificationID(
+            _nft,
+            timestamp.add(BigInteger.valueOf(120000000L))
+          );
+
+      notifications.add(pendingID);
+      this.notificationInfo.put(pendingID, pending);
+
       this.sendBid(_user, _nft, this.nftInfo.get(_nft).price);
     }
 
@@ -683,10 +705,13 @@ public class Galleries {
         _bid.compareTo(this.nftInfo.get(_nft).price) > 0,
         "Bid can't be lower than current price"
       );
-      Context.transfer(
-        this.nftInfo.get(_nft).currentOwner,
-        this.nftInfo.get(_nft).price
-      );
+    }
+    Context.transfer(
+      this.getNFTCurrentOwner(_nft, timestamp),
+      this.nftInfo.get(_nft).price
+    );
+
+    if (status == 3) {
       owners.remove(this.nftInfo.get(_nft).currentOwner);
     }
 
@@ -725,8 +750,7 @@ public class Galleries {
       bid =
         new Notification(
           "Request",
-          String.valueOf(_user) +
-          " sent first request. NFT's owner now has changed."
+          String.valueOf(_user) + " sent first request."
         );
     }
 
@@ -736,6 +760,50 @@ public class Galleries {
     notifications.add(bidID);
     this.nftMapNotifications.put(_nft, notifications);
   }
+
+  // @External
+  // public void Approve(Address _user, String _nft) {
+  //   BigInteger timestamp = BigInteger.valueOf(
+  //     Context.getTransactionTimestamp()
+  //   );
+  //   Context.require(
+  //     this.nftInfo.get(_nft).previousOwner.equals(_user),
+  //     "You don't have permission"
+  //   );
+  //   Context.require(
+  //     this.auctionStatus(_nft, timestamp) == 2,
+  //     "You can't approve now."
+  //   );
+
+  //   NFT nft = this.nftInfo.get(_nft);
+  //   ArrayList<String> notifications = this.getNFTNotifications(_nft);
+
+  //   String oldStartID = this.generateNotificationID(_nft, nft.startTime);
+  //   String oldEndID = this.generateNotificationID(_nft, nft.endTime);
+  //   notifications.remove(oldStartID);
+  //   notifications.remove(oldEndID);
+  //   this.notificationInfo.remove(oldStartID);
+  //   this.notificationInfo.remove(oldEndID);
+
+  //   nft.startTime = BigInteger.valueOf(0);
+  //   nft.endTime = BigInteger.valueOf(0);
+  //   this.nftInfo.put(_nft, nft);
+
+  //   Notification start = new Notification(
+  //     "Auction",
+  //     _user + " approved the auction"
+  //   );
+  //   Notification end = new Notification("Auction", "Auction has ended.");
+
+  //   String startID = this.generateNotificationID(_nft, nft.startTime);
+  //   String endID = this.generateNotificationID(_nft, nft.endTime);
+  //   notifications.add(startID);
+  //   notifications.add(endID);
+  //   this.notificationInfo.put(startID, start);
+  //   this.notificationInfo.put(endID, end);
+
+  //   this.nftMapNotifications.put(_nft, notifications);
+  // }
 
   //======================================//
 

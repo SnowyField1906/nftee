@@ -10,7 +10,7 @@ import CollectionList from '../../containers/Collection/CollectionList';
 import Footer from '../../containers/Navigators/Footer';
 
 function Home({ account }) {
-  const address = account.wallet ? account.getAddress() : account.address;
+  const address = account.wallet ? account.wallet.getAddress() : account.address;
 
   const [collectionList, setCollectionList] = useState(false)
   const [editNFT, setEditNFT] = useState(false)

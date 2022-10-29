@@ -30,7 +30,8 @@ function Nagivator({ account, setAccount }) {
 
 	const pageTag = (i) => {
 		const Tag = Pages[pagesList.Sub[i]];
-		return <Tag active={`/NFTee/${pagesList.Sub[i].toLowerCase()}` === location.pathname} />;
+		console.log("/NFTee/" + pagesList.Sub[i].toLowerCase().slice(0, 1), location.pathname.slice(0, 8))
+		return <Tag active={`/NFTee/${pagesList.Sub[i].toLowerCase().slice(0, 1)}` === location.pathname.slice(0, 8)} />;
 	};
 
 	const [open, setOpen] = useState('');
@@ -83,7 +84,7 @@ function Nagivator({ account, setAccount }) {
 						{pagesList.Main.map((_, i) => {
 							return (
 								<NavLink
-									to={`NFTee/${pagesList.Main[i].toLowerCase()}`}
+									to={`NFTee/${pagesList.Main[i].toLowerCase().slice(0, 1)}/`}
 									className={({ isActive }) =>
 										isActive
 											? "text-xl text-indigo-800 dark:text-indigo-200 font-semibold bg-bottom bg-gradient-to-r from-indigo-800 dark:from-indigo-200 to-indigo-800 dark:to-indigo-200 bg-no-repeat bg-[length:100%_3px]"
@@ -104,7 +105,7 @@ function Nagivator({ account, setAccount }) {
 								{pagesList.Sub.map((_, i) => {
 									return (
 										<NavLink
-											to={`NFTee/${pagesList.Sub[i].toLowerCase()}`}
+											to={`NFTee/${pagesList.Sub[i].toLowerCase().slice(0, 1)}/${i === 1 ? account.wallet ? account.wallet.getAddress() : account.address : ''}`}
 											className="flex w-[7.5rem] h-[2.75rem] cursor-pointer justify-center"
 										>
 											{pageTag(i)}
