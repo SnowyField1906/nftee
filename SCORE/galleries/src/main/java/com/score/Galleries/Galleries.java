@@ -487,6 +487,8 @@ public class Galleries {
     ArrayList<String> nfts = this.collectionMapNFTs.get(collection);
     nfts.remove(_nft);
     this.collectionMapNFTs.put(collection, nfts);
+    this.nftMapNotifications.remove(_nft);
+
     this.nftInfo.remove(_nft);
   }
 
@@ -547,7 +549,7 @@ public class Galleries {
     if (request == 1) {
       if (
         this.getFirstRequest(_nft)
-          .add(BigInteger.valueOf(120000000L))
+          .add(BigInteger.valueOf(180000000L))
           .compareTo(_timestamp) >
         0
       ) {
@@ -603,8 +605,8 @@ public class Galleries {
     if (requests.size() == 1) {
       NFT nft = this.nftInfo.get(_nft);
       nft.startTime =
-        this.getFirstRequest(_nft).add(BigInteger.valueOf(120000000L));
-      nft.endTime = nft.startTime.add(BigInteger.valueOf(120000000L));
+        this.getFirstRequest(_nft).add(BigInteger.valueOf(180000000L));
+      nft.endTime = nft.startTime.add(BigInteger.valueOf(180000000L));
       this.nftInfo.put(_nft, nft);
 
       Notification start = new Notification(
@@ -629,7 +631,7 @@ public class Galleries {
       String pendingID =
         this.generateNotificationID(
             _nft,
-            this.getFirstRequest(_nft).add(BigInteger.valueOf(120000000L))
+            this.getFirstRequest(_nft).add(BigInteger.valueOf(180000000L))
           );
       notifications.remove(pendingID);
     }
@@ -642,12 +644,15 @@ public class Galleries {
       String pendingID =
         this.generateNotificationID(
             _nft,
-            timestamp.add(BigInteger.valueOf(120000000L))
+            timestamp.add(BigInteger.valueOf(180000000L))
           );
 
       notifications.add(pendingID);
       this.notificationInfo.put(pendingID, pending);
 
+      NFT nft = this.nftInfo.get(_nft);
+      nft.previousOwner = nft.currentOwner;
+      this.nftInfo.put(_nft, nft);
       this.sendBid(_user, _nft, this.nftInfo.get(_nft).price);
     }
 

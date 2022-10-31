@@ -33,7 +33,7 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
     useEffect(() => {
         infoAwait()
         requestsAwait()
-    }, [nft, setBigNFT, setEditNFT, setCollectionList])
+    }, [nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, setCollectionList, temporaryNFTInfo, requests, add])
 
     const openBigNFT = () => {
         setNFTInfo(temporaryNFTInfo)

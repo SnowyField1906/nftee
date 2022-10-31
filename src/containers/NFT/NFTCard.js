@@ -17,7 +17,7 @@ function NFTCard({ address, setOpen, nft, setNFT, setNFTInfo, setBigNFT }) {
     }
     useEffect(() => {
         infoAwait();
-    }, [setOpen, setNFT, setBigNFT])
+    }, [setOpen, setNFT, setNFTInfo, setBigNFT])
 
 
     const openBigNFT = () => {

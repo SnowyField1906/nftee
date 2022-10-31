@@ -41,7 +41,7 @@ function Collection({ address, active, setOpen, setCollection, setCollectionInfo
                     <div className='w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto'>
                         <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your collection</p>
                     </div>
-                    <div className='flex-initial gap-2 w-full h-full'>
+                    <div className='flex-initial gap-2 w-full h-max  pb-10 main-overflow'>
 
                         <div className='grid place-content-center w-[25rem] h-[8rem] mx-[1rem] mt-3 rounded-xl transform ease-in-out duration-100 button-global' onClick={() => { setOpen(''); setCreateCollection(true) }}>
                             <p className="text-high h-full w-full">

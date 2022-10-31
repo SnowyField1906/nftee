@@ -27,7 +27,7 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
 
     useEffect(() => {
         notificationAwaits();
-    }, [active, setOpen])
+    }, [active, setOpen, setNFT, setNFTInfo, setBigNFT])
 
     return (
         <div className={`${active ? "h-[85vh]" : "h-0"} w-[27rem] fixed right-8 mt-14
@@ -38,7 +38,7 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
                 <div className='flex justify-between w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto place-items-center'>
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Notification</p>
                 </div>
-                <div className='overflow-hidden relative gap-2 w-full h-[200vh] main-overflow'>
+                <div className='overflow-hidden relative gap-2 w-full h-max pb-10 main-overflow'>
                     {/* <Swiper
                         direction={"vertical"}
                         slidesPerView={"auto"}

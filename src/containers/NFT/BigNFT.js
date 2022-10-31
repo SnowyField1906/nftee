@@ -36,25 +36,20 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
 
     useEffect(() => {
         requestsAwait()
-    }, [nft, collectionList, auctionModal, editNFT, setBigNFT])
+    }, [nft, nftInfo, requests, collectionList, auctionModal, editNFT, setBigNFT])
 
 
 
     const [now, setNow] = useState(Math.floor(Date.now() * 1000))
     setTimeout(() => {
-        setNow(now + 1000000)
+        setNow(Date.now() * 1000)
     }, 1000);
 
-    let fixedNow = Math.floor(Date.now() * 1000)
-
-    console.log('a', requests)
-    console.log(+nftInfo[8] < fixedNow, requests.length > 1)
-
     const noAuction = (+nftInfo[7] === 0 && +nftInfo[8] === 0 && requests.length === 0);
-    const pendingAuction = +nftInfo[11] + 120000000 > fixedNow && requests.length === 1;
-    const beforeAuction = +nftInfo[7] > fixedNow && requests.length > 1;
-    const duringAuction = +nftInfo[7] < fixedNow && fixedNow < +nftInfo[8] && requests.length > 1;
-    const afterAuction = (+nftInfo[8] !== 0 && +nftInfo[8] < fixedNow) || (+nftInfo[11] + 120000000 < fixedNow && requests.length === 1);
+    const pendingAuction = +nftInfo[11] + (180000000) > now && requests.length === 1;
+    const beforeAuction = +nftInfo[7] > now && requests.length > 1;
+    const duringAuction = +nftInfo[7] < now && now < +nftInfo[8] && requests.length > 1;
+    const afterAuction = (+nftInfo[8] !== 0 && +nftInfo[8] < now) || (+nftInfo[11] + (180000000) < now && requests.length === 1);
 
     console.log(nftInfo)
     console.log(noAuction, pendingAuction, beforeAuction, duringAuction, afterAuction)
@@ -176,7 +171,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 <p className='text-medium place-self-center'>Requests</p>
                                 <div className="flex place-items-center rounded-xl">
                                     {noAuction && !afterAuction && nftInfo[3] === 'true' && <p className='pl-4 text-medium'>No one requests now</p>}
-                                    {pendingAuction && <p className='pl-4 text-medium'>Pending: {Math.floor((+nftInfo[11] + 120000000 - now) / 1000000)}</p>}
+                                    {pendingAuction && <p className='pl-4 text-medium'>Pending: {Math.floor((+nftInfo[11] + (180000000) - now) / 1000000)}</p>}
                                     {beforeAuction && <p className='pl-4 text-medium'>Start after: {Math.floor((+nftInfo[7] - now) / 1000000)}</p>}
                                     {duringAuction && <p className='pl-4 text-medium'>End after: {Math.floor((+nftInfo[8] - now) / 1000000)}</p>}
                                     {(afterAuction || nftInfo[3] !== 'true') && <p className='pl-4 text-medium'>Not on sale</p>}

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now }) {
     const [duration, setDuration] = useState(0);
-    const [step, setStep] = useState(nftInfo[1] === '0' ? +nftInfo[9] : +nftInfo[1] / 10);
+    const [step, setStep] = useState(nftInfo[9] === '0' ? +nftInfo[1] / 10 : +nftInfo[9]);
     const [bid, setBid] = useState(+nftInfo[1] + step);
     const [notifications, setNotifications] = useState([]);
     const [warningBid, setWarningBid] = useState(false);
@@ -115,7 +115,7 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
                                 </div>
                                 <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="text-black dark:text-white">
-                                        {step} ICX
+                                        {step / 1e18} ICX
                                     </p>
                                 </div>
                             </div>

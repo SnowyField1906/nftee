@@ -37,7 +37,7 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Cart</p>
                     <p className='font-semibold text-slate-900 dark:text-slate-100 mr-5'>Balance: {(userBalance / 1e18).toFixed(2)}</p>
                 </div>
-                <div className='flex-initial gap-2 w-full h-full main-overflow '>
+                <div className='flex-initial gap-2 w-full main-overflow h-max  pb-10'>
                     {
                         nfts ? nfts.map((nft) => {
                             return (

@@ -8,8 +8,6 @@ function NotificationCard({ address, notification, setOpen, setNFT, setNFTInfo, 
     const [temporaryNFTInfo, setTemporaryNFTInfo] = useState([])
     const [notificationInfo, setNotificationInfo] = useState([])
 
-    console.log(notification)
-
     const nftInfoAwait = async () => {
         await getNFTInfo(notification.slice(16)).then((res) => {
             setTemporaryNFTInfo(res)
@@ -23,7 +21,7 @@ function NotificationCard({ address, notification, setOpen, setNFT, setNFTInfo, 
     useEffect(() => {
         nftInfoAwait();
         notificationInfoAwait();
-    }, [setOpen, setNFT, setBigNFT])
+    }, [notification, setOpen, setNFTInfo, setNFT, setBigNFT])
 
     const openBigNFT = () => {
         setOpen('')
