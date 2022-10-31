@@ -13,15 +13,17 @@ import NotificationCard from '../../../../../NFT/NotificationCard'
 
 
 function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
-    const [nfts, setNFTs] = useState([])
     const [notifications, setNotifications] = useState([])
 
 
     const notificationAwaits = async () => {
         await getUserNotifications(address).then((res) => {
+
             setNotifications(res)
         })
     }
+
+    console.log(notifications)
 
     useEffect(() => {
         notificationAwaits();

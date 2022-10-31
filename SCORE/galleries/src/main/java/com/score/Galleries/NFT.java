@@ -31,6 +31,7 @@ public class NFT {
   Address firstOwner;
   BigInteger startTime;
   BigInteger endTime;
+  BigInteger step;
 
   public NFT(
     Address _user,
@@ -48,10 +49,11 @@ public class NFT {
     this.firstOwner = _user;
     this.startTime = BigInteger.ZERO;
     this.endTime = BigInteger.ZERO;
+    this.step = BigInteger.ZERO;
   }
 
   public static void writeObject(ObjectWriter w, NFT _nft) {
-    w.beginList(9);
+    w.beginList(10);
     w.write(_nft.price);
     w.write(_nft.description);
     w.write(_nft.visibility);
@@ -61,6 +63,7 @@ public class NFT {
     w.write(_nft.firstOwner);
     w.write(_nft.startTime);
     w.write(_nft.endTime);
+    w.write(_nft.step);
     w.end();
   }
 
