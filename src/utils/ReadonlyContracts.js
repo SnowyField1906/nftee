@@ -43,6 +43,19 @@ export const getPublicNFTs = async () => {
     return nfts;
 }
 
+export const getPublicNotifications = async () => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getPublicNotifications')
+        .params({})
+        .build()
+
+    const notifications = await iconService.call(call).execute()
+    notifications.sort((a, b) => +b.slice(0, 16) - +a.slice(0, 16)).filter((notification) => +notification.slice(0, 16) < Date.now() * 1000);
+    let unique = [...new Set(notifications)];
+    return unique;
+}
+
 //==================//
 
 

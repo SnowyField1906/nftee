@@ -389,7 +389,7 @@ export const sendRequest = (_user, _nft, price, requests) => {
     }))
 }
 
-export const startAuction = (_user, _nft, _duration) => {
+export const startAuction = (_user, _nft, _duration, _step) => {
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
@@ -404,6 +404,7 @@ export const startAuction = (_user, _nft, _duration) => {
             _user: _user,
             _nft: _nft,
             _duration: IconService.IconConverter.toBigNumber(_duration),
+            _step: IconService.IconConverter.toBigNumber(_step),
         })
         .build();
 

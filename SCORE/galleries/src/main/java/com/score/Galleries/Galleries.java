@@ -91,11 +91,19 @@ public class Galleries {
   }
 
   @External(readonly = true)
-  public ArrayList<String> getPublicNotifiations() {
+  public ArrayList<String> getPublicNotifications(BigInteger _timestamp) {
     ArrayList<String> publicNotifications = new ArrayList<>();
     for (String nft : this.getPublicNFTs()) {
-      ArrayList<String> notifications = this.getNFTNotifications(nft);
-      publicNotifications.addAll(notifications);
+      for (String notification : this.getNFTNotifications(nft)) {
+        if (
+          (new BigInteger(notification.substring(0, 16))).compareTo(
+              _timestamp
+            ) <=
+          0
+        ) {
+          publicNotifications.add(notification);
+        }
+      }
     }
     return publicNotifications;
   }
@@ -211,13 +219,19 @@ public class Galleries {
   }
 
   @External(readonly = true)
-  public HashMap<Address, BigInteger> showNFTOwners(String _nft) {
-    HashMap<Address, BigInteger> owners = new HashMap<>();
+  public HashMap<ArrayList<Address>, ArrayList<BigInteger>> showNFTOwners(
+    String _nft
+  ) {
+    ArrayList<Address> addresses = new ArrayList<>();
+    ArrayList<BigInteger> timestamps = new ArrayList<>();
     for (Address user : this.users) {
       if (this.getNFTOwners(_nft).containsKey(user)) {
-        owners.put(user, this.getNFTOwners(_nft).get(user));
+        addresses.add(user);
+        timestamps.add(this.getNFTOwners(_nft).get(user));
       }
     }
+    HashMap<ArrayList<Address>, ArrayList<BigInteger>> owners = new HashMap<>();
+    owners.put(addresses, timestamps);
     return owners;
   }
 
@@ -291,8 +305,9 @@ public class Galleries {
         String.valueOf(this.getNFTOwners(_nft).get(nft.firstOwner)), // [6] date cerated
         String.valueOf(nft.startTime), // [7] auction's start time
         String.valueOf(nft.endTime), // [8] auction's end time
-        String.valueOf(nft.currentOwner), // [9] real current owner
-        String.valueOf(this.getFirstRequest(_nft)) // [10] first request's timestamp
+        String.valueOf(nft.step), // [9] auction's step
+        String.valueOf(nft.currentOwner), // [10] real current owner
+        String.valueOf(this.getFirstRequest(_nft)) // [11] first request's timestamp
       )
     );
   }
@@ -733,17 +748,14 @@ public class Galleries {
       );
       if (!nft.step.equals(BigInteger.ZERO)) {
         Context.require(
-          _bid
-            .subtract(nft.price)
-            .subtract(nft.step)
-            .compareTo(BigInteger.ZERO) >=
-          0,
+          _bid.subtract(nft.price).add(BigInteger.ONE).compareTo(nft.step) >= 0,
           "Bid must be valid."
         );
       } else {
         Context.require(
           _bid
             .subtract(nft.price)
+            .add(BigInteger.ONE)
             .compareTo(nft.price.divide(BigInteger.valueOf(10))) >=
           0,
           "Bid must be valid."
@@ -754,7 +766,9 @@ public class Galleries {
 
     Context.transfer(this.getNFTCurrentOwner(_nft, timestamp), nft.price);
 
+    String oldOwner = this.generateCollectionID(nft.previousOwner, "Owning");
     if (status == 3) {
+      oldOwner = this.generateCollectionID(nft.currentOwner, "Owning");
       owners.remove(nft.currentOwner);
     }
 
@@ -763,7 +777,6 @@ public class Galleries {
     nft.currentOwner = _user;
     this.nftInfo.put(_nft, nft);
 
-    String oldOnwer = this.generateCollectionID(nft.previousOwner, "Owning");
     String newOwner = this.generateCollectionID(_user, "Owning");
     if (!this.collectionInfo.containsKey(newOwner)) {
       this.createCollection(
@@ -773,7 +786,7 @@ public class Galleries {
           true
         );
     }
-    this.removeNFT(_nft, oldOnwer);
+    this.removeNFT(_nft, oldOwner);
     this.addNFT(_nft, newOwner);
 
     ArrayList<String> notifications = this.getNFTNotifications(_nft);

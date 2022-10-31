@@ -32,13 +32,13 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
     return (
         <div className={`${active ? "h-[85vh]" : "h-0"} w-[27rem] fixed right-8 mt-14
         transform duration-300 ease-in-out select-none
-        rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md`} >
+        rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md main-overflow`} >
             <div className={active ? "h-full" : "hidden"}>
 
                 <div className='flex justify-between w-4/5 py-5 border-b-[1px] border-slate-300 dark:border-slate-700 mx-auto place-items-center'>
                     <p className='ml-5 font-bold text-2xl text-slate-900 dark:text-slate-100'>Your Notification</p>
                 </div>
-                <div className='overflow-hidden relative gap-2 w-full h-[85vh] main-overflow'>
+                <div className='overflow-hidden relative gap-2 w-full h-[200vh] main-overflow'>
                     {/* <Swiper
                         direction={"vertical"}
                         slidesPerView={"auto"}
