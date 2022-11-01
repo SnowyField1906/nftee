@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 
-import { getCollectionPublicNFTs, getUserAuction, balance } from '../../../../../../utils/ReadonlyContracts'
+import { getCollectionPublicNFTs, balance } from '../../../../../../utils/ReadonlyContracts'
 
 import NFTCard from '../../../../../NFT/NFTCard'
 
 
 function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     const [nfts, setNFTs] = useState([])
-    const [requests, setRequests] = useState([])
     const [userBalance, setUserBalance] = useState(0)
 
 
@@ -25,7 +24,7 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
     useEffect(() => {
         collectionsAwait();
         balanceAwait();
-    }, [active, setOpen, setNFT, setBigNFT])
+    }, [active, setOpen, setNFT, setNFTInfo, setBigNFT])
 
     return (
         <div className={`${active ? "h-[85vh]" : "h-0"} w-[27rem] fixed right-8 mt-14
