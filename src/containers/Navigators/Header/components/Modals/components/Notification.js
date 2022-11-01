@@ -31,7 +31,7 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
 
     return (
         <div className={`${active ? "h-[85vh]" : "h-0"} w-[27rem] fixed right-8 mt-14
-        transform duration-300 ease-in-out select-none
+        transform duration-300 ease-in-out select-
         rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md main-overflow`} >
             <div className={active ? "h-full" : "hidden"}>
 

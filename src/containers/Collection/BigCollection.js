@@ -135,10 +135,10 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                     <div className=" h-full w-full grid place-items-center justify-items-center">
                         <div className=" w-5/6 grid">
                             <div className='flex h-14 rounded-xl '>
-                                <div className="w-1/4 h-14 flex place-items-center rounded-tl-xl border-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="w-1/4 h-14 flex place-items-center rounded-tl-xl border bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Owner</p>
                                 </div>
-                                <div className="flex justify-between place-items-center w-3/4 h-14 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center w-3/4 h-14 button-light rounded-tr-xl border-y border-r border-black/30 dark:border-white/30">
                                     <Link className="pl-4 cursor-pointer text-black dark:text-white hover:underline"
                                         to={"/NFTee/p/" + collection.split('/')[0]} >
                                         {collection.split('/')[0]}
@@ -150,40 +150,40 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-14 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-14 w-1/4 border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Name</p>
                                 </div>
-                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {collectionInfo[0]}
                                     </p>
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-14 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-14 w-1/4 border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Quality</p>
                                 </div>
-                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {showQuality()}
                                     </p>
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-14 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-14 w-1/4 border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Visibility</p>
                                 </div>
-                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {collectionInfo[2] === 'true' ? 'Public' : 'Private'}
                                     </p>
                                 </div>
                             </div>
                             <div className='flex rounded-xl'>
-                                <div className="flex justify-between place-items-center h-14 w-1/4 rounded-bl-xl border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-14 w-1/4 rounded-bl-xl border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Date created</p>
                                 </div>
-                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light rounded-br-xl border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-14 justify-between place-items-center button-light rounded-br-xl border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {dateConventer(collectionInfo[3])}
                                     </p>
@@ -192,8 +192,8 @@ function BigCollection({ address, collection, collectionInfo, nfts, setBigCollec
 
                         </div>
                         <div className="w-3/4 h-60  button-light rounded-lg">
-                            <div className="pl-4 border-b-2 pb-2 border-black/30 dark:border-white/30 flex">
-                                <p className='text-medium text-lg place-self-center'>Description</p>
+                            <div className="pl-4 border-b pb border-black/30 dark:border-white/30 flex">
+                                <p className='text-medium text-lg place-self-center py-2'>Description</p>
                             </div>
                             <div className="w-full text-black dark:text-white pl-4 pt-2">
                                 {collectionInfo[1]}

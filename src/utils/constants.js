@@ -2,7 +2,7 @@ import axios from "axios";
 export const pagesList = {
     Special: 'Welcome',
     Main: ['Home', 'Explore', 'Galleries', 'About'],
-    Sub: ['Create', 'Profile', 'Wallet'],
+    Sub: ['Create', 'Profile', 'Logs'],
     Button: ['Collection', 'Cart', 'Notification'],
 }
 

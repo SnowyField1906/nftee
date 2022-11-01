@@ -47,7 +47,9 @@ export const getPublicNotifications = async () => {
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getPublicNotifications')
-        .params({})
+        .params({
+            _timestamp: IconService.IconConverter.toBigNumber(Date.now() * 1000)
+        })
         .build()
 
     const notifications = await iconService.call(call).execute()
@@ -216,7 +218,6 @@ export const getCollectionInfo = async (_collection) => {
 }
 
 export const getNFTInfo = async (_nft) => {
-    console.log(Date.now() * 1000)
     const call = new CallBuilder()
         .to(process.env.REACT_APP_SCORE_ADDRESS)
         .method('getNFTInfo')

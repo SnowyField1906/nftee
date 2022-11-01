@@ -96,13 +96,11 @@ function ExternalProfile({ account, target }) {
                 <div className='w-screen h-screen fixed -z-10 backdrop-blur-md bg-gray-200/30 dark:bg-gray-800/30 overflow-x-hidden'>
                 </div>
                 <div className="grid px-10 w-[96%] pt-32">
-                    <div className='flex bg-white/30 dark:bg-black/30 rounded-2xl'>
+                    <div className='flex bg-white/30 dark:bg-black/30 rounded-2xl h-[20vh]'>
                         <div className="grid w-[60%] h-full">
-                            <p className=" text-huge place-self-center py-5">{target}</p>
+                            <p className=" text-huge place-self-center py-5">{address}</p>
                         </div>
-                        <div className='grid grid-cols-2 grid-rows-3 w-[40%] place-items-center'>
-                            <p className="text-huge text-xl py-5">Account balance</p>
-                            <p className="text-huge font-medium text-xl py-5">{balance} ICX</p>
+                        <div className='grid grid-cols-2 grid-rows-2 w-[40%] place-items-center'>
                             <p className="text-huge text-xl py-5">Number of NFTs</p>
                             <p className="text-huge font-medium text-xl py-5">{owningNFTs.length} NFT(s)</p>
                             <p className="text-huge text-xl py-5">Number of collections</p>
@@ -111,10 +109,14 @@ function ExternalProfile({ account, target }) {
 
                     </div>
                 </div>
-                <div className="py-2">
-                    <div className="grid w-full justify-items-center place-items-center">
-                        <Swiper
-                            slidesPerView={owningNFTs.length > 5 ? 5 : owningNFTs.length}
+                <div className='flex justify-items-center place-items-center '>
+                    <div className="grid w-[50vw] justify-items-center place-items-center">
+                        {owningNFTs.length ? <Swiper
+                            style={{
+                                "--swiper-navigation-color": "#fff",
+                                "--swiper-pagination-color": "#fff",
+                            }}
+                            slidesPerView={owningNFTs.length > 2 ? 2 : owningNFTs.length}
                             slidesPerGroup={1}
                             centeredSlides={true}
                             centeredSlidesBounds={true}
@@ -131,7 +133,7 @@ function ExternalProfile({ account, target }) {
                                 owningNFTs.map((nft) => {
                                     return (
                                         <SwiperSlide>
-                                            <div className="grid justify-items-center place-items-center ">
+                                            <div className="grid justify-items-center place-items-center py-10">
                                                 <SmallNFT address={address} nft={nft} setNFT={setNFT} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
                                             </div>
                                         </SwiperSlide>
@@ -139,36 +141,49 @@ function ExternalProfile({ account, target }) {
                                 })
                             }
                         </Swiper>
+                            :
+                            <div className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 w-screen">
+                                <p className="text-huge py-5">You don't own any NFT yet</p>
+                            </div>
+                        }
 
                     </div>
-                </div>
-                <div className="grid w-full justify-items-center place-items-center">
-                    <div className="grid w-full justify-items-center place-items-center">
-                        <Swiper
-                            slidesPerView={customCollections.length > 5 ? 5 : customCollections.length}
-                            slidesPerGroup={1}
-                            loop={true}
-                            loopFillGroupWithBlank={true}
-                            pagination={{
-                                clickable: true,
-                            }}
-                            navigation={true}
-                            modules={[Pagination, Navigation]}
-                            className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl w-screen"
-                        >
-                            {
-                                customCollections.map((collection) => {
-                                    return (
-                                        <SwiperSlide>
-                                            <div className="grid place-items-center py-10">
-                                                <SmallCollection collection={collection} setCollection={setCollection} setNFTs={setNFTs} setCollectionInfo={setCollectionInfo} setBigCollection={setBigCollection} />
-                                            </div>
-                                        </SwiperSlide>
-                                    )
-                                })
+                    <div className="grid w-[50vw] justify-items-center place-items-center ">
+                        <div className="grid w-full justify-items-center place-items-center">
+                            {customCollections.length ? <Swiper
+                                style={{
+                                    "--swiper-navigation-color": "#fff",
+                                    "--swiper-pagination-color": "#fff",
+                                }}
+                                slidesPerView={customCollections.length > 2 ? 2 : customCollections.length}
+                                slidesPerGroup={1}
+                                loop={true}
+                                loopFillGroupWithBlank={true}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                navigation={true}
+                                modules={[Pagination, Navigation]}
+                                className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl w-screen"
+                            >
+                                {
+                                    customCollections.map((collection) => {
+                                        return (
+                                            <SwiperSlide>
+                                                <div className="grid place-items-center py-10">
+                                                    <SmallCollection collection={collection} setCollection={setCollection} setNFTs={setNFTs} setCollectionInfo={setCollectionInfo} setBigCollection={setBigCollection} />
+                                                </div>
+                                            </SwiperSlide>
+                                        )
+                                    })
+                                }
+                            </Swiper>
+                                :
+                                <div className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 w-screen">
+                                    <p className="text-huge py-5">You don't own any collection yet</p>
+                                </div>
                             }
-                        </Swiper>
-
+                        </div>
                     </div>
                 </div>
             </div>

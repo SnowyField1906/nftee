@@ -21,7 +21,6 @@ function Nagivator({ account, setAccount }) {
 	const [collectionInfo, setCollectionInfo] = useState([]);
 
 	const [nfts, setNFTs] = useState([])
-	const [owningNFTs, setOwningNFTs] = useState([])
 
 	const navigate = useNavigate();
 	const logout = () => {
@@ -39,6 +38,7 @@ function Nagivator({ account, setAccount }) {
 	};
 
 	const [open, setOpen] = useState('');
+
 
 	const buttonTag = (i) => {
 		const Tag = Buttons[pagesList.Button[i]];

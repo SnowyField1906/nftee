@@ -124,9 +124,13 @@ function Profile({ account }) {
 
           </div>
         </div>
-        <div className='flex justify-items-center place-items-center'>
+        <div className='flex justify-items-center place-items-center '>
           <div className="grid w-[50vw] justify-items-center place-items-center">
-            <Swiper
+            {owningNFTs.length ? <Swiper
+              style={{
+                "--swiper-navigation-color": "#fff",
+                "--swiper-pagination-color": "#fff",
+              }}
               slidesPerView={owningNFTs.length > 2 ? 2 : owningNFTs.length}
               slidesPerGroup={1}
               centeredSlides={true}
@@ -152,11 +156,20 @@ function Profile({ account }) {
                 })
               }
             </Swiper>
+              :
+              <div className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 w-screen">
+                <p className="text-huge py-5">You don't own any NFT yet</p>
+              </div>
+            }
 
           </div>
           <div className="grid w-[50vw] justify-items-center place-items-center ">
             <div className="grid w-full justify-items-center place-items-center">
-              <Swiper
+              {customCollections.length ? <Swiper
+                style={{
+                  "--swiper-navigation-color": "#fff",
+                  "--swiper-pagination-color": "#fff",
+                }}
                 slidesPerView={customCollections.length > 2 ? 2 : customCollections.length}
                 slidesPerGroup={1}
                 loop={true}
@@ -180,7 +193,11 @@ function Profile({ account }) {
                   })
                 }
               </Swiper>
-
+                :
+                <div className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 w-screen">
+                  <p className="text-huge py-5">You don't own any collection yet</p>
+                </div>
+              }
             </div>
           </div>
         </div>

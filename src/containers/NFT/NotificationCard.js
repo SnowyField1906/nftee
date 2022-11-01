@@ -43,15 +43,15 @@ function NotificationCard({ address, notification, setOpen, setNFT, setNFTInfo, 
     else {
         return (
 
-            <div className="w-[25rem] h-[8rem] select-none bg- bg-cover bg-center"
+            <div className="w-[24.75rem] h-[8rem] select-none"
                 onClick={openBigNFT}>
-                <div className="grid absolute w-[25rem] h-[8rem]">
-                    <div className="mt-2 w-[24rem] h-[5rem] justify-self-center flex justify-between bg- bg-center bg-cover rounded-md"
+                <div className="grid absolute w-[24.75rem] h-[8rem] ">
+                    <div className="mt-2 w-[24rem] h-[5rem] justify-self-center flex justify-between bg- bg-center bg-cover rounded-lg"
                         style={{
                             backgroundImage: `url(${findPublicGateWay(notification.slice(16))})`,
                         }}>
                     </div>
-                    <div className='flex justify-between absolute bg-white/50 dark:bg-black/50 mt-2 w-[24rem] h-[5rem] justify-self-center'>
+                    <div className='flex justify-between absolute bg-white/50 dark:bg-black/50 rounded-lg mt-2 w-[24rem] h-[5rem] justify-self-center'>
                         <div className='flex flex-col justify-center'>
                             <p className="ml-4 text-sm text-black dark:text-white">{notificationInfo[1]}</p>
                         </div>

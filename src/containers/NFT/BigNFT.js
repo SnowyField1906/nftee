@@ -6,12 +6,10 @@ import { getNFTRequests, startTime, endTime } from "../../utils/ReadonlyContract
 
 import CollectionList from "../Collection/CollectionList"
 import AuctionModal from "./AuctionModal"
-
 import AddToCart from "./components/AddToCart"
 import AddToCollection from "./components/AddToCollection"
 import SendRequest from "./components/SendRequest"
-// import Approve from "./components/Approve"
-// import Reject from "./components/Reject"
+
 import Auction from "./components/Auction"
 import Delete from "../Collection/components/Delete"
 import Edit from "../Collection/components/Edit"
@@ -22,7 +20,6 @@ import { Link } from "react-router-dom"
 
 function BigNFT({ address, nft, nftInfo, setBigNFT }) {
     const [editNFT, setEditNFT] = useState(false)
-
     const [collectionList, setCollectionList] = useState(false)
     const [requests, setRequests] = useState([])
     const [auctionModal, setAuctionModal] = useState(false)
@@ -39,21 +36,19 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
     }, [nft, nftInfo, requests, collectionList, auctionModal, editNFT, setBigNFT])
 
 
-
     const [now, setNow] = useState(Math.floor(Date.now() * 1000))
     setTimeout(() => {
-        setNow(Date.now() * 1000)
+        const now = Date.now() * 1000
+        setNow(now)
     }, 1000);
 
     const noAuction = (+nftInfo[7] === 0 && +nftInfo[8] === 0 && requests.length === 0);
     const pendingAuction = +nftInfo[11] + (180000000) > now && requests.length === 1;
     const beforeAuction = +nftInfo[7] > now && requests.length > 1;
     const duringAuction = +nftInfo[7] < now && now < +nftInfo[8] && requests.length > 1;
-    const afterAuction = (+nftInfo[8] !== 0 && +nftInfo[8] < now) || (+nftInfo[11] + (180000000) < now && requests.length === 1);
+    const afterAuction = (+nftInfo[8] !== 0 && +nftInfo[8] < now) || (+nftInfo[11] + (180000000) < now && nftInfo[4] !== 'true');
 
-    console.log(nftInfo)
-    console.log(noAuction, pendingAuction, beforeAuction, duringAuction, afterAuction)
-
+    console.log(noAuction, duringAuction, nftInfo)
     return (
         <>
             {collectionList &&
@@ -65,11 +60,11 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                 <div className="fixed w-screen h-screen z-50">
                     <EditNFT address={address} nft={nft} nftInfo={nftInfo} setEditNFT={setEditNFT} />
                 </div>}
-
             {auctionModal &&
                 <div className="fixed w-screen h-screen z-50">
                     <AuctionModal address={address} nft={nft} nftInfo={nftInfo} requests={requests} setAuctionModal={setAuctionModal} now={now} />
                 </div>}
+
 
             <div className='fixed mt-20 w-[80vw] h-[80vh] top-[5vh] left-[10vw] rounded-2xl z-30 backdrop-lg'>
                 <svg className="absolute top-0 right-0 m-4 h-8 w-8 fill-black dark:fill-white cursor-pointer z-50" onClick={() => setBigNFT(false)}
@@ -87,10 +82,10 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                     <div className="h-full w-full grid place-items-center">
                         <div className="h-50 self-center w-5/6 grid">
                             <div className='flex h-12 rounded-xl '>
-                                <div className="w-1/4 h-12 flex place-items-center rounded-tl-xl border-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="w-1/4 h-12 flex place-items-center rounded-tl-xl border bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Current owner</p>
                                 </div>
-                                <div className="flex justify-between place-items-center w-3/4 h-12 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center w-3/4 h-12 button-light rounded-tr-xl border-y border-r border-black/30 dark:border-white/30">
                                     <Link className="pl-4 cursor-pointer text-black dark:text-white hover:underline"
                                         to={"/NFTee/p/" + nftInfo[0]} >
                                         {nftInfo[0]}
@@ -102,30 +97,30 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Price</p>
                                 </div>
-                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {nftInfo[1] / 1e18} ICX
                                     </p>
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Visibility</p>
                                 </div>
-                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {nftInfo[3] === 'true' ? 'Public' : 'Private'}
                                     </p>
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Status</p>
                                 </div>
-                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {nftInfo[4] === 'true' ? "On Sale" : "Not On Sale"}
 
@@ -133,20 +128,20 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-12 w-1/4 border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Purchase times</p>
                                 </div>
-                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {nftInfo[5]}
                                     </p>
                                 </div>
                             </div>
                             <div className='flex'>
-                                <div className="flex justify-between place-items-center h-12 w-1/4 rounded-bl-xl border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center h-12 w-1/4 rounded-bl-xl border-x border-b bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-6 font-semibold text-black dark:text-white'>Date created</p>
                                 </div>
-                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light rounded-br-xl border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex w-3/4 h-12 justify-between place-items-center button-light rounded-br-xl border-b border-r border-black/30 dark:border-white/30">
                                     <p className="pl-4 text-black dark:text-white">
                                         {dateConventer(+nftInfo[6])}
                                     </p>
@@ -155,7 +150,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                         </div>
 
                         <div className="w-3/4 h-36 button-light rounded-lg">
-                            <div className="pl-4 border-b-2 pb-2 border-black/30 dark:border-white/30 flex justify-between">
+                            <div className="pl-4 border-b pb-2 border-black/30 dark:border-white/30 flex justify-between">
                                 <p className='text-medium place-self-center'>Description</p>
                                 <div className="flex place-items-center button-medium rounded-xl">
                                     <Expand />
@@ -167,14 +162,14 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                             </div>
                         </div>
                         <div className="w-3/4 h-36 button-light rounded-lg">
-                            <div className="pl-4 border-b-2 pb-2 border-black/30 dark:border-white/30 flex justify-between">
+                            <div className="pl-4 border-b pb-2 border-black/30 dark:border-white/30 flex justify-between">
                                 <p className='text-medium place-self-center'>Requests</p>
                                 <div className="flex place-items-center rounded-xl">
-                                    {noAuction && !afterAuction && nftInfo[3] === 'true' && <p className='pl-4 text-medium'>No one requests now</p>}
+                                    {noAuction && nftInfo[4] === 'true' && <p className='pl-4 text-medium'>No one requests now</p>}
                                     {pendingAuction && <p className='pl-4 text-medium'>Pending: {Math.floor((+nftInfo[11] + (180000000) - now) / 1000000)}</p>}
                                     {beforeAuction && <p className='pl-4 text-medium'>Start after: {Math.floor((+nftInfo[7] - now) / 1000000)}</p>}
                                     {duringAuction && <p className='pl-4 text-medium'>End after: {Math.floor((+nftInfo[8] - now) / 1000000)}</p>}
-                                    {(afterAuction || nftInfo[3] !== 'true') && <p className='pl-4 text-medium'>Not on sale</p>}
+                                    {(afterAuction || nftInfo[4] !== 'true') && !duringAuction && <p className='pl-4 text-medium'>Not on sale</p>}
                                 </div>
                                 <div className="flex place-items-center button-medium rounded-xl">
                                     <Expand />

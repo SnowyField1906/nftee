@@ -130,7 +130,9 @@ function Explore({ account }) {
             {
               nfts.length > 0 && nfts.map((nft) => {
                 return (
-                  <SmallNFT address={address} nft={nft} setNFT={setNFT} nftInfo={nftInfo} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
+                  <div className="mx-5">
+                    <SmallNFT address={address} nft={nft} setNFT={setNFT} nftInfo={nftInfo} setNFTInfo={setNFTInfo} setBigNFT={setBigNFT} setEditNFT={setEditNFT} setCollectionList={setCollectionList} />
+                  </div>
                 )
               })
             }

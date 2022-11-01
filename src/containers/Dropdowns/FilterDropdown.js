@@ -3,11 +3,8 @@ import { Menu, Transition } from '@headlessui/react'
 import DatePicker from 'react-date-picker'
 
 function FilterDropdown({ index, filterType, rawFilter, setRawFilter, render, setRender, dateInput }) {
-    console.log(rawFilter[index])
     const [start, setStart] = useState(rawFilter[index][0])
     const [end, setEnd] = useState(rawFilter[index][1])
-
-    console.log(start, end)
 
     useEffect(() => {
         let newRawFilter = rawFilter

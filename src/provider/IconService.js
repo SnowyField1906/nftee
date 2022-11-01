@@ -24,8 +24,6 @@ export const accountHandler = function () {
 }
 
 export const addressHandler = (e) => {
-
-
     const responseAccount = (e) => {
         const { type, payload } = e.detail;
         if (type === 'RESPONSE_ADDRESS') {

@@ -15,22 +15,19 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
         setWarningBid(+nftInfo[1] + step > bid);
     }, [bid]);
 
-    console.log(+nftInfo[1] + step, bid);
-
-
     const notificationsAwait = async () => {
         await getNFTNotifications(nft).then((res) => {
             const noti = [];
-            res.forEach(async (notification) => {
+            const uinique = [...new Set(res)];
+            uinique.forEach(async (notification) => {
                 await getNotificationInfo(notification).then((res) => {
-                    noti.push([+notification.slice(0, 16), res[1]]);
+                    if (+notification.slice(0, 16) <= now && +notification.slice(0, 16) >= nftInfo[11]) {
+                        noti.push([+notification.slice(0, 16), res[1]]);
+                    }
                 })
+                noti.sort((a, b) => b[0] - +a[0]);
             })
-            noti.sort((a, b) => {
-                console.log(+a[0], +b[0])
-                return +b[0] - +a[0]
-            });
-            setNotifications(noti.filter(notification => notification[0] <= now));
+            setNotifications(noti);
         })
     };
 
@@ -168,21 +165,26 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
                                     <p className='text-high text-center'>You are the current owner.</p>
                                 </div>
                                 :
-                                <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
-                                    <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
-                                        <p className="text-high text-left place-self-center">Bid:</p>
-                                        <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
-                                            type="number" placeholder="Enter your bid"
-                                            defaultValue={bid / 1e18}
-                                            onChange={(e) => { setBid(+e.target.value * 1e18) }} />
-                                        {warningBid ?
-                                            <p className='col-start-1 col-end-6 place-self-center text-red-500 text-center'>Your bid must be valid.</p>
-                                            :
-                                            <p className="col-start-1 col-end-6 place-self-center text-black dark:text-white">Bid must be greater than {nftInfo[1] / 1e18} + {step / 1e18} = {nftInfo[1] / 1e18 + step / 1e18} ICX</p>}
-                                        <button onClick={() => sendBid(address, nft, bid)}
-                                            className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Summit bid</button>
+                                !requests.includes(address) ?
+                                    <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
+                                        <p className='text-high text-center'>You do not have permission to send bid.</p>
                                     </div>
-                                </div>
+                                    :
+                                    <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
+                                        <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
+                                            <p className="text-high text-left place-self-center">Bid:</p>
+                                            <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
+                                                type="number" placeholder="Enter your bid"
+                                                defaultValue={bid / 1e18}
+                                                onChange={(e) => { setBid(+e.target.value * 1e18) }} />
+                                            {warningBid ?
+                                                <p className='col-start-1 col-end-6 place-self-center text-red-500 text-center'>Your bid must be valid.</p>
+                                                :
+                                                <p className="col-start-1 col-end-6 place-self-center text-black dark:text-white">Bid must be greater than {nftInfo[1] / 1e18} + {step / 1e18} = {nftInfo[1] / 1e18 + step / 1e18} ICX</p>}
+                                            <button onClick={() => sendBid(address, nft, bid)}
+                                                className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Summit bid</button>
+                                        </div>
+                                    </div>
                         }
                     </div>
                 </div>

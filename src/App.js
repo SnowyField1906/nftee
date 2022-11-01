@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { getAuctionInfo } from "./utils/ReadonlyContracts";
 import { getUsers, getPublicCollections } from "./utils/ReadonlyContracts";
-import { pagesList, findPublicGateWay } from "./utils/constants";
+import { pagesList } from "./utils/constants";
 
 import Header from "./containers/Navigators/Header";
 import * as Pages from "./pages";
 
 import ExternalCollection from "./pages/External/Collection/ExternalCollection";
 import ExternalProfile from "./pages/External/Profile/ExternalProfile";
-
 
 function App() {
 	const allPagesList = [pagesList.Special, ...pagesList.Main, ...pagesList.Sub];
@@ -22,6 +20,8 @@ function App() {
 
 	const [users, setUsers] = useState([]);
 	const [collections, setCollections] = useState([]);
+
+
 
 	const pageTag = (i) => {
 		const Tag = Pages[allPagesList[i]];
