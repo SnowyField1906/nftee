@@ -126,6 +126,25 @@ public class Galleries {
   }
 
   @External(readonly = true)
+  public ArrayList<String> getUserPublicCustomCollections(Address _user) {
+    ArrayList<String> collections = this.userMapCollections.get(_user);
+    if (collections == null) {
+      return new ArrayList<>();
+    }
+    ArrayList<String> customCollections = new ArrayList<>();
+    for (String collection : collections) {
+      if (
+        this.collectionInfo.get(collection).name != "Owning" &&
+        this.collectionInfo.get(collection).name != "Cart" &&
+        this.collectionInfo.get(collection).visibility
+      ) {
+        customCollections.add(collection);
+      }
+    }
+    return customCollections;
+  }
+
+  @External(readonly = true)
   public ArrayList<String> getUserAuctions(
     Address _user,
     BigInteger _timestamp
