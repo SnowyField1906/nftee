@@ -36,16 +36,20 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
     }, [nft, nftInfo, requests, collectionList, auctionModal, editNFT, setBigNFT])
 
 
+    console.log(nftInfo)
+
     const [now, setNow] = useState(Math.floor(Date.now() * 1000))
     setTimeout(() => {
         const now = Date.now() * 1000
         setNow(now)
     }, 1000);
 
+    console.log(now, +nftInfo[7], +nftInfo[8])
+
     const noAuction = (+nftInfo[7] === 0 && +nftInfo[8] === 0 && requests.length === 0);
     const pendingAuction = +nftInfo[11] + (180000000) > now && requests.length === 1;
     const beforeAuction = +nftInfo[7] > now && requests.length > 1;
-    const duringAuction = +nftInfo[7] < now && now < +nftInfo[8] && requests.length > 1;
+    const duringAuction = +nftInfo[7] < now && now < +nftInfo[8];
     const afterAuction = (+nftInfo[8] !== 0 && +nftInfo[8] < now) || (+nftInfo[11] + (180000000) < now && nftInfo[4] !== 'true');
 
     return (
