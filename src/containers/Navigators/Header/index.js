@@ -33,7 +33,6 @@ function Nagivator({ account, setAccount }) {
 
 	const pageTag = (i) => {
 		const Tag = Pages[pagesList.Sub[i]];
-		console.log("/NFTee/" + pagesList.Sub[i].toLowerCase().slice(0, 1), location.pathname.slice(0, 8))
 		return <Tag active={`/NFTee/${pagesList.Sub[i].toLowerCase().slice(0, 1)}` === location.pathname.slice(0, 8)} />;
 	};
 

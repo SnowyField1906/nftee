@@ -135,7 +135,6 @@ export const editCollection = (address, _collection, _name, _description, _visib
 //==================//
 
 export const createNFT = (_user, _ipfs, _price, _description, _visibility, _onSale, wallet) => {
-    console.log(wallet)
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
@@ -352,10 +351,7 @@ export const editNFT = (address, _nft, _price, _description, _visibility, _onSal
 
 
 export const sendRequest = (_user, _nft, price, requests) => {
-    console.log(requests)
     let value = requests ? 0 : price
-    console.log(value)
-    console.log(IconService.IconConverter.toNumber(0x5ebef58c34080))
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)

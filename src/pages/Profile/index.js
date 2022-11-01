@@ -67,7 +67,6 @@ function Profile({ account }) {
 
     const nftsAwait = async () => {
       await getCollectionNFTs(address + "/Owning").then((res) => {
-        console.log(res)
         setOwningNFTs(res)
       })
     }
@@ -75,7 +74,6 @@ function Profile({ account }) {
   }, [editNFT, collectionList, bigNFT, bigCollection, nft, collection])
 
 
-  console.log(nft)
 
 
   if (!address) {

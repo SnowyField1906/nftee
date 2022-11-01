@@ -37,7 +37,6 @@ function Galleries({ account }) {
     collectionObjectAwaits();
   }, [rawSort])
 
-  console.log(collectionObject)
 
 
   useEffect(() => {

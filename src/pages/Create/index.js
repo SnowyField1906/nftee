@@ -63,7 +63,6 @@ function Create({ account }) {
   }
 
 
-  console.log(params);
 
   if (!address) {
     return (

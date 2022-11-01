@@ -63,7 +63,6 @@ function ExternalProfile({ account, target }) {
 
         const nftsAwait = async () => {
             await getCollectionNFTs(target + "/Owning").then((res) => {
-                console.log(res)
                 setOwningNFTs(res)
             })
         }

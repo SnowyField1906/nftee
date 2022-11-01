@@ -29,13 +29,11 @@ function ExternalProfile({ account, target }) {
 
   const nftsAwait = async () => {
     await getCollectionNFTs(target).then((res) => {
-      console.log(res)
       setNFTs(res)
     })
   }
   const infoAwait = async () => {
     await getCollectionInfo(target).then((res) => {
-      console.log(res)
       setCollectionInfo(res)
     })
   }

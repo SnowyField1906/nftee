@@ -23,7 +23,6 @@ function Notification({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT 
         })
     }
 
-    console.log(notifications)
 
     useEffect(() => {
         notificationAwaits();
