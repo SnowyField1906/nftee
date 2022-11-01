@@ -386,6 +386,9 @@ export const sendRequest = (_user, _nft, price, requests) => {
 }
 
 export const startAuction = (_user, _nft, _duration, _step) => {
+    if (_duration === 0) {
+        _duration = 180000000
+    }
     var callTransactionBuilder = new IconService.IconBuilder.CallTransactionBuilder();
     var callTransactionData = callTransactionBuilder
         .from(_user)
