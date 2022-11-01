@@ -142,7 +142,7 @@ function ExternalProfile({ account, target }) {
                         </Swiper>
                             :
                             <div className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 w-screen">
-                                <p className="text-huge py-5">You don't own any NFT yet</p>
+                                <p className="text-huge py-5">This user does not own any NFT yet</p>
                             </div>
                         }
 
@@ -179,7 +179,7 @@ function ExternalProfile({ account, target }) {
                             </Swiper>
                                 :
                                 <div className="mySwiper2 bg-white/30 dark:bg-black/30 rounded-2xl p-5 w-screen">
-                                    <p className="text-huge py-5">You don't own any collection yet</p>
+                                    <p className="text-huge py-5">This user does not own any collection yet</p>
                                 </div>
                             }
                         </div>
