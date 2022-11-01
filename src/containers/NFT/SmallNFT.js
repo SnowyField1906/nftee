@@ -19,7 +19,7 @@ import Edit from "../Collection/components/Edit"
 
 function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, setCollectionList }) {
     const [temporaryNFTInfo, setTemporaryNFTInfo] = useState([])
-    const [requests, setRequests] = useState(0)
+    const [requests, setRequests] = useState([])
     const [add, setAdd] = useState(false)
 
     const infoAwait = async () => {
@@ -27,7 +27,7 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
     }
 
     const requestsAwait = async () => {
-        await getNFTRequests(nft).then((res) => setRequests(res.length))
+        await getNFTRequests(nft).then((res) => setRequests(res))
     }
 
     useEffect(() => {
@@ -51,6 +51,15 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
         setNFT(nft)
         setEditNFT(true)
     }
+
+    const [now, setNow] = useState(Math.floor(Date.now() * 1000))
+    setTimeout(() => {
+        const now = Date.now() * 1000
+        setNow(now)
+    }, 1000);
+
+    const noAuction = (+temporaryNFTInfo[7] === 0 && +temporaryNFTInfo[8] === 0 && requests.length === 0);
+    const afterAuction = (+temporaryNFTInfo[8] !== 0 && +temporaryNFTInfo[8] < now) || (+temporaryNFTInfo[11] + (180000000) < now && temporaryNFTInfo[4] !== 'true');
 
     if (!temporaryNFTInfo || temporaryNFTInfo.length === 0) {
         return (
@@ -87,11 +96,11 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
                                 </div>
                                 {address === temporaryNFTInfo[0] ?
                                     <div className='h-10 w-[13.5rem]'>
-                                        <div className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
-                                            onClick={openEditNFT}>
+                                        <button className='pl-2 h-full w-full flex items-center transform duration-300 ease-in-out hover:scale-110'
+                                            onClick={openEditNFT} disabled={!noAuction && !afterAuction}>
                                             <Edit />
                                             <p className="pl-4 font-medium text-lg text-black dark:text-white">Edit information</p>
-                                        </div>
+                                        </button>
                                     </div>
                                     :
                                     <div className='h-10 w-[13.5rem]'>
@@ -127,13 +136,15 @@ function SmallNFT({ address, nft, setNFT, setNFTInfo, setBigNFT, setEditNFT, set
                                 <Add active={add} />
                             </div>
                             {address === temporaryNFTInfo[0] ?
-                                <div className="flex h-1/3" onClick={() => deleteNFT(address, nft)}>
+                                <button className="flex h-1/3" onClick={() => deleteNFT(address, nft)}
+                                    disabled={!noAuction && !afterAuction}>
                                     <DeleteBig />
-                                </div>
+                                </button>
                                 :
-                                <div className="flex h-1/3" onClick={() => sendRequest(address, nft, +temporaryNFTInfo[1], requests)}>
+                                <button className="flex h-1/3" onClick={() => sendRequest(address, nft, +temporaryNFTInfo[1], requests.length)}
+                                    disabled={temporaryNFTInfo[4] !== 'true' || requests.includes(address)}>
                                     <SendRequestBig />
-                                </div>
+                                </button>
                             }
                         </div>
                     </div>

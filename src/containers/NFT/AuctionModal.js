@@ -4,7 +4,7 @@ import { getNotificationInfo, getNFTNotifications } from '../../utils/ReadonlyCo
 import { timeConventer, dateConventer } from './../../utils/helpers';
 import { Link } from 'react-router-dom';
 
-function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now }) {
+function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal }) {
     const [duration, setDuration] = useState(0);
     const [step, setStep] = useState(nftInfo[9] === '0' ? +nftInfo[1] / 10 : +nftInfo[9]);
     const [bid, setBid] = useState(+nftInfo[1] + step);
@@ -21,7 +21,7 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
             const uinique = [...new Set(res)];
             uinique.forEach(async (notification) => {
                 await getNotificationInfo(notification).then((res) => {
-                    if (+notification.slice(0, 16) <= now && +notification.slice(0, 16) >= nftInfo[11]) {
+                    if (+notification.slice(0, 16) <= now && +notification.slice(0, 16) >= +nftInfo[6] - 180000000) {
                         noti.push([+notification.slice(0, 16), res[1]]);
                     }
                 })
@@ -34,6 +34,13 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
     useEffect(() => {
         notificationsAwait();
     }, [nft]);
+
+    const [now, setNow] = useState(Math.floor(Date.now() * 1000))
+    setTimeout(() => {
+        const now = Date.now() * 1000
+        setNow(now)
+    }, 1000);
+    const duringAuction = +nftInfo[7] < now && now < +nftInfo[8] && requests.length > 1;
 
     return (
         <div className='fixed mt-20 w-[60%] h-[70%] top-[10%] left-[20%] rounded-2xl z-50 backdrop-lg'>
@@ -78,19 +85,9 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
                         <div className='h-[17.5rem] w-11/12 justify-self-center mt-5'>
                             <div className='flex h-14 rounded-xl '>
                                 <div className="w-1/4 h-14 flex place-items-center rounded-tl-xl border-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
-                                    <p className='pl-4 font-semibold text-black dark:text-white'>First request</p>
-                                </div>
-                                <div className="flex justify-between place-items-center w-4/5 h-14 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
-                                    <p className="text-black dark:text-white">
-                                        {dateConventer(nftInfo[11])}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className='flex'>
-                                <div className="flex justify-between place-items-center h-14 w-1/4 border-x-2 border-b-2 bg-white/50 dark:bg-black/50 border-black/30 dark:border-white/30">
                                     <p className='pl-4 font-semibold text-black dark:text-white'>Start time</p>
                                 </div>
-                                <div className="flex w-4/5 h-14 justify-between place-items-center button-light border-b-2 border-r-2 border-black/30 dark:border-white/30">
+                                <div className="flex justify-between place-items-center w-4/5 h-14 button-light rounded-tr-xl border-y-2 border-r-2 border-black/30 dark:border-white/30">
                                     <p className="text-black dark:text-white">
                                         {dateConventer(nftInfo[7])}
                                     </p>
@@ -170,21 +167,26 @@ function AuctionModal({ address, nft, nftInfo, requests, setAuctionModal, now })
                                         <p className='text-high text-center'>You do not have permission to send bid.</p>
                                     </div>
                                     :
-                                    <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
-                                        <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
-                                            <p className="text-high text-left place-self-center">Bid:</p>
-                                            <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
-                                                type="number" placeholder="Enter your bid"
-                                                defaultValue={bid / 1e18}
-                                                onChange={(e) => { setBid(+e.target.value * 1e18) }} />
-                                            {warningBid ?
-                                                <p className='col-start-1 col-end-6 place-self-center text-red-500 text-center'>Your bid must be valid.</p>
-                                                :
-                                                <p className="col-start-1 col-end-6 place-self-center text-black dark:text-white">Bid must be greater than {nftInfo[1] / 1e18} + {step / 1e18} = {nftInfo[1] / 1e18 + step / 1e18} ICX</p>}
-                                            <button onClick={() => sendBid(address, nft, bid)}
-                                                className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Summit bid</button>
+                                    duringAuction ?
+                                        <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
+                                            <div className="grid overflow-hidden grid-cols-5 grid-rows-5 gap-2">
+                                                <p className="text-high text-left place-self-center">Bid:</p>
+                                                <input className="col-start-2 col-end-6 place-self-center w-5/6 h-14 px-4 transition input"
+                                                    type="number" placeholder="Enter your bid"
+                                                    defaultValue={bid / 1e18}
+                                                    onChange={(e) => { setBid(+e.target.value * 1e18) }} />
+                                                {warningBid ?
+                                                    <p className='col-start-1 col-end-6 place-self-center text-red-500 text-center'>Your bid must be valid.</p>
+                                                    :
+                                                    <p className="col-start-1 col-end-6 place-self-center text-black dark:text-white">Bid must be greater than {nftInfo[1] / 1e18} + {step / 1e18} = {nftInfo[1] / 1e18 + step / 1e18} ICX</p>}
+                                                <button onClick={() => sendBid(address, nft, bid)}
+                                                    className="col-start-2 col-end-5 place-self-center place-items-center  w-full h-12 button-medium rounded-md text-black dark:text-white font-medium cursor-pointer border mt-3">Summit bid</button>
+                                            </div>
                                         </div>
-                                    </div>
+                                        :
+                                        <div className='h-56 w-3/5 place-content-center justify-self-center mt-20'>
+                                            <p className='text-high text-center'>Auction has not started yet.</p>
+                                        </div>
                         }
                     </div>
                 </div>

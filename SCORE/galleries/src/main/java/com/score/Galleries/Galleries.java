@@ -16,21 +16,13 @@
 
 package com.score.Galleries;
 
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import score.Address;
 import score.Context;
-import score.annotation.EventLog;
 import score.annotation.External;
 import score.annotation.Payable;
 import scorex.util.ArrayList;
-import scorex.util.Base64;
 import scorex.util.HashMap;
 
 public class Galleries {

@@ -12,7 +12,6 @@ function Cart({ address, active, setOpen, setNFT, setNFTInfo, setBigNFT }) {
 
     const collectionsAwait = async () => {
         await getCollectionPublicNFTs(address + "/Cart").then((res) => {
-            console.log("object")
             setNFTs(res)
         })
     }

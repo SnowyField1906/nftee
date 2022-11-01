@@ -48,7 +48,6 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
     const duringAuction = +nftInfo[7] < now && now < +nftInfo[8] && requests.length > 1;
     const afterAuction = (+nftInfo[8] !== 0 && +nftInfo[8] < now) || (+nftInfo[11] + (180000000) < now && nftInfo[4] !== 'true');
 
-    console.log(noAuction, duringAuction, nftInfo)
     return (
         <>
             {collectionList &&
@@ -245,7 +244,7 @@ function BigNFT({ address, nft, nftInfo, setBigNFT }) {
                                 </div>
                             }
                             {address === nftInfo[0] ?
-                                (noAuction ?
+                                (noAuction || afterAuction ?
                                     <div className='flex h-12 w-11/12 button-medium rounded-xl cursor-pointer '
                                         onClick={() => deleteNFT(address, nft)}>
                                         <div className="self-center mx-1">
