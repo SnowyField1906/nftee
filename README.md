@@ -26,7 +26,7 @@
 
 ### 1.3 **Website URL**
 
-    SnowyField1906.github.io/NFTee
+    https://SnowyField1906.github.io/NFTee
 
 ### 1.4 **Requirements**
 
