@@ -199,13 +199,12 @@
     </tr>
     <tr align="center">
         <td rowspan=2><b>Collection</b></td>
-        <td>getCollectionNFTs</td>
-        <td>getCollectionPublicNFTs</td>
+        <td rowspan=2>getCollectionNFTs</td>
+        <td rowspan=2>getCollectionPublicNFTs</td>
         <td>createCollection</td>
         <td>editCollection</td>
     </tr>
     <tr align="center">
-        <td colspan=2>sortedCollections</td>
         <td colspan=2>deleteCollection</td>
     </tr>
     <tr align="center">
