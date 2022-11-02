@@ -266,11 +266,7 @@
         <td>/NFTee/a</td>
     </tr>
     <tr align="center">
-        <td rowspan=5><b>Sub pages</b></td>
-        <td>Welcome</td>
-        <td>/NFTee</td>
-    </tr>
-    <tr align="center">
+        <td rowspan=3><b>Sub pages</b></td>
         <td>Create</td>
         <td>/NFTee/c</td>
     </tr>
@@ -281,10 +277,6 @@
     <tr align="center">
         <td>Logs</td>
         <td>/NFTee/l</td>
-    </tr>
-        <tr align="center">
-        <td>About</td>
-        <td>/NFTee/a</td>
     </tr>
     <tr align="center">
         <td rowspan=2><b>External pages</b></td>
