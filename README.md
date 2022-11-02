@@ -40,6 +40,18 @@
 
 #### _**- Recommend using Linux for better experience**_
 
+### 1.5 **Upcoming features**
+
+#### _**- A separated currency for special privileges**_
+
+#### _**- Vouchers**_
+
+#### _**- Promotions**_
+
+#### _**- Membership cards**_
+
+#### _**- A huge social network system**_
+
 <br/>
 
 ## **2. NFTee Introduction**

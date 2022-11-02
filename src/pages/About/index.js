@@ -99,7 +99,7 @@ function About() {
                             My original idea was extremely complicated and this web application is only 40% of what I planned and could do.
                         </p>
                         <p className='para-2'>
-                            Some can be mentioned as: A separate currency for transactions, vouchers, promotions, membership cards,... accompanied by a huge social network system.
+                            Some can be mentioned as: A separate currency for special privileges, vouchers, promotions, membership cards,... accompanied by a huge social network system.
                         </p>
                         <p className='para-1'>
                             I am a sophomore at University of Science, VNUHCM.
