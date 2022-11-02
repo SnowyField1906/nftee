@@ -24,16 +24,16 @@ function About() {
                             It is impossible to purchase any NFT right away but through Send Request method. Once the first Request is sent, there will be a 24-hour countdown to wait for the second Request.
                         </p>
                         <p className='para-2'>
-                            Useless there is the second Request, after 24 hours, that NFT will automatically belongs to that single Request.
+                            Unless there is the second Request, after 24 hours, that NFT will automatically belongs to that single Request.
                         </p>
                         <p className='para-2'>
-                            Otherwise, an auction will be opened automatically after 24 hours with the same amount of time for its duration since the first Request. But the owner can still custom its duration, limit bid and start at any time. Once started, the first Request becomes the first bidder immediately. The final bidder will be the owner.
+                            Otherwise, an auction will be opened automatically after 24 hours with the same amount of time for its duration since the first Request. But the owner can still custom its duration, limit bid and start in pending period. Once started, the first Request becomes the first bidder immediately. The final bidder will be the owner.
                         </p>
                         <p className='para-1'>
                             Have highly competitive and valuable as it relies on copyright and scarcity.
                         </p>
                         <p className='para-2'>
-                            The new owner will have fully access to that NFT ,in contrary, the old owner will lose all control and can only own it through an acquisition.
+                            The new owner will have fully access to that NFT, in contrary, the old owner will lose all control and can only own it through an acquisition.
                         </p>
                         <p className='para-1'>
                             Everything is all automatic.
