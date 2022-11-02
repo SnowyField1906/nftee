@@ -40,7 +40,11 @@
 
 #### _**- Recommend using Linux for better experience**_
 
-### **1.5 Upcoming features**
+### **1.5 Last update**
+
+#### _**- November 1<sup>st</sup>, 2022**_
+
+### **1.6 Upcoming features**
 
 #### _**- A separated currency for special privileges**_
 
