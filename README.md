@@ -40,15 +40,15 @@
     <tr align="center">
         <td rowspan=3><b>User</b></td>
         <td>getUserAuctions</td>
-        <td>getUserCollections</td>
+        <td>getUserNotifications</td>
         <td rowspan=3 colspan=2>/</td>
     </tr>
     <tr align="center">
+        <td>getUserCollections</td>
         <td>getUserCustomCollections</td>
-        <td>getUserPublicCustomCollections</td>
     </tr>
     <tr align="center">
-        <td colspan=2>getUserNotifications</td>
+        <td colspan=2>getUserPublicCustomCollections</td>
     </tr>
     <tr align="center">
         <td rowspan=2><b>Collection</b></td>
