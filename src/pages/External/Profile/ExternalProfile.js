@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 
 import IconService from 'icon-sdk-js';
 
-import { getCollectionNFTs, getUserCustomCollections } from '../../../utils/ReadonlyContracts';
+import { getCollectionNFTs, getCollectionPublicNFTs, getUserPublicCustomCollections } from '../../../utils/ReadonlyContracts';
 
 import SmallCollection from '../../../containers/Collection/SmallCollection';
 import BigCollection from '../../../containers/Collection/BigCollection';
@@ -46,6 +46,7 @@ function ExternalProfile({ account, target }) {
 
     const [balance, setBalance] = useState('')
     const [customCollections, setCustomCollections] = useState([])
+
     useEffect(() => {
         const getBalance = async () => {
             const balance = await iconService.getBalance(target).execute();
@@ -55,14 +56,14 @@ function ExternalProfile({ account, target }) {
         getBalance();
 
         const customCollectionsAwait = async () => {
-            await getUserCustomCollections(target).then((res) => {
+            await getUserPublicCustomCollections(target).then((res) => {
                 setCustomCollections(res)
             })
         }
         customCollectionsAwait();
 
         const nftsAwait = async () => {
-            await getCollectionNFTs(target + "/Owning").then((res) => {
+            await getCollectionPublicNFTs(target + "/Owning").then((res) => {
                 setOwningNFTs(res)
             })
         }

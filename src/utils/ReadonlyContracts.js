@@ -119,6 +119,19 @@ export const getUserCustomCollections = async (_user) => {
     return collections;
 }
 
+export const getUserPublicCustomCollections = async (_user) => {
+    const call = new CallBuilder()
+        .to(process.env.REACT_APP_SCORE_ADDRESS)
+        .method('getUserPublicCustomCollections')
+        .params({
+            _user: _user
+        })
+        .build()
+
+    const collections = await iconService.call(call).execute()
+    return collections;
+}
+
 //==================//
 
 export const getCollectionNFTs = async (_collection) => {

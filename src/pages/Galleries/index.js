@@ -24,8 +24,6 @@ function Galleries({ account }) {
   const [rawSort, setRawSort] = useState([0, 0])
   const [rawFilter, setRawFilter] = useState([['', ''], ['', '']])
 
-  const [loading, setLoading] = useState(false)
-
   const [render, setRender] = useState(0)
 
   const collectionObjectAwaits = async () => {
