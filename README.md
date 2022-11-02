@@ -24,11 +24,11 @@
 
 #### _**- ...etc**_
 
-### 1.3 **Website URL**
+### **1.3 Website URL**
 
     https://SnowyField1906.github.io/NFTee
 
-### 1.4 **Requirements**
+### **1.4 Requirements**
 
 #### _**- ICONex wallet**_
 
@@ -40,7 +40,7 @@
 
 #### _**- Recommend using Linux for better experience**_
 
-### 1.5 **Upcoming features**
+### **1.5 Upcoming features**
 
 #### _**- A separated currency for special privileges**_
 
