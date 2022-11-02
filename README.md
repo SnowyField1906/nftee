@@ -94,7 +94,7 @@
         <td><b>Contract</b></td>
         <td>balance</td>
         <td>value</td>
-        <td colspan=2>/<td>
+        <td>/<td>
     </tr>
     <tr align="center">
         <td rowspan=2><b>Auction</b></td>
@@ -109,6 +109,6 @@
         <td rowspan=1><b>Addition</b></td>
         <td>sortedCollections</td>
         <td>sortedNFTs</td>
-        <td colspan=2>/<td>
+        <td>/<td>
     </tr>
 </table>
