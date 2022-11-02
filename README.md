@@ -10,7 +10,7 @@
 
 #### _- Supported by new-blockchain-platform **ICON** as backend, this full-stack decentralized application has incredibly fast transaction speed._
 
-### **2.2. Built with**
+### **1.2. Built with**
 
 #### _**- `ReactJS`**_
 
@@ -23,6 +23,22 @@
 #### _**- `JSON-RPC`**_
 
 #### _**- ...etc**_
+
+### 1.3 **Website URL**
+
+    SnowyField1906.github.io/NFTee
+
+### 1.4 **Requirements**
+
+#### _**- ICONex wallet**_
+
+    https://chrome.google.com/webstore/detail/iconex/flpiciilemghbmfalicajoolhkkenfel
+
+#### _**- Testnet ICX on Sejong network**_
+
+    https://faucet.iconosphere.io/
+
+#### _**- Recommend using Linux for better experience**_
 
 <br/>
 
