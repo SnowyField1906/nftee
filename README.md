@@ -345,7 +345,7 @@
         <td>Footer</td>
     </tr>
     <tr align="center">
-        <td rowspan=10><b>Components</b></td>
+        <td rowspan=11><b>Components</b></td>
         <td>Collection Card</td>
     </tr>
     <tr align="center">
@@ -358,6 +358,9 @@
         <td>Edit Collection</td>
     </tr>
     <tr align="center">
+        <td>Create Collection</td>
+    </tr>
+    <tr align="center">
         <td>Collection List</td>
     </tr>
     <tr align="center">
@@ -368,6 +371,9 @@
     </tr>
     <tr align="center">
         <td>Big NFT</td>
+    </tr>
+    <tr align="center">
+        <td>Edit NFT</td>
     </tr>
     <tr align="center">
         <td>Auction Modal</td>
