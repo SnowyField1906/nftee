@@ -8,7 +8,7 @@
 
 #### _- This is a large-scale project for DEVERA course, a huge marketplace with a comprehensive full range of features, an individual work by only me with 200-hour coding._
 
-#### _- Supported by new-blockchain-platform **ICON** as backend, this full-stack decentralized application has incredibly fast transaction speed._
+#### _- Supported by new-blockchain-platform **ICON** as backend, this full-stack decentralized application has an incredibly fast transaction speed._
 
 ### **1.2. Built with**
 
