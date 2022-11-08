@@ -114,7 +114,7 @@
 
     cxe9f245feb01cf439901ed3eef9e307f76653e198
 
-### **1.3. Tracker url (requires a recent transaction to make it works back)**
+### **1.3. Tracker URL (requires a recent transaction to make it works back)**
 
     https://sejong.tracker.solidwallet.io/contracttx/cxe9f245feb01cf439901ed3eef9e307f76653e198
 
