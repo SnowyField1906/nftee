@@ -10,7 +10,7 @@
 
 #### _- Supported by new-blockchain-platform **ICON** as backend, this full-stack decentralized application has an incredibly fast transaction speed._
 
-### **1.2. Built with**
+### **1.2. Using**
 
 #### _**- `ReactJS`**_
 
@@ -21,6 +21,8 @@
 #### _**- `Goloop CLI`**_
 
 #### _**- `JSON-RPC`**_
+
+#### _**- `IPFS`**_
 
 #### _**- ...etc**_
 
